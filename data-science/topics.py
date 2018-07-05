@@ -175,6 +175,8 @@ dataset['Document'] = dataset['Document'].str.replace('Second World War', 'Secon
 dataset['Document'] = dataset['Document'].str.replace('schools', 'school')
 
 # TODO: pending to remove numbers!
+# maybe replace all number by a reserved word that can be a stop-word
+# https://stackoverflow.com/questions/45547568/how-can-i-prevent-tfidfvectorizer-to-get-numbers-as-vocabulary
 
 data_samples = dataset['Document'].tolist()
 
@@ -201,10 +203,14 @@ tfidf = tfidf_vectorizer.fit_transform(data_samples)
 
 # Fit the NMF model
 print("Fitting the NMF model (Frobenius norm) with tf-idf features, "
-      "n_samples=%d and n_features=%d..."
-      % (n_samples, n_features))
-nmf = NMF(n_components=n_components, random_state=1,
-          alpha=.1, l1_ratio=.5).fit(tfidf)
+      "n_samples=%d and n_features=%d..." % (n_samples, n_features))
+
+nmf = NMF(
+    n_components=n_components,
+    random_state=1,
+    alpha=.1,
+    l1_ratio=.5
+).fit(tfidf)
 
 print("\nTopics in NMF model (Frobenius norm):")
 tfidf_feature_names = tfidf_vectorizer.get_feature_names()
