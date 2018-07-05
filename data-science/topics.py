@@ -5,10 +5,12 @@ from __future__ import print_function
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import NMF
+from dateutil import parser
 import pandas as pd
 import numpy as np
 
-n_samples = 20000
+
+n_samples = 10
 n_features = 1000
 n_components = 15           # topics
 n_top_words = 15            # words per topic
@@ -160,8 +162,18 @@ dataset = pd.read_csv('./data-source/grantnav-20180613122257.csv')
 dataset = dataset[dataset['Title'].notnull()]
 dataset = dataset[dataset['Description'].notnull()]
 
-dataset = dataset #[:n_samples]
+dataset = dataset[:n_samples]
+
+# new column with the 'documents' to use
+# for keyword extraction
 dataset['Document'] = dataset['Title'] + ' ' + dataset['Description']
+
+# parse 'Award Date' to year
+def parseAwardData(row) :
+    return parser.parse(row['Award Date']).year
+
+dataset['Year'] = dataset.apply(parseAwardData, axis=1)
+
 
 
 # convert 'user-led' to a special word, in order
@@ -220,9 +232,9 @@ print_top_words(nmf, tfidf_feature_names, n_top_words)
 nmf_W = nmf.transform(tfidf)
 nmf_H = nmf.components_
 
-print('Shape of the matrix W:')
+print('Shape of the matrix W (documents x topics)')
 print(nmf_W.shape);
-print('Shape of the matrix H:')
+print('Shape of the matrix H: (topics x samples)')
 print(nmf_H.shape);
 
 display_topics(nmf_H, nmf_W, tfidf_feature_names, data_samples, n_top_words, n_top_documents)
