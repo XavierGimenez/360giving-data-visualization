@@ -1,0 +1,540 @@
+
+
+Topics in NMF model (Frobenius norm):
+Topic #0: veteran travel secondxyzworldxyzwar heroes return commemorative visit awarded year costs carer spouse france june september
+Topic #1: health training skills mental help service women organisation services new advice life sessions wellbeing families
+Topic #2: school primary pupils children activities outdoor clubs sports garden schools grounds playground parents create physical
+Topic #3: sport revenue lists main small sports multi cricket focus younger football capital participation sailing pitch
+Topic #4: community centre organisation activities events garden english 2016 wider create building event transport 17 members
+Topic #5: hall village facilities new kitchen refurbishment disabled toilet heating building church replace facility improvements upgrade
+Topic #6: club equipment new award members coaching football cricket training record youth facilities junior computer bowling
+Topic #7: play children outdoor equipment playground safe summer facilities park new active pre safety opportunities environment
+Topic #8: costs salary running core centre worker years manager transport record volunteer hire time ordinator fees
+Topic #9: people young activities youth older social disabled disabilities opportunities arts workshops run disadvantaged skills music
+
+Shape of the matrix W:
+(283869, 10)
+Shape of the matrix H:
+(10, 1000)
+Topic 0:
+veteran travel secondxyzworldxyzwar heroes return commemorative visit awarded year costs carer spouse france june september
+Heroes Return A SecondxyzWorldxyzWar Veteran from Bolton has been awarded a grant towards travel costs for a commemorative visit to Burma in March of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Cheshire has been awarded a grant towards travel costs for a commemorative visit to Sicily in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran
+Heroes Return A SecondxyzWorldxyzWar Veteran from Surrey has been awarded a grant towards travel costs for a commemorative visit to Jersey in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Minsterley has been awarded a grant towards travel costs for a commemorative visit to Sicily in May of next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Yarmouth has been awarded a grant towards travel costs for a commemorative visit to Singapore in May next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Bisley has been awarded a grant towards travel costs for a commemorative visit to Germany in March of next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Surrey has been awarded a grant towards travel costs for a commemorative visit to Germany in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Cardiff has been awarded a grant towards travel costs for a commemorative visit to Australia in March next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Dorset has been awarded a grant towards travel costs for a commemorative visit to Germany in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Coventry has been awarded a grant towards travel costs for a commemorative visit to Greece in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Dorset has been awarded a grant towards travel costs for a commemorative visit to Gibraltar in February of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Sutton has been awarded a grant towards travel costs for a commemorative visit to Normandy in May of next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Marlow has been awarded a grant towards travel costs for a commemorative visit to Kohima in December of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Newbury has been awarded a grant towards travel costs for a commemorative visit to Germany in December of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Hindhead, Surrey has been awarded a grant towards travel costs for a commemorative visit to Bangkok, Thailand in December of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Southampton has been awarded a grant towards travel costs for a commemorative visit to Crete in May of this year.Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Bexhill on Sea has been awarded a grant towards travel costs for a commemorative visit to Tunisia in May of this year. Funding has also been provided for a spouse and carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Baslow has been awarded a grant towards travel costs for a commemorative visit to Normandy in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran
+Heroes Return A SecondxyzWorldxyzWar Veteran from Bracknell has been awarded a grant towards travel costs for a commemorative visit to India in December of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Oxford has been awarded a grant towards travel costs for a commemorative visit to Tunisia in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Thame has been awarded a grant towards travel costs for a commemorative visit to Russia in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Wallasey has been awarded a grant towards travel costs for a commemorative visit to Sri Lanka in December of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Lincolnshire has been awarded a grant towards travel costs for a commemorative visit to Hong Kong in February of next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Northampton has been awarded a grant towards travel costs for a commemorative visit to Russia in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Glamorgan has been awarded a grant towards travel costs for a commemorative visit to Egypt in December of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Preston has been awarded a grant towards travel costs for a commemorative visit to Sri Lanka in February next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Leicestershire has been awarded a grant towards travel costs for a commemorative visit to Egypt in Septemdber of this year.Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Solihull has been awarded a grant towards travel costs for a commemorative visit to Guernsey in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Maidstone has been awarded a grant towards travel costs for a commemorative visit to Australia in March of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Winchester has been awarded a grant towards travel costs for a commemorative visit to Egypt in March of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Southport has been awarded a grant towards travel costs for a commemorative visit to Gibraltar in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Herts has been awarded a grant towards travel costs for a commemorative visit to Normandy in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Surrey has been awarded a grant towards travel costs for a commemorative visit to Malaysia in February of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Hatfield has been awarded a grant towards travel costs for a commemorative visit to Normandy in March of next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Abbeywood has been awarded a grant towards travel costs for a commemorative visit to Gibraltar in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran
+Heroes Return A SecondxyzWorldxyzWar Veteran from location has been awarded a grant towards travel costs for a commemorative visit to destination in month of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Lincolnshire has been awarded a grant towards travel costs for a commemorative visit to Denmark in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Newport has been awarded a grant towards travel costs for a commemorative visit to Jersey in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Gloucestershire has been awarded a grant towards travel costs for a commemorative visit to Greece in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Scarborough has been awarded a grant towards travel costs for a commemorative visit to Sri Lanka in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran
+Heroes Return A SecondxyzWorldxyzWar Veteran from Troon has been awarded a grant towards travel costs for a commemorative visit to Tunisia in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran
+Heroes Return A SecondxyzWorldxyzWar Veteran  from Warks has been awarded a grant towards travel costs for a commemorative visit to Normandy in May of this year.  Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Colchester has been awarded a grant towards travel costs for a commemorative visit to India in December of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Wirral has been awarded a grant towards travel costs for a commemorative visit to Normandy in May of this year Funding has also been provided for a spouse and a carer to travel with the Veteran
+Heroes Return A SecondxyzWorldxyzWar Veteran from location has been awarded a grant towards travel costs for a commemorative visit to destination in month of this/ year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Headley Down has been awarded a grant towards travel costs for a commemorative visit to Norway in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Rustington has been awarded a grant towards travel costs for a commemorative visit to Sri Lanka in January of next year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Heroes Return A SecondxyzWorldxyzWar Veteran from Wolverhampton has been awarded a grant towards travel costs for a commemorative visit to Burma in February of next year. Funding has also been provided for a spouse and a carer to travel with the Veteran 
+Heroes Return A SecondxyzWorldxyzWar Veteran from Northern Ireland has been awarded a grant towards travel costs for a commemorative visit to Burma in month of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran. 
+Heroes Return A SecondxyzWorldxyzWar Veteran from Maccesfield has been awarded a grant towards travel costs for a commemorative visit to Germany in May of this year. Funding has also been provided for a spouse and a carer to travel with the Veteran.
+Topic 1:
+health training skills mental help service women organisation services new advice life sessions wellbeing families
+Provide Training on Mental Health Issues A project to help develop the skills and services of this mental health service user support group based in Coventry.
+'Fast Forward into Learning' - Community Health & Wellbeing Champions The group will deliver health and wellbeing training sessions for people with mental health problems and a history of substance abuse issues, so they can gain qualifications and confidence and learn new skills with the aim of finding employment.
+Head for Work This group is developing a project which aims to improve the self-confidence, employability and life skills of people with long-term and severe mental health problems, helping them to access flexible training and employment opportunities. They will run ICT training sessions to improve their skills, and will also run an increased range of mental health awareness courses for employers. The project is designed to enable people to use their lived experience of mental ill health as a tool for employment.
+Change4Life SIFA Fireside Limited will help improve the health and well-being of homeless and vulnerably housed people in Birmingham who experience low life expectancy and long term physical and mental health issues. This scheme will help them to become more physically active, eat healthily on a budget, and improve their mental health and well-being through skills training, complementary therapies, physical activities, self care training and peer health support.
+Umbrella Volunteers This organisation provides a range of services to people experiencing mental health difficulties. This grant will fund a training programme for volunteers many of whom are from the client group that Umbrella serves. The training will include mental health awareness training along with a placement which will consist of regular supervision. It is hoped that this experience will give the volunteers the skills to go into further education or employment.
+Mindful Art in The Community The organisation will use the funding to train adults recovering from mental health issues to create and run a training programme of mental health art themed workshops to beneficiaries with mental health issue from partner agencies. This will provide the training to provide adults with mental health issues the skills to create and deliver mindful art workshops and run an exhibition to improve the health and wellbeing and skills of people with mental health issues.
+Supporting Mental Health Self-help in Southern Derbyshire The project will deliver self-help training to local groups that support people with mental health issues. This will improve local support and guidance provision, the skills of local VCS groups, and the health and wellbeing of people with mental health issues.
+Pick 'n' Mix Health-Check and Training Not Available
+Bgap Health And Wellbeing Training BGAP HEALTH AND WELLBEING TRAINING; Jobs and skills; 
+Head for Work - training & employment for people with mental health problem This project is designed to increase employers' awareness of mental health issues and also develop the skills, confidence and employability of people with mental health issues themselves. The three elements being combined consist of 'Experts In Training' (EPIT), 'TrainAware' and 'FutureProspects'.
+Wellbeing Working The group will use the funding to deliver a series of workshops for people living with mental ill-health. This will improve beneficiaries' confidence, self-esteem and life skills with the aim of moving into employment, training or education.
+Get ready for work, training or education. This group will use funding to deliver a programme which will focus on confidence building, communication skills, and training to help with employment. There will also be sessions to improve health including exercise and diet.  The project will encourage people to achieve work based skills as well as motivating women to take care of themselves.
+Training 2 Care 4 U This is a project by a community organisation in Nottingham. The group will use the funding to deliver health awareness and employability skills training for people who are long term unemployed, experiencing confidence issues and mental ill health. This will help beneficiaries improve their general health, develop their confidence and increase their future employment prospects.
+Volunteer Skills and Training This is a project by a charity based in Southwark, serving beneficiaries across London. This homeless charity will use the funding for the training of their volunteers in mental health awareness, safeguarding, listening skills and dealing with confrontation.
+Shoreditch New Arrivals A broad range of holistic health services will be provided to new vulnerable immigrants to Hackney to improve their mental health. Individual health and wellbeing plans will help participants access a range of mainstream health and mental health services, reduce isolation and integrate.
+Development of MH/1/010024587 This project will allow the organisation to continue to run its weekly drop-in sessions. In these sessions the group provides support for people who experience mental health problems by providing training in life skills, food hygiene, first aid and healthy eating. The project will help to reduce the isolation and improve the life skills of people with mental health problems.
+Health and Wellbeing Club The group will use the funding to deliver a volunteer training programme, cookery demonstrations and health and fitness activities for people living with learning disabilities. This will increase beneficiariesâ€™ confidence and skills, improve their employment prospects and enable them to access activities that will reduce their isolation and increase their physical health and wellbeing.
+Pioneers Education and Research Agency - PETRA This group are a mental health awareness training company. The project aims to market the services of the group and to support and equip participants with the skills necessary to devise and deliver mental health awareness and stress management training programs.
+One World UK This is a project by a community organisation in Wolverhampton, serving beneficiaries in Telford, Shropshire. The group will use the funding to run health information sessions for Southeast Asian women. This will provide advice and training on health services, exercise and healthy eating to improve the beneficiaries' health and wellbeing.
+Skills for Life The organisation will use the funding to develop and deliver bespoke training courses at no cost to beneficiaries who are on low incomes in Altrincham. This will enable the organisation to address mental and emotional health issues to support the beneficiaries to have better chances in life, and through learning new skills will help with their return to paid employment.
+Healthy Options This is a project by a charity in Kingston upon Thames. The group will use the funding to run health checks, dietician workshops and physical activity sessions for people with mental health issues. This will increase the beneficiaries' health knowledge, exercise and self confidence to improve their physical health and mental well-being.
+Teenage Health Project This is a new project to offer a teenage health programme in the area of Horwich and Deane in Bolton. It will give young people and their families access to training, advice, guidance and information on a range of mental and physical health topics.
+Active Lives, Healthy Minds A project to provide support, training and skills for disadvantaged groups in Ealing and Hounslow. The project will include English language sessions, tailoring, cookery training, and advice on mental and physical health issues, such as diabetes, healthy eating and mental health awareness, and welfare support. It will also include sessions on confidence building, communication skills, advice and opportunities to interact with the wider community. The project will benefit 150 people.    
+Advice & Information Project The project will provide specialist mental health advice and information in a range of outreach locations. It will also provide training and workshops to service users on a range of issues including information support and skills training to service users to enable them to become user involvement representatives. Training will also be provided to employers to promote mental health awareness and good practice.
+Sada Haq (Our Right) This project aims to improve the overall mental health and wellbeing of BME women and their families by increasing social interaction, improving health and developing more independence to overcome deprivation and isolation. With a focus on personalised support, activities will include life skills training, exercise classes, advice sessions, summer outings and a befriending service.
+York Women's Group - for women with complex mental helth needs This group, based in York, provides support and treatment for people suffering from mental health problems. They will use an award to develop a current pilot project to deliver a self help/support group for women with complex mental health needs, to help improve the lives of women. The grant will also establish a new support support group to meet current demand. The project will build confidence, communication skills, provide social activity, improve health and help shape mental health services.
+Wythenshawe Women's Wellbeing 4-weekly 4-hour sessions for lone mothers experiencing mental health issues covering personal development relating to mental health, widening horizons, health and wellbeing, volunteering and accessing services. Will include interactive activities, group-work, physical activities and skills workshops.
+Head Start - mental health support This charity will use the funding to pilot a new support service for homeless and vulnerable people to include mental health awareness training for staff, courses designed to help people cope with life, as well as a work and wellbeing programme for those experiencing mental health issues. This will provide a mental health programme to help sufferers manage anxiety, depression and stress.
+Rwandan Mental Health Initiative (RMHI) (1st Year set Up Costs) This is a project by a charity in Barking and Dagenham. The group will use funding to run counselling and group therapy sessions, recreational and social activities and a confidence building seminar for Rwandan women with mental health issues and their families. This will enable beneficiaries to discuss their issues, help reduce social isolation and improve their mental wellbeing. The group will raise awareness of mental health issues and provide signposting services.
+Peer Support Project Brighton and Hove This organisation will use the funding to provide peer support services, work experience and volunteering opportunities for people with mental health issues within the community. This will provide people with mental health issues the support, tools and resilience to access services and training to improve their personal resilience, basic life, employment and social skills which are transferable in the work and home environment, improving their general mental health and wellbeing.
+Mental Health and Resillience This project will deliver mental health training courses to staff and parents, and resilience training to pupils.
+Changing Minds This is a project by a community organisation in Westminster. The group will use the funding to deliver IT skills training, confidence building and healthy lifestyle workshops for members of the BAME community living with mental ill health. This will help build the confidence of beneficiaries, improve their health and help reduce isolation.
+Operation GP This is a project by a community organisation in Stoke-on-Trent, Staffordshire. The group will use the funding to provide volunteer training so people can represent those with mental health difficulties and raise awareness of available group services. This will enable volunteers to communicate effectively with health care professionals about mental health issues and through this improve public services.
+Through the looking glass The organisation will use the funding to deliver glass making sessions for people with learning difficulties and mental health issues to provide enrichment and learning opportunities to improve their confidence, resilience, mental health and wellbeing. Participants will develop a bespoke window representing their lives to help raise awareness of mental health issues.
+Spitalfields Bangladeshi Parents Life Skills Programme A project by this group based in Tower Hamlets to provide a series of workshops to provide life skills training and support to Bangladeshi families. The workshops will focus on a range of issues affecting families such as isolation, mental health, disability and coping strategies. The project will also provide training to become peer mentors.
+SIDE by SIDE Tier-2 Volunteer Training This is a project by a community organisation based in Scarborough. The group will use funding to develop a new advanced volunteer training program to enable them provide further support to people with mental health problems.  This will create a new volunteer training programme to increase volunteers' knowledge, skills and confidence when supporting people with mental health problems.
+Greening the Gap Training The organisation will use the funding to run a pilot project using the natural and countryside environment, to develop the skills and confidence of people with mental health issues. This will involve practical and classroom based sessions including landscaping, conservation and stone walling to help improve beneficiariesâ€™ wellbeing and training and employment opportunities.
+Changing UR Health 4 Life This is a project by a charity in Walsall, West Midlands. The group will use the funding to run a project to help disadvantaged young adults improve their health, wellbeing and life skills. This will give beneficiaries a better chance in life by providing support and training to develop life skills, and will also improve the physical and mental health for participants.
+Pathways to Health and Peace The group will use the grant to raise awareness of mental health issues and advise members of the public to the community counselling services available. They will also and train members of staff in areas such as ASIST training, mental health awareness training and Hidden Harm training.
+Ordinary Women, Extraordinary Lives This project will use the funding to run artistic workshops and activities for people with mental health issues. This will increase communication skills, self-belief, positivity to improve their mental health and wellbeing, as well as projecting positive depictions of people living with mental health issues.
+Mind Mental Health, Training and Employment Project To provide a gateway to education, vocational training and employment through the provision of basic skills and employment support for people with mental health issues.
+Re-Seed The organisation will use the funding to maintain its therapeutic horticultural service for people with mental health problems and expand the service to include job skills training and coaching. This will improve the health and wellbeing of participants by increases their self esteem and life chances by developing their employment readiness.
+Grant to Greenaway Workshop The charity provides supported employment and skills training for those with a disability or ill mental health. The grant will enable the charity to increase capacity, take on more placmeents and provide new skills training
+Advanced Directives Training Project The project is to support the development and piloting of a training course and associated learning materials for mental health staff and community based carers for people with mental health problems.  All sessions will be delivered by a Solicitor with experience of mental health work.
+Connecting Families to Opportunities [CFO] This new project will deliver a range of services to families in Sandwell. The Greets Green Resource Centre will be used as a base to hold activities which address issues affecting all age groups, including poor work and life skills, physical and mental health, social inclusion and uptake of education and training. Culturally appropriate exercise classes, homework support classes, counselling and mental health services, help with finding employment or enrolling on course will all be offered.
+Health Link Volunteer Scheme A project by this Hackney based health group to provide people with volunteering opportunities to learn new skills.  The group will run an accredited training scheme for local volunteers in administration and event management to help develop interpersonal skills and avoid social isolation.
+Good Mental Health Supports My Life The organisation will use the funding to develop a training programme to support people with learning disabilities or Autism who also have mental health problems in how to understand the Mental Health Act, as well as producing a DVD on the subject so that more people can become informed. This will provide help and support for people with learning disabilities who have mental health issues so they can gain independence, become more informed about local services and improve their mental health and wellbeing.  
+Home-Start - Support and Friendship for Families This project aims to provide a range of complementary support to improve the health and wellbeing of families and better equip them with the skills and confidence to cope with the challenges of contemporary living. The project will work with partners to provide financial management, money advice, credit union services, training, life skills and healthy eating. This is a three year project that will benefit 225 families throughout Aberdeen. This three year grant will fund salaries, training and expenses.
+Provision of training for people with mental health issues. Funding will be used to develop and deliver accredited training to individuals who are experiencing mental health issues in North Staffordshire.  The training will focus on acquiring the skills to allow beneficiaries to become involved in the running of the organisation, to access further education and paid employment.   The training also focuses on achievements which play an essential role in beneficiaries recovery process.
+Puppets Gone Mad : A training course for teenage mental health Brighton-based community group Art In Mind will produce a DVD which will be used to deliver arts workshops and skills training to young people living with mental health issues.
+Topic 2:
+school primary pupils children activities outdoor clubs sports garden schools grounds playground parents create physical
+Cybercoach The school will use the grant to purchase a CyberCoach system.
+Grant to Civitas Supplementary Saturday School in Kilburn 
+Campus Free school development work A grant to The Foyer Federation for Campus Free school development work
+School's Out Not Available
+Grant to Bishop Vesey's Grammar School equipping and furnishing Physics laboratories
+Grant to Red Maids School As requested by the donor.
+Kings Avenue School EFT - Kingswood - Isle of Wight Kings Avenue School EFT - Kingswood - Isle of Wight
+Grant to The Cedar School To purchase and assemble a poly tunnel as part of  seeking eco-school status.
+AC00702 Longitude Explorer programme grant to Warwick School Grant Ref AC00702
+FIRST in School Not Available
+Operation School Bell Operation School Bell
+'Let's Get Up & Go!' at Lansdowne Infants School Not Available
+Liquid Vibrations R&D at Redway School in Milton Keynes. Not Available
+Cookery School Cookery School
+Grant to BeyondAutism Redevelopment of Rainbow School's Earlsfield Campus
+Grant to Blue Coat School Grant to Blue Coat School
+Mate Through the School Gate Mate Through the School Gate
+Borrodale School Development Borrodale School Development
+'Chill Out Zone!' at Uffculme School. Not Available
+Fashion School Ltd Not Available
+Save our Quad A project to develop the quad of this school in Darlaston, Wednesbury.
+Castletower School Not Available
+The Norwood School EFT - Brecon Beacons - Acorn Adventures The Norwood School EFT - Brecon Beacons - Acorn Adventures
+School's Out - Peebles Not Available
+the Koiyaki Guide School the Koiyaki Guide School
+After School Nurture Group Not Available
+Saturday School Saturday School
+AC00703 Longitude Explorer programme grant to Southlands School Grant Ref AC00703
+Springboard Nomadic Circus School Springboard Nomadic Circus School
+AC00547 Longitude Explorer programme grant to Sutton Grammar School Grant Ref AC00547
+Ready for School Project Not Available
+Kings Avenue School- EFT Carroty Wood Kings Avenue School- EFT Carroty Wood
+School Journey - Mill Rythe School Journey - Mill Rythe
+Ngeteti School Ngeteti School
+Lockerbie Golf School Not Available
+Towards Songwriting School Towards Songwriting School
+Golf as an after school activity Not Available
+Sculling After School Not Available
+School Readiness Project Not Available
+IGBU Saturday School IGBU Saturday School
+Birkby Extended School Project Not Available
+School Journey, Mill On The Brue, Somerset School Journey, Mill On The Brue, Somerset
+Earthy School Earthy School
+Barod i'r Ysgol?  (Ready for School?) Barod iâ€™r Ysgol? / Ready for School?
+After School Footie Not Available
+This is Rubbish  School Feasts Not Available
+AC00514 Longitude Explorer programme grant to Churston Ferrers Grammar School Grant Ref AC00514
+Stoa Saturday School Stoa Saturday School
+Towards Simba School Towards Simba School
+Forrest School Not Available
+Topic 3:
+sport revenue lists main small sports multi cricket focus younger football capital participation sailing pitch
+Sport Again Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Sport Again'. This project lists its main activity as Multi Sports.
+Get into Sport @ The Belve Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Get into Sport @ The Belve'. This project lists its main activity as Multi Sports.
+Sport Matters Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Sport Matters'. This project lists its main activity as Multi Sports.
+SPORT FOR ALL Funding under Sport England's Small Grants funding programme for a Revenue project titled 'SPORT FOR ALL'. This project lists its main activity as Multi Sports.
+Warrington into Sport Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Warrington into Sport'. This project lists its main activity as Multi Sports.
+Aspley Sport Champions Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Aspley Sport Champions'. This project lists its main activity as Multi Sports.
+Back to Sport BD Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Back to Sport BD'. This project lists its main activity as Multi Sports.
+Zest for Sport Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Zest for Sport'. This project lists its main activity as Multi Sports.
+Sport for all at Wilton Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Sport for all at Wilton'. This project lists its main activity as Multi Sports.
+Everyone In Sport IN Salford Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Everyone In Sport IN Salford'. This project lists its main activity as Multi Sports.
+Stick to Sport Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Stick to Sport'. This project lists its main activity as Multi Sports.
+Benefiting from the Endorphin Rush of Sport Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Benefiting from the Endorphin Rush of Sport'. This project lists its main activity as Multi Sports.
+Avenue’s Sport  Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Avenue’s Sport '. This project lists its main activity as Multi Sports.
+Active8 Sport Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Active8 Sport'. This project lists its main activity as Multi Sports.
+Chickenley Into Sport Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Chickenley Into Sport'. This project lists its main activity as Sports Development.
+Firefit Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Firefit'. This project lists its main activity as Sports Development.
+Fishing Project Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Fishing Project'. This project lists its main activity as Angling.
+Get on in Golf Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Get on in Golf'. This project lists its main activity as Golf.
+Collision Warning Devices (Flarm) Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Collision Warning Devices (Flarm)'. This project lists its main activity as Gliding.
+PVC Development programme Funding under Sport England's Small Grants funding programme for a Revenue project titled 'PVC Development programme'. This project lists its main activity as Volleyball.
+Flarm Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Flarm'. This project lists its main activity as Gliding.
+Introductory Kayaks Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Introductory Kayaks'. This project lists its main activity as Canoeing.
+Windsurf Racing Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Windsurf Racing'. This project lists its main activity as Windsurfing.
+Sisters are doing it for themselves! Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Sisters are doing it for themselves!'. This project lists its main activity as Rounders.
+Venture Canoes and paddles for D of E  Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Venture Canoes and paddles for D of E '. This project lists its main activity as Canoeing.
+Throw yourself into Judo at The Mill Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Throw yourself into Judo at The Mill'. This project lists its main activity as Judo.
+More Tri in Spalding Funding under Sport England's Small Grants funding programme for a Revenue project titled 'More Tri in Spalding'. This project lists its main activity as Triathlon.
+Swim, Swim, Swim the Doug Legacy. Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Swim, Swim, Swim the Doug Legacy.'. This project lists its main activity as Triathlon.
+Sitting Volleyball Fortnight Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Sitting Volleyball Fortnight'. This project lists its main activity as Volleyball.
+Back To Windsurfing Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Back To Windsurfing'. This project lists its main activity as Windsurfing.
+Hole in One Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Hole in One'. This project lists its main activity as Golf.
+Sustaining our BVA Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Sustaining our BVA'. This project lists its main activity as Volleyball.
+Have a go Holmebrook Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Have a go Holmebrook'. This project lists its main activity as Angling.
+Mats for judo competitions Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Mats for judo competitions'. This project lists its main activity as Judo.
+Development & Retention Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Development & Retention'. This project lists its main activity as Powerlifting.
+BAKS in the NVL Funding under Sport England's Small Grants funding programme for a Revenue project titled 'BAKS in the NVL'. This project lists its main activity as Volleyball.
+Southery Skateboard Ramp and Skateable Bench Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Southery Skateboard Ramp and Skateable Bench'. This project lists its main activity as Skateboarding.
+Olympic Competition Mats Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Olympic Competition Mats'. This project lists its main activity as Judo.
+Launch Wigan into Dodgeball Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Launch Wigan into Dodgeball'. This project lists its main activity as Dodgeball .
+Route Pilots Merseyside Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Route Pilots Merseyside'. This project lists its main activity as Equestrian.
+Archery Development Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Archery Development'. This project lists its main activity as Archery.
+BYHP Triathlon Funding under Sport England's Small Grants funding programme for a Revenue project titled 'BYHP Triathlon'. This project lists its main activity as Triathlon.
+Blackwater canoeing for all Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Blackwater canoeing for all'. This project lists its main activity as Canoeing.
+SFBC development project Funding under Sport England's Small Grants funding programme for a Revenue project titled 'SFBC development project'. This project lists its main activity as Badminton.
+Quorn - canoeing for all Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Quorn - canoeing for all'. This project lists its main activity as Canoeing.
+Trampolining For All Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Trampolining For All'. This project lists its main activity as Trampolining.
+Achieving and Inspiring - Badminton in Herefordshire Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Achieving and Inspiring - Badminton in Herefordshire'. This project lists its main activity as Badminton.
+Competition Canoeing Development - Slalom Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Competition Canoeing Development - Slalom'. This project lists its main activity as Canoeing.
+Paddlesport Progression Funding under Sport England's Small Grants funding programme for a Revenue project titled 'Paddlesport Progression'. This project lists its main activity as Canoeing.
+RP Sea Kayaking Funding under Sport England's Small Grants funding programme for a Revenue project titled 'RP Sea Kayaking'. This project lists its main activity as Canoeing.
+Topic 4:
+community centre organisation activities events garden english 2016 wider create building event transport 17 members
+Mumbles Movies Community Cinema Mumbles Movies Community Cinema
+Halkyn Mountain Community Cinema Halkyn Mountain Community Cinema
+Llanymynech Community Defibrillator Not Available
+Community Roots Not Available
+Community Activity Enhancement in Llandeilo RFC Community Activity Enhancement in Llandeilo RFC
+1st Fareham Scouts 105 Community Project Not Available
+Shooting for success: Archery in the Local Community Shooting for success: Archery in the Local Community
+Killygullib RDA - Community Comfort at Killygullib Not Available
+Crieff Grand Community Parade Not Available
+Community Awareness Not Available
+Towards Wardley Colliery Community Gala Towards Wardley Colliery Community Gala
+Bethania Community Project Bethania Community Project
+Benraw RCA - Benraw United Community Not Available
+Stronger Community Unity Not Available
+Opening Doors in the Community Not Available
+Community Lincs (Development Grant) Community Lincs (Development Grant)
+Wybourn Community Swim Not Available
+Bournemouth Community Cinema Not Available
+Ballymacquiggan LOL 292 - Community Essentials Not Available
+Maryville Community - Maryville Not Available
+Crossing Borders Community Project Crossing Borders Community Project
+Swan into the Community Not Available
+Govan Community Project Govan Community Project
+Community Scheme Not Available
+Our Brownmead Community Not Available
+Jewels of Islam community project Jewels of Islam community project
+the Community Project the Community Project
+Timebanking Community Champions Not Available
+Kingston upon Thames Community Newsletters Project Not Available
+Teignmouth community project Not Available
+Community Connections - Hamnavoe & Brough Linkpath. Not Available
+Community Breathlessness Clinics Not Available
+Rutland Community Spirit Not Available
+Eastwell Community Matters Not Available
+Reaching out to the Thames community Not Available
+Community Explorers Not Available
+Community Connections Community Connections
+Leadhills Community Buy Out Leadhills Community Buy Out
+Community Voices Not Available
+Gavinton Community Cinema Project Gavinton Community Cinema Project
+The Community Support Project The Community Support Project
+Community Sculptures bring all generations together Not Available
+Community Voices Community Voices
+BROCKWORTH COMMUNITY PROJECT Not Available
+Empowering the Chinese community in Lanarkshire Empowering the Chinese community in Lanarkshire
+Quantum Community Quad Not Available
+Confederation Of Community Groups Not Available
+TPP1 - Community Curiosity Labs TPP1 - Community Curiosity Labs
+One Community One Community
+Community Click Not Available
+Topic 5:
+hall village facilities new kitchen refurbishment disabled toilet heating building church replace facility improvements upgrade
+Beckley Village - New Hall or no Hall! Not Available
+Beckley Village - New Hall or no Hall! No press release available in this release
+'The Temperance Hall' - Llangathen's Village Hall 'The Temperance Hall' - Llangathen's Village Hall
+Tysoe Village Hall goes 21st Century - A Hall for All Not Available
+Leigh Village Hall- Audio Loop/PA Project This village hall group will use an award to install an Induction loop and PA system. The Introduction of a Loop system will improve the village hall's facilities and increase the amount of people who can use the hall.
+Hall Refurbishment 2006 The project is to improve the facilities of the village hall. The money is for new seats and window blinds.
+Refurbishment of the Village Hall A project to improve facilities at this Village Hall situated in Telford.
+Lowick Village Hall Courtyard Restoration Not Available
+Village Hall Donation towards the village hall.
+Marchwiel Village Hall Redevelopment Not Available
+Village Hall Revamp Not Available
+Oving Village Hall Not Available
+Melverley Village Hall Resurfacing Project Not Available
+Wetherden Village Hall Insulation Project Not Available
+Redecoration (painting) of the village hall Grant to support the redecoration (painting) of the auditorium of a Village Hall.
+Gartmore Village Hall Development This group received development funding for the Gartmore Village Hall Development project.
+Ashurst Village Hall Not Available
+Rebuilding Hale Village Hall Not Available
+Mareham-le-Fen Village Hall Not Available
+Duntocher Village Hall Duntocher Village Hall
+Wessington Village Hall Not Available
+Foxholes Village Hall Not Available
+Towards Village Hall Notice Board Towards Village Hall Notice Board
+Repairs The group will use the grant to make necessary repairs to the village hall.
+Zennor Village Hall Enhancement The group will install a tiered staging system at Zennor village hall.
+Barkham Village Hall renewal of exterior doors and door frames. Not Available
+A Village Hall for the 21st Century A Village Hall for the 21st Century
+Wootton Wawen Village Hall Roofing Project Not Available
+Saving our Village Hall Not Available
+Towards the rebuilding of the village hall Towards the rebuilding of the village hall
+Upgrading Friog and Fairbourne Village Hall Upgrading Friog and Fairbourne Village Hall
+Towards Eglingham Village Hall's 100th Birthday Celebrations Towards Eglingham Village Hall's 100th Birthday Celebrations
+Village Hall Enhancement Village Hall Enhancement
+Cherington, Stourton, Sutton Under Brailes Village Hall Not Available
+Kirkliston Village Hall Kirkliston Village Hall
+the Lythe Village Hall Development Appeal the Lythe Village Hall Development Appeal
+Parking well at Ashton Hayes Village Hall Not Available
+Wacton Village Hall Rebuilding Project Not Available
+Renovation of Eardington Village Hall Not Available
+Foxholes Village Hall Not Available
+Replace Village Hall flooring This is a project by a charity in Chelmsford who will use funding to install new flooring in the sports hall of the Village Hall.
+Middleton Village Hall Makeover This village hall group will use an award to install new central heating at the hall. They will also redecorate the hall and install portable staging.
+Temple Village Hall Refurbishment - Phase One This group will refurbish the kitchen of Temple Village Hall, rewire the hall and install a fire alarm system.
+Village Hall Renovations The group will provide new flooring in this well used village hall.
+Harwell Village Hall Redevelopment Project Refurbishing the kitchen in the village hall.
+Grant to Chideock Village Hall Refurbishment of the Chideock Village hall kitchen.
+Stour Provost Village Hall This group will use funding to install a disabled toilet and improve kitchen facilities in their village hall. The project will enable the village hall to provide more community activities and encourage more people to take part.
+Harringworth Hall Repairs This project by the trustees of Harringworth Village Hall, Corby, aims to increase the use of the village hall and make it more attractive for users.
+Equipping the new village hall in Maplebeck Not Available
+New Staging for Thorganby Village Hall Not Available
+Topic 6:
+club equipment new award members coaching football cricket training record youth facilities junior computer bowling
+Pigeon Flying Club A project by a homing pigeon club in Tividale, Sandwell, to purchase new equipment and bird facilities.
+Caithness Artistic Gymnastic Club - New Equipment Caithness Artistic Gymnastic Club - New Equipment
+Club Equipment Not Available
+Judo equipment The club will purchase judo mats to support the relocation of the group.
+Stenhousemuir Boys Club - Equipment drive. Not Available
+Hayes Angling Club A project to provide fishing equipment and access to competitions by this group in Wednesbury.
+Purchase of on-ice track harness system A project to purchase ice skating equipment for this club in Coventry.
+troon dundonald boys club equipment Not Available
+Sedgefield Springers Trampoline Club This group will purchase new trampolining equipment to allow them to extend access to the club.
+Trampoline Club This award will fund additional equipment and a trampoline to accommodate new members to the club currently on a waiting list.
+development of club A project to new members of this pigeon flying club in Atherstone, Warwickshire through the provision of equipment
+Clwb Ni Aberystwyth Intergenerational club Not Available
+Treats Club Not Available
+Our 21st Century Bridge Club Our 21st Century Bridge Club
+The Puppet Club Not Available
+JJ's Jungle Jim's Club Not Available
+The Warley Gateway Club Not Available
+Abbey Gateway Club Developments Not Available
+Wednesday Night Club Wednesday Night Club
+Osaka Kwai Judo Club Osaka Kwai Judo Club
+Grant to Weston-Super-Mare Judo Club As requested by the donor to support this local club
+The Wednesday Club Not Available
+THE CROPTHORNE CLUB Not Available
+Luncheon and Activity Club Not Available
+Renewal of club machinery Not Available
+Cousland Petanque Club Not Available
+Clwb Plant Llandegfan Kids Club Clwb Plant Llandegfan Kids Club
+Newham Excursions Club Not Available
+On The Beach Club at Ysgol ar y Traeth Not Available
+Killyleagh Yacht Club Not Available
+The Gold Club Not Available
+Wednesday Together Club Not Available
+Ballymena Lions Club - Message in a bottle Not Available
+Saturday Club Not Available
+Woodhouse Activity Club Not Available
+Mechanics Club Not Available
+Menheniot Movies, cinema club Not Available
+Club Development Club Development
+Kids Club on the move Not Available
+Donation to Club of 3 Towards the Club of Three.
+The Lookout Club The Lookout Club
+Clwb 60+ Club Llangynin Not Available
+the DASH Club the DASH Club
+MULA CAKE KIDS CLUB CIC Not Available
+The Slaughterhouse Club Not Available
+The Hereford Carnival Club Project Not Available
+Club development project Not Available
+A Club for Everyone Not Available
+The Entrepreneurs Club Not Available
+Silver Surfer Club Not Available
+Topic 7:
+play children outdoor equipment playground safe summer facilities park new active pre safety opportunities environment
+To provide a tarmac outdorr play area An outdoor tarmac play area will be provided for the children to use.
+Investing in Play This is a project by a charity in Bracknell, Berkshire. The group will use funding to provide play equipment for children.
+New Play Equipment for Children at Crofty Play Area and Picnic Furnitu Not Available
+Childrens Play Area Reconstruction This group will supply the necessary piece of equipment that will enable them to implement and reconstruct a new children's play area.
+Towards Outdoor play area, "The Play Patch" Towards Outdoor play area, "The Play Patch"
+Redevelopment of outdoor play area This project will use funding to redevelop a play area by installing climbing equipment. This will provide opportunities for local children to play.
+Play and activity equipment The project is the development of an outdoor play area for the community. The money is for outdoor play equipment.
+Developing Active Play at Badocks The group will use the funding to install outdoor play equipment to provide physically challenging play opportunities for children in the community. This will increase community play facilities.
+Play buddies The group will deliver a play project for disadvantaged children aged five to eight.  It will fund three dedicated play buddies to supervise play activities as well as indoor and outdoor play equipment.  The grant will fund outdoor play equipment, costs for three sessional play workers and indoor play equipmet.
+Towards the children's play area at HMP Dartmoor Towards the children's play area at HMP Dartmoor
+Folkingham Children's Play Area Not Available
+Children's Play Area Children's Play Area
+Llanfwrog Children's Play Area Not Available
+Middleton and Ickornshaw Play Project The group will install outdoor play equipment for children in the community, which will provide a stimulating place to meet and play.
+Activity play area Not Available
+HaPPy - HARLING PLAY PROJECT Not Available
+Challenging Play = Happy play Not Available
+Brisley Amenity Play Area Not Available
+Let's Play Not Available
+Empowered Play with Loose Parts - A Scrapstore Playpod Not Available
+Play in the Dark. Play in the Dark.
+Spring into PLAY! Spring into PLAY!
+Towards Meadow Well Play Map Towards Meadow Well Play Map
+Leybourne Play for All Not Available
+Add + Up - 2 SEN Play project
+Penlan Play Not Available
+Pop-Up for play Pop-Up for play
+Let's all play together Not Available
+Westbury Leigh Play Project Not Available
+Bright Sparks Play Groups Not Available
+Thurlow Play Area Renewal Not Available
+Arnage Play Escape Arnage Play Escape
+Staining Stay and Play Not Available
+BIGG Play Zone Not Available
+Splash of Play Splash of Play
+Morriston Play Project Morriston Play Project
+Cheeky Cherubs Support and Play Group Not Available
+Play development Castle Hill Not Available
+Go Play Lismore Go Play Lismore
+Smith's Wood Stay and Play Not Available
+Number & Money Play Not Available
+Seagrave Play Not Available
+Lets Play Lets Play
+'Play together' Not Available
+Pen Tywyn Play Area Not Available
+Play for All Project The project will develop a play project.
+Pirate Play Power! Not Available
+Borthyn Play For All Borthyn Play For All
+Glebe Play Area Not Available
+Play for All Not Available
+Topic 8:
+costs salary running core centre worker years manager transport record volunteer hire time ordinator fees
+Grant to Stairways the salary of the Project Leader and rent costs (grant covers two years costs)
+Grant to Emmaus Coventry & Warwickshire the salary costs of the Finance Assistant and on costs including training and advertising costs
+Running costs and costs of moving offices  Towards running costs and the costs of moving offices.  The grant is to be split equally between both (half).
+Overhead Costs Towards overhead costs.
+Towards the costs of the EnerG Programme Towards the costs of the EnerG Programme
+Towards the From Surviving to Thriving project costs Towards the From Surviving to Thriving project costs
+autobiography projec Towards the costs of piloting the autobiography project in prisons.
+Moving costs  Towards moving costs.
+towards the costs of the follow-up to the Ministers’ Session Towards the costs of the follow-up to the Ministers’ Session.
+Towards moving costs Towards moving costs
+Grant to KWADS the 'One to One' Support Project costs
+The Costs of the Residences The Costs of the Residences
+towards costs of Prostitution Debate Towards the costs of the Prostitution Debate
+Towards accessibility costs Towards accessibility costs
+Operating costs Not available
+Grant to Hawkspring the costs of the Hidden Harm Group Programme
+The Irving Bid Donation to costs incurred regarding governance etc.
+The staffing costs of Possobilities The staffing costs of Possobilities
+The costs of the Get Composing Project The costs of the Get Composing Project
+Towards the costs of Le Nozze Di Figaro Towards the costs of Le Nozze Di Figaro
+Towards Activity costs Towards Activity costs
+the costs of the Wheel Being Project the costs of the Wheel Being Project
+Towards the costs of purchasing a Sensorium Sens Alert 2000 alarm Towards the costs of purchasing a Sensorium Sens Alert 2000 alarm
+the costs of Cathedral Camps in 2007 the costs of Cathedral Camps in 2008
+Grant to Theatre503 Towards the costs of work to support emerging playwrights.
+Towards Decoration costs Towards Decoration costs
+Full Circle Ongoing Costs
+Towards the costs of its Splash project Towards the costs of its Splash project.
+Towards your costs Towards your costs
+Support of a trainee stonemason apprenticeship To support the costs of a trainee stonemason apprenticeship
+operational costs operational costs
+Towards operating costs Towards operating costs
+Towards the costs of the Meals on Wheels Project Towards the costs of the Meals on Wheels Project
+administrative costs administrative costs
+the Costs of Flooring at Dirleton the Costs of Flooring at Dirleton
+Towards costs of CIFC interim chair Towards costs of CIFC interim chair
+operating costs operating costs
+The costs of the Ready,Steady,Restore Project The costs of the Ready,Steady,Restore Project
+The Insurance, VET and Horse Costs The Insurance, VET and Horse Costs
+operating costs operating costs
+Towards operating costs Towards operating costs
+Further installment towards costs of interim CIFC chair Further installment towards costs of interim CIFC chair
+Grant to Comar Towards the costs a tour throughout the Highlands and Islands.
+Grant to Studio Upstairs rent and utility costs
+The operating costs of Out of the Blueprint The operating costs of Out of the Blueprint
+Towards Operational support costs Towards Operational support costs
+Grant to Coille Alba Towards the costs of the Aspen project.
+Operating costs Not available
+the Costs of the Blameless Coordinator the Costs of the Blameless Coordinator
+Helpline Development and Ongoing Costs Helpline Development and Ongoing Costs
+Topic 9:
+people young activities youth older social disabled disabilities opportunities arts workshops run disadvantaged skills music
+Towards work with young people Towards work with young people
+Upgrading support for young people with dyslexia in Ayrshire Not Available
+Equipping our Young People for Adulthood Not Available
+Young People's Advisory Groups Young People's Advisory Groups
+Towards its work with young people Towards its work with young people
+Young People's Choice Not Available
+Towards the 'Out There' project for young people Towards the 'Out There' project for young people
+Towards Mentor a Mum and Young People's Support Project Towards Mentor a Mum and Young People's Support Project
+The Cocoon Programme for young people  The Cocoon Programme for young people 
+Towards its work with young people Towards its work with young people
+the Young People's Project the Young People's Project
+Fit4Fun - Inspiring Young People Not Available
+Towards work with disadvantagaed young people Towards work with disadvantagaed young people
+Towards Young People's Filmmaking Residency Towards Young People's Filmmaking Residency
+Young people welcoming us to Crawcrook and Greenside Not Available
+Towards work with young people Towards work with young people
+Celebrating Work With Young People In Martock Celebrating Work With Young People In Martock
+Livelihoods for Young People in Sierra Leone Not Available
+the Young People's Project the Young People's Project
+Support for Estranged Young People Support for Estranged Young People
+Our Young People - Bridging the Gaps Not Available
+Young People Coming Together Not Available
+Young People Talent Connected Not Available
+Towards Enrichment for young people Towards Enrichment for young people
+support of bereaved young people support of bereaved young people
+1st Drumgooland - Connecting Young People Not Available
+The Woodlands Young People's Project Not Available
+Helston's Young People; It's all about us! Not Available
+Young People Today (YPT) Not Available
+Towards Young People's Filmmaking Residency Towards Young People's Filmmaking Residency
+PROJECT Y - Young People Matter PROJECT Y - Young People Matter
+Sweet Suckcess for young people in Rhondda Cynon Taff Not Available
+Towards Young People's Cabinet Towards Young People's Cabinet
+Towards a motivational programme of activities for young people Towards a motivational programme of activities for young people
+Towards Artistic activities for the young people of Blyth Towards Artistic activities for the young people of Blyth
+Grant to Full Circle Towards a co-ordinated programme of activities for young people.
+Towards the programme of activities for young people Towards the programme of activities for young people
+Young People's Project This project will build relations between Milton Keynes Gallery and young people in the area to create films exploring young people's identity within Milton Keynes and the concept of contemporary art.
+Grant to Youth Moves Towards a co-ordinated programme of activities for young people in the Knowle area.
+Towards Pendower activities for children & young people Towards Pendower activities for children & young people
+Activities for Autistic Children & Young People Activities for Autistic Children & Young People
+Young people as community builders  Young people as community builders 
+Grant to Hartcliffe Club For Young People Towards a co-ordinated programme of holiday activities for young people.
+Tadpole Trikes for young people The group will aim to increase physical activity amongst young people through the purchase of all-terrain trikes.
+A4A - Lancaster Young Advisors The organisation will use the funding to train NEET young people to become young advisors, who will then help other local young people to find employment and volunteer opportunities. This will improve the employability of local young people.
+Wednesday & Friday night club for autistic young people and their siblings. The group will use their grant to provide activities to bring young people and their siblings together throughout the Down District area.
+children and young people's support work children and young people's support work
+Towards the Children and Young People's Project Towards the Children and Young People's Project
+Towards Children and Young People's Project Towards Children and Young People's Project
+Towards Children and young people's project Towards Children and young people's project
+
+Process finished with exit code 0

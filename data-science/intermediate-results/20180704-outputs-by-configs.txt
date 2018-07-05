@@ -1,0 +1,182 @@
+
+------------------------------------------------
+Components: 10
+------------------------------------------------
+
+Samples 2000
+Topics in NMF model (Frobenius norm):
+Topic #0: placeholder youth establishing expansion expanding expand existing exhibition exercise executive exciting events esteem estate establishment establish enhanced essex essential equipment
+Topic #1: funding project sport programme main titled activity lists england revenue grants small sports cricket football multi association tennis club 2009
+Topic #2: people young activities support help project provide disabilities learning social vulnerable skills training develop carers health disadvantaged living disabled improve
+Topic #3: youth justice grant allocated authorities operation purpose provision services local project club criminal focus village uttlesford scheme integrated exercise executive
+Topic #4: costs core organisation running salary work support supporting supports asylum associated seekers learning uk cumbria families development project manager programme
+Topic #5: support victims services crime deliver local abuse child demand volume offered increased meet increase sexual help domestic families family maintenance
+Topic #6: family parent separated ordered 1989 ca courts delivery participants attend information programme holiday start home provide support school families work
+Topic #7: children new help equipment play school enable provide skills environment need learn enjoy local fun confidence offer develop families facilities
+Topic #8: violence direct rape line females sexual 13 age provide victims support women work abuse domestic specialist home exploitation aged holiday
+Topic #9: community local social activities centre groups investment members development events hub range service ages building project purchase bringing hall wider
+
+
+Samples 5000
+Topics in NMF model (Frobenius norm):
+Topic #0: placeholder youth expenses facilities extra extension extending extend exploring explore exploitation experiencing experiences experienced experience expansion establishment expanding expand existing
+Topic #1: funding project sport programme titled lists england main revenue activity grants small sports cricket multi football association sailing club yachting
+Topic #2: people young help activities provide older skills work project disabilities health social develop disadvantaged disabled service mental carers learning improve
+Topic #3: salary manager development project worker time costs north east director ordinator officer years organisation work employ chief executive based northumberland
+Topic #4: youth justice provision grant authorities allocated operation purpose services local project club worker fund crime workers deliver criminal 000 training
+Topic #5: children equipment new help play want school provide outdoor buy area like learning activities purchase need skills enable environment develop
+Topic #6: support local maintenance highways victims services crime provide deliver sexual women violence abuse families service rescue child domestic direct rape
+Topic #7: family parent programme delivery ca 1989 separated ordered courts attend participants information holiday training start work home development costs conference
+Topic #8: core costs organisation running funding work supporting supports salaries asylum year theatre cumbria staff charity centre mental uk years support
+Topic #9: community centre hall local building groups facilities village hub events use members new resource help need based want refurbishment activities
+
+Samples 15000
+Topic #0: project funding sport revenue grants small programme titled england lists main activity cricket focus beneficiaries sports football younger multi club
+Topic #1: placeholder youth ethnic experience expenses expansion expand existing exhibition exercise exclusion exciting ex events event evening esteem ensure estate establishing
+Topic #2: equipment new play school children want outdoor help purchase provide area buy like use learning improve need families playground activities
+Topic #3: costs running core year years organisation providing people sussex continuation kent project supporting east west london centre disabilities learning charity
+Topic #4: funding pavilion clubhouse multi capital sports contributed facilities project inspired changing rooms sport pitch facility main titled england lists activity
+Topic #5: trip disadvantaged group children centre night day london residential activity borough educational field outdoor adventure area wales disabled yorkshire west
+Topic #6: grant department fund modernisation housing neighbourhoods tenant bermondsey rotherhithe 000 borough chest youth paid communities intercalated joint awards capacity directly
+Topic #7: people young activities skills provide help social health confidence older project improve disabilities learning develop training life mental sessions self
+Topic #8: community use local organisation funding group improve enable hall activities social groups provide events communities deliver bring members village run
+Topic #9: support salary years providing project services manager worker families continuation advice service women development family domestic carers abuse mental violence
+
+
+Samples 50000
+Topic #1: project funding sport titled england programme revenue lists main activity grants small sports multi focus cricket beneficiaries younger capital contributed
+Topic #2: community use local group funding organisation hall activities enable centre new events facilities groups improve village members area provide building
+Topic #3: salary manager worker time ordinator costs project development officer support years volunteer centre director youth training family continuation advice management
+Topic #4: available make facilities online information range services free groups schools data currently enhance increase extend equipment pupils research opportunities resources
+Topic #5: people young support project provide health skills activities help social training older mental improve work confidence develop sessions life employment
+Topic #6: school children play equipment outdoor area use provide new pupils activities install group improve physical purchase funding encourage playground club
+Topic #7: placeholder youth experiencing feasibility family families factors facility facilities facilitate face extra extend expression explore experiments experiences ethnic experienced experience
+Topic #8: grant fund ref programme department modernisation housing neighbourhoods 000 pay members equipment innovation digital fees hire group transport training provides
+Topic #9: costs running core years year organisation support providing continuation salaries staff centre 000 including project london rent service volunteer management
+
+Samples 100000
+Topic #0: travel veteran commemorative visit awarded war second world year provided costs grant spouse carer funding france june september italy october
+Topic #1: funding project revenue sport lists main programme activity titled england grants small cricket football sailing sports development club association sportsmatch
+Topic #2: people young support provide activities health skills help social older project training improve mental group work confidence develop sessions deliver
+Topic #3: placeholder youth events experiences experienced experience expenses expansion expand existing exhibition exercise exclusion examine ex evidence event enterprise evening evaluation
+Topic #4: costs salary running years manager core worker support ordinator time development project centre officer continuation volunteer providing year service training
+Topic #5: community local use group hall activities organisation award centre new groups events enable members village funding area improve facilities used
+Topic #6: school children play equipment outdoor area provide new use pupils activities install club group improve purchase physical safe pre parents
+Topic #7: funding multi pavilion clubhouse sports capital contributed facilities inspired changing project rooms sport main lists activity titled england facility programme
+Topic #8: project focus beneficiaries younger sport funding titled england muga programme spaces revenue primary participation capacity building sports disability recreation informal
+Topic #9: grant fund ref programme department housing modernisation neighbourhoods 000 pay innovation digital group equipment members fees hire transport provides training
+
+
+Samples 200000
+Topic #0: veteran travel commemorative war awarded visit second world year provided grant costs carer spouse funding france june september italy october
+Topic #1: funding project sport titled england programme revenue lists main activity grants small sports multi focus beneficiaries cricket younger capital contributed
+Topic #2: school children play outdoor area pupils primary activities provide use equipment club physical pre parents install create improve schools playground
+Topic #3: available information facilities make increase services range data research currently groups number online free resources public schools extend use access
+Topic #4: placeholder youth extend festival fencing fees feasibility family families factors factor facility facilities facilitate face extra expression evidence explore experiments
+Topic #5: people young activities project older skills social provide workshops confidence disabilities run learning deliver help sessions improve youth opportunities health
+Topic #6: costs salary running core manager worker years ordinator time project volunteer development officer centre continuation youth training expenses money year
+Topic #7: community local use hall centre organisation groups funding village improve facilities area events activities project building enable residents used event
+Topic #8: group equipment grant new award purchase members fund club use training provide provides enable pay activities allow hire facilities fees
+Topic #9: support health services service advice project families provide mental help information training women work carers family volunteers providing development issues
+
+
+Samples All (282948)
+Topic #0: available information services facilities make increase currently groups range research local data number awareness resources access award extend online free
+Topic #1: veteran travel war second world commemorative awarded visit provided year costs grant carer spouse funding france june september italy widow
+Topic #2: people young support project activities provide skills health social help older training group improve mental work confidence sessions develop workshops
+Topic #3: funding project sport titled england programme revenue lists main activity grants small sports multi focus cricket beneficiaries capital younger contributed
+Topic #4: school children play outdoor pupils area primary use activities provide create parents physical grounds playground install pre clubs learning project
+Topic #5: community use local group funding organisation hall project groups improve village area facilities enable centre activities events provide building access
+Topic #6: grant fund awards housing hire fees meets transport programme pay aim 000 materials costs venue quality used sessional day provides
+Topic #7: placeholder experiencing feasibility family families factors facility facilities facilitate face extra extending extend expression explore youth evaluation experiences experienced experience
+Topic #8: costs salary running support core worker manager years project time ordinator volunteer development centre training officer service advice money staff
+Topic #9: equipment new group purchase club award members training use provide enable facilities allow coaching computer play used money buy pay
+
+
+
+
+------------------------------------------------
+Components: 20
+------------------------------------------------
+
+Samples All (282948)
+Topic #0: available information facilities services increase make currently range groups number local resources awareness use free online extend access area improve
+Topic #1: veteran travel war second world commemorative awarded visit provided year costs grant carer spouse funding france june september italy widow
+Topic #2: people young skills older youth training work disabilities confidence opportunities disadvantaged workshops employment help learning disabled develop run life education
+Topic #3: funding sport titled england programme revenue project lists main activity grants small sports multi cricket focus capital contributed beneficiaries younger
+Topic #4: school pupils primary use clubs grounds children sports outdoor schools create hours parents garden wider playground physical curricular develop extra
+Topic #5: community local organisation centre groups area use events wider communities create residents funding event bring cohesion garden facility space voluntary
+Topic #6: grant fund awards housing hire fees meets transport pay programme 000 aim materials costs venue quality group sessional expenses improving
+Topic #7: placeholder experiencing feasibility family families factors facility facilities facilitate face extra extending extend expression explore youth evaluation experiences experienced experience
+Topic #8: costs salary running core manager worker years ordinator time volunteer officer centre development expenses transport year staff continuation money hire
+Topic #9: equipment purchase training computer used camping money storage buy pay award digital safety materials enable allow laptop furniture additional software
+Topic #10: play children area outdoor safe provide install summer create environment families scheme parents playground pre opportunities facilities space improve council
+Topic #11: club coaching award members football cricket youth sessions training junior coaches local tennis bowling set schools courses run facilities girls
+Topic #12: group use funding enable award provide members charity beneficiaries organisation run improve workshops skills increase training allow deliver promote purchase
+Topic #13: hall village facilities kitchen disabled improve refurbish access toilet use install groups replace building facility used church refurbishment heating users
+Topic #14: support advice services service families provide training information help carers volunteers family parents providing women access children provides worker abuse
+Topic #15: project beneficiaries money focus younger based provide aims skills develop birmingham increase improve charity disability life spaces benefit provision pay
+Topic #16: health mental improve wellbeing physical issues sessions fitness organisation healthy problems deliver funding people exercise reduce run isolation confidence use
+Topic #17: development research work cell cells using disease study human develop role data identify key studies understanding protein based specific function
+Topic #18: activities social range provide older recreational educational isolation provides reduce including events arts trips children include people physical outings behaviour
+Topic #19: new skills centre learn develop members existing help building volunteers opportunities attract buy premises build provide enable current training facility
+
+
+
+
+------------------------------------------------
+Components: 50
+------------------------------------------------
+
+Samples All (282948)
+
+Topic #0: available information increase make currently groups services range resources number awareness use online facilities free extend opportunities data resource produce
+Topic #1: veteran travel commemorative awarded visit second war world provided year costs grant spouse carer funding france june september italy october
+Topic #2: older people money isolated isolation outings disabled living accommodation day dementia travel trips holiday care transport homes befriending classes disabilities
+Topic #3: funding revenue sport lists main titled england activity project programme grants small cricket sailing football association rowing rugby participation tennis
+Topic #4: school pupils primary clubs grounds use outdoor hours playground schools wider pre sports curricular extra trail create secondary fitness install
+Topic #5: community communities wider groups cohesion bring facility events create space hub garden engagement used encourage event build church promote cafe
+Topic #6: fund housing grant meets fees hire sessional transport activation worker coaching sports creativity awards materials scheme wales expenses supporting 000
+Topic #7: placeholder experiencing feasibility family families factors facility facilities facilitate face extra extending extend expression explore youth evaluation experiences experienced experience
+Topic #8: support families carers family worker providing peer services general parents provides needs network victims emotional practical groups affected vulnerable abuse
+Topic #9: equipment purchase computer camping storage money buy used digital enable safety furniture laptop additional materials toys allow projector software office
+Topic #10: young people disadvantaged aged behaviour risk positive engage education years opportunities programme anti homeless mentoring vulnerable 16 deliver issues 25
+Topic #11: training volunteers volunteer employment courses staff expenses education opportunities aid train management course volunteering football coaching deliver recruitment coaches offer
+Topic #12: group use provides funding enable promote allow set educational promotes scout purchase recreational beneficiaries trip produce run website organise members
+Topic #13: hall village kitchen refurbish replace groups heating refurbishment church use roof used install make windows facility improvements parish charity safety
+Topic #14: skills develop confidence employment self improve increase esteem life communication learn gain employability participants beneficiaries opportunities chances deliver build basic
+Topic #15: project money based aims birmingham charity pilot pay west benefit increase existing south devon midlands involve year extend london areas
+Topic #16: health mental wellbeing issues physical improve problems safety people fitness care awareness experiencing emotional poor living self exercise address improving
+Topic #17: development personal programme officer worker stage business plan application employ growth assist college education north website opportunities planning aid trust
+Topic #18: activities range recreational educational provides including physical include participate sports sporting events deliver offer positive wide engage outdoor variety summer
+Topic #19: club coaching cricket football junior members coaches tennis bowling set establish girls rugby teams bowls schools team coach start table
+Topic #20: area create garden outdoor wildlife space develop land sensory seating grounds nature environment used safe deprived woodland site plants green
+Topic #21: new existing learn members attract premises current buy facility purchase install enable allow heating build volunteers create kitchen old encourage
+Topic #22: salary manager worker time ordinator years costs officer volunteer continuation associated outreach senior contribution 000 including office family supporting employ
+Topic #23: sports multi funding capital contributed pavilion clubhouse inspired sport changing main titled lists england facilities rooms activity facility pitch programme
+Topic #24: organisation use funding enable charity voluntary beneficiaries deliver registered install reduce incorporated run increase replace isolation purchase improve continue safe
+Topic #25: provide opportunities safe opportunity improved carers facility environment information additional better days free group place stimulating used socialise space access
+Topic #26: local residents schools groups people history council parish services park maintenance produce benefit organisations encourage events heritage involve used environment
+Topic #27: research cell cells disease using study human role protein function studies data identify determine mechanisms specific key expression proteins investigate
+Topic #28: children parents families aged disadvantaged needs special educational years trip pre education family holiday age provides child fun care school
+Topic #29: members day anniversary ww2 event events 60th end commemorate hold provision celebrate based celebration party benefit association trips trip exhibition
+Topic #30: grant pay programme used fees hire provides 000 materials venue digital transport expenses housing sessional giving education publicity use recreational
+Topic #31: beneficiaries focus younger sport programme funding england titled revenue grants small disability muga spaces project sports multi primary participation informal
+Topic #32: play outdoor install scheme safe summer playground active equipment opportunities council safety stimulating surface children physical environment weather pre parish
+Topic #33: centre trip day drop resource disadvantaged refurbishment manager refurbish kitchen activity residential arts gymnastics users town education adventure st years
+Topic #34: learning disabilities adults difficulties people opportunities outdoor physical needs disability sensory environment special severe create experience access advocacy living providing
+Topic #35: facilities improve access disabled toilet install kitchen improved users upgrade toilets site accessible safety money refurbish allotment use groups wheelchair
+Topic #36: social isolation reduce behaviour anti recreational educational reducing outings interaction positive enterprise cohesion residents inclusion risk engage trips opportunities events
+Topic #37: service advice services information access users outreach counselling housing providing welfare volunteers advocacy benefits drop expand provides offer people carers
+Topic #38: sessions healthy run eating physical exercise fitness coaching encourage activity deliver weekly lifestyle living lifestyles taster classes cooking food dance
+Topic #39: costs running transport years money hire travel year staff fees expenses venue volunteer materials sessional publicity salaries providing administration management
+Topic #40: core costs funding organisation years supporting continuation salaries supports working capacity newcastle uk asylum north seekers east policy model refugees
+Topic #41: help lottery reduce lives able self volunteers need buy make want families people build isolation run raise train vulnerable better
+Topic #42: life aim awards meets quality improving 000 transport supporting increasing creativity outings trips series cost activity extending wales participation reducing
+Topic #43: work experience communities artists partnership schools art create outreach groups organisations volunteers produce employment public exhibition working professional artist continue
+Topic #44: youth provision purpose services worker workers clubs sessional led groups employ salaries cafe theatre team senior outreach aged 11 action
+Topic #45: workshops arts music run dance series art festival drama creative culture performance theatre cultural crafts materials event performances artists professional
+Topic #46: award use high used allow pay hold association able council groups society 17 edinburgh royal cost include promote parish set
+Topic #47: women domestic violence abuse girls sexual communities victims asian bme ethnic self experienced minority men counselling classes affected confidence london
+Topic #48: building capacity participation spaces muga primary sport recreation informal capital contributed team refurbishment roof build refurbish increase energy church replace
+Topic #49: war world second widow awarded veterans visit commemorative 2010 costs grant carer provided carers veteran september june funding holland year
