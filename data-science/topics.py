@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 
 
-n_samples = 10
+n_samples = 200
 n_features = 1000
 n_components = 15           # topics
 n_top_words = 15            # words per topic
@@ -129,22 +129,41 @@ ENGLISH_STOP_WORDS = frozenset([
 
 
 
+
+# ------------------------------------------------------------------------
+# functions
+
 def print_top_words(model, feature_names, n_top_words):
     for topic_idx, topic in enumerate(model.components_):
         message = "Topic #%d: " % topic_idx
-        message += " ".join([feature_names[i]
-                             for i in topic.argsort()[:-n_top_words - 1:-1]])
+
+        # arg sort returns the indices that would sort an array
+        # in ascending order. We want the reverse, and then get
+        # the terms for the top indices
+        message += " ".join([feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]])
         print(message)
-    print()
+        print(" ".join(str(topic[i]) for i in topic.argsort()[:-n_top_words - 1:-1]))
+
 
 def display_topics(H, W, feature_names, documents, n_top_words, n_top_documents):
+
     for topic_idx, topic in enumerate(H):
-        print("Topic %d:" % (topic_idx))
-        print(" ".join([feature_names[i]
-                        for i in topic.argsort()[:-n_top_words - 1:-1]]))
-        top_doc_indices = np.argsort( W[:,topic_idx] )[::-1][0:n_top_documents]
+        print(' ')
+        print(' ')
+        message = "Topic %d:" % topic_idx
+        message += " ".join([feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]])
+
+        print(message)
+        print(" ".join(str(topic[i]) for i in topic.argsort()[:-n_top_words - 1:-1]))
+
+        top_doc_indices = np.argsort(W[:, topic_idx])[::-1][0:n_top_documents]
+        print( " ".join(   str(W[:,topic_idx][i]) for i in np.argsort( W[:,topic_idx] )[::-1][0:n_top_documents]    ) )
         for doc_index in top_doc_indices:
             print(documents[doc_index])
+
+def parseAwardData(row):
+    return parser.parse(row['Award Date']).year
+
 
 
 
@@ -169,9 +188,6 @@ dataset = dataset[:n_samples]
 dataset['Document'] = dataset['Title'] + ' ' + dataset['Description']
 
 # parse 'Award Date' to year
-def parseAwardData(row) :
-    return parser.parse(row['Award Date']).year
-
 dataset['Year'] = dataset.apply(parseAwardData, axis=1)
 
 
