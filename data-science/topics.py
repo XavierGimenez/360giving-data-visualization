@@ -191,14 +191,11 @@ dataset = pd.read_csv('./data-source/grantnav-20180613122257.csv')
 dataset = dataset[dataset['Title'].notnull()]
 dataset = dataset[dataset['Description'].notnull()]
 
-dataset = dataset[:n_samples]
+dataset = dataset #[:n_samples]
 
 # new column with the 'documents' to use
 # for keyword extraction
 dataset['Document'] = dataset['Title'] + ' ' + dataset['Description']
-
-# parse 'Award Date' to year
-dataset['Year'] = dataset.apply(parseAwardData, axis=1)
 
 
 
@@ -241,7 +238,7 @@ tfidf = tfidf_vectorizer.fit_transform(data_samples)
 
 # Fit the NMF model
 print("Fitting the NMF model (Frobenius norm) with tf-idf features, "
-      "n_samples=%d and n_features=%d..." % (n_samples, n_features))
+      " n_features=%d..." % n_features)
 
 nmf = NMF(
     n_components=n_components,
@@ -303,7 +300,7 @@ for topic_idx, topic in enumerate(nmf_H):
     # and slice only columns we are interested at
     df_topic = dataset.ix[
                top_doc_indices,
-               ['Identifier', 'Title', 'Description', 'Year', 'Amount Awarded', 'Funding Org:Identifier','Funding Org:Name']
+               ['Identifier', 'Title', 'Description', 'Award Date', 'Amount Awarded', 'Funding Org:Identifier', 'Funding Org:Name']
     ]
 
     # add columm with the documents weights
@@ -321,7 +318,12 @@ for topic_idx, topic in enumerate(nmf_H):
     )
 
     #save only weight above the 20th percentile
-    df_topic[df_topic['DocumentWeight'] > weight_lower_threshold].to_csv(
+    df_topic = df_topic[df_topic['DocumentWeight'] > weight_lower_threshold]
+
+    # parse 'Award Date' to year
+    #df_topic['Year'] = df_topic.apply(parseAwardData, axis=1)
+
+    df_topic.to_csv(
         folder_data_output + 'topic' + str(topic_idx) + '_documents.csv',
         sep=',',
         index = False
