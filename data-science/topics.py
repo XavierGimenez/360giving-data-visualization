@@ -309,7 +309,19 @@ for topic_idx, topic in enumerate(nmf_H):
     # add columm with the documents weights
     df_topic['DocumentWeight'] = ordered_weights
 
-    df_topic.to_csv(
+    # save only docs that have some weight
+    # related to the topic which is significant:
+    # slice by docs with eright > 0 and get a
+    # threshold by calculating a percentile to
+    # discard lower values
+    percentile = 20
+    weight_lower_threshold = np.percentile(
+        df_topic[df_topic['DocumentWeight'] > 0]['DocumentWeight'],
+        percentile
+    )
+
+    #save only weight above the 20th percentile
+    df_topic[df_topic['DocumentWeight'] > weight_lower_threshold].to_csv(
         folder_data_output + 'topic' + str(topic_idx) + '_documents.csv',
         sep=',',
         index = False
