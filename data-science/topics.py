@@ -5,7 +5,6 @@ from __future__ import print_function
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import NMF
-from dateutil import parser
 import pandas as pd
 import numpy as np
 import json
@@ -15,18 +14,17 @@ try:
 except NameError:
     to_unicode = str
 
-n_samples = 200
-n_features = 1000
-n_components = 15           # topics
-n_top_words = 15            # words per topic
-n_top_documents = 200        # docs per topic
+
+with open('config.json') as json_config_file:
+    config = json.load(json_config_file)
+
 ngram_join_string = 'xyz'   # instead of use ngrams > 1 to mantain some multiword tokens as key word,
                             # just join them with a special string and later split again
-
 folder_data_source = './data-source/'
 folder_data_output = './data-output/'
 
-# get enligh stop words from:
+
+# get englishh stop words from:
 # https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/feature_extraction/stop_words.py
 # and add our custom list to the set
 ENGLISH_STOP_WORDS = frozenset([
@@ -171,10 +169,6 @@ def display_topics(H, W, feature_names, documents, n_top_words, n_top_documents)
             print(documents[doc_index])
 
 
-def parseAwardData(row):
-    return parser.parse(row['Award Date']).year
-
-
 
 
 # ------------------------------------------------------------------------
@@ -191,7 +185,7 @@ dataset = pd.read_csv('./data-source/grantnav-20180613122257.csv')
 dataset = dataset[dataset['Title'].notnull()]
 dataset = dataset[dataset['Description'].notnull()]
 
-dataset = dataset #[:n_samples]
+#dataset = dataset[:config['n_samples']]
 
 # new column with the 'documents' to use
 # for keyword extraction
@@ -231,17 +225,17 @@ print("Extracting tf-idf features for NMF...")
 tfidf_vectorizer = TfidfVectorizer(
     max_df=0.95,
     min_df=2,
-    max_features=n_features,
+    max_features=config['n_features'],
     stop_words=ENGLISH_STOP_WORDS)
 
 tfidf = tfidf_vectorizer.fit_transform(data_samples)
 
 # Fit the NMF model
 print("Fitting the NMF model (Frobenius norm) with tf-idf features, "
-      " n_features=%d..." % n_features)
+      " n_features=%d..." % config['n_features'])
 
 nmf = NMF(
-    n_components=n_components,
+    n_components=config['n_components'],
     random_state=1,
     alpha=.1,
     l1_ratio=.5
@@ -249,7 +243,7 @@ nmf = NMF(
 
 print("\nTopics in NMF model (Frobenius norm):")
 tfidf_feature_names = tfidf_vectorizer.get_feature_names()
-print_top_words(nmf, tfidf_feature_names, n_top_words)
+print_top_words(nmf, tfidf_feature_names, config['n_top_words'])
 
 
 nmf_W = nmf.transform(tfidf)
@@ -260,7 +254,7 @@ print(nmf_W.shape);
 print('Shape of the matrix H: (topics x samples)')
 print(nmf_H.shape);
 
-display_topics(nmf_H, nmf_W, tfidf_feature_names, data_samples, n_top_words, n_top_documents)
+display_topics(nmf_H, nmf_W, tfidf_feature_names, data_samples, config['n_top_words'], config['n_top_documents'])
 
 
 
@@ -270,10 +264,10 @@ for topic_idx, topic in enumerate(nmf_H):
 
     # save tuples of topic words and weights
     topic_words = list(
-        tfidf_feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]
+        tfidf_feature_names[i] for i in topic.argsort()[:-config['n_top_words'] - 1:-1]
     )
     topic_weights = list(
-        topic[i] for i in topic.argsort()[:-n_top_words - 1:-1]
+        topic[i] for i in topic.argsort()[:-config['n_top_words']- 1:-1]
     )
 
     with io.open(folder_data_output + 'topic' + str(topic_idx) + '_keywords.json', 'w', encoding='utf8') as outfile:
@@ -289,7 +283,7 @@ for topic_idx, topic in enumerate(nmf_H):
         )
         outfile.write(to_unicode(str_))
 
-    top_doc_indices = np.argsort(nmf_W[:, topic_idx])[::-1][0:n_top_documents]
+    top_doc_indices = np.argsort(nmf_W[:, topic_idx])[::-1][0:config['n_top_documents']]
 
     # weights (ordered)
     ordered_weights = list(
@@ -311,17 +305,14 @@ for topic_idx, topic in enumerate(nmf_H):
     # slice by docs with eright > 0 and get a
     # threshold by calculating a percentile to
     # discard lower values
-    percentile = 20
+    percentile = 5
     weight_lower_threshold = np.percentile(
         df_topic[df_topic['DocumentWeight'] > 0]['DocumentWeight'],
         percentile
     )
 
     #save only weight above the 20th percentile
-    df_topic = df_topic[df_topic['DocumentWeight'] > weight_lower_threshold]
-
-    # parse 'Award Date' to year
-    #df_topic['Year'] = df_topic.apply(parseAwardData, axis=1)
+    df_topic = df_topic[df_topic['DocumentWeight'] >= weight_lower_threshold]
 
     df_topic.to_csv(
         folder_data_output + 'topic' + str(topic_idx) + '_documents.csv',
