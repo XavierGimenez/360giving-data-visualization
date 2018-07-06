@@ -8,16 +8,23 @@ from sklearn.decomposition import NMF
 from dateutil import parser
 import pandas as pd
 import numpy as np
-
+import json
+import io
+try:
+    to_unicode = unicode
+except NameError:
+    to_unicode = str
 
 n_samples = 200
 n_features = 1000
 n_components = 15           # topics
 n_top_words = 15            # words per topic
-n_top_documents = 50        # docs per topic
+n_top_documents = 200        # docs per topic
 ngram_join_string = 'xyz'   # instead of use ngrams > 1 to mantain some multiword tokens as key word,
                             # just join them with a special string and later split again
 
+folder_data_source = './data-source/'
+folder_data_output = './data-output/'
 
 # get enligh stop words from:
 # https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/feature_extraction/stop_words.py
@@ -159,7 +166,10 @@ def display_topics(H, W, feature_names, documents, n_top_words, n_top_documents)
         top_doc_indices = np.argsort(W[:, topic_idx])[::-1][0:n_top_documents]
         print( " ".join(   str(W[:,topic_idx][i]) for i in np.argsort( W[:,topic_idx] )[::-1][0:n_top_documents]    ) )
         for doc_index in top_doc_indices:
+            print('grant:')
+            print(dataset.at[doc_index, 'Identifier'])
             print(documents[doc_index])
+
 
 def parseAwardData(row):
     return parser.parse(row['Award Date']).year
@@ -254,3 +264,59 @@ print('Shape of the matrix H: (topics x samples)')
 print(nmf_H.shape);
 
 display_topics(nmf_H, nmf_W, tfidf_feature_names, data_samples, n_top_words, n_top_documents)
+
+
+
+# ------------------------------------------------------------------------
+# save data
+for topic_idx, topic in enumerate(nmf_H):
+
+    # save tuples of topic words and weights
+    topic_words = list(
+        tfidf_feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]
+    )
+    topic_weights = list(
+        topic[i] for i in topic.argsort()[:-n_top_words - 1:-1]
+    )
+
+    with io.open(folder_data_output + 'topic' + str(topic_idx) + '_keywords.json', 'w', encoding='utf8') as outfile:
+        str_ = json.dumps(
+            {
+                'topic_words'   : topic_words,
+                'topic_weights' : topic_weights
+            },
+            indent=4,
+            sort_keys=True,
+            separators=(',', ': '),
+            ensure_ascii=False
+        )
+        outfile.write(to_unicode(str_))
+
+    top_doc_indices = np.argsort(nmf_W[:, topic_idx])[::-1][0:n_top_documents]
+
+    # weights (ordered)
+    ordered_weights = list(
+        nmf_W[:, topic_idx][i] for i in top_doc_indices
+    )
+
+    # slice rows by all grants related to the topic
+    # and slice only columns we are interested at
+    df_topic = dataset.ix[
+               top_doc_indices,
+               ['Identifier', 'Title', 'Description', 'Year', 'Amount Awarded', 'Funding Org:Identifier','Funding Org:Name']
+    ]
+
+    # add columm with the documents weights
+    df_topic['DocumentWeight'] = ordered_weights
+
+    df_topic.to_csv(
+        folder_data_output + 'topic' + str(topic_idx) + '_documents.csv',
+        sep=',',
+        index = False
+    )
+
+
+
+
+# RELATED:
+# https://stackoverflow.com/questions/12065885/filter-dataframe-rows-if-value-in-column-is-in-a-set-list-of-values
