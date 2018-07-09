@@ -65,16 +65,33 @@ for i in range(0, config['n_components']):
     # add our topic
     agg['Topic'] = 'topic' + str(i)
 
+    aggs.append(agg)
+
     print('aggregating topic ' + str(i))
     agg.reset_index().to_csv(
         folder_data_output + 'agg_topic' + str(i) + '.csv',
         sep=',',
         index=False
     )
-    aggs.append(agg)
 
-# output all the aggregates
-pd.concat(aggs).reset_index().to_csv(
-        folder_data_output + 'all_topics_agg.csv',
-        sep=','
-    )
+pd.concat(aggs).pivot(
+    columns='Topic',
+    values='DocumentWeight'
+).reset_index().to_csv(
+    folder_data_output + 'topics_timeseries_per_DocumentWeight.csv',
+    sep=','
+)
+pd.concat(aggs).pivot(
+    columns='Topic',
+    values='Identifier'
+).reset_index().to_csv(
+    folder_data_output + 'topics_timeseries_per_Identifier.csv',
+    sep=','
+)
+pd.concat(aggs).pivot(
+    columns='Topic',
+    values='Amount Awarded'
+).reset_index().to_csv(
+    folder_data_output + 'topics_timeseries_per_Amount_Awarded.csv',
+    sep=','
+)
