@@ -1,0 +1,72 @@
+@font-family-header: 'Playfair Display', serif;
+@font-family-body: 'Lato', sans-serif;
+body, a {
+    background: #ddd;
+    color: #333;
+}
+a {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+header {
+    //background: #ddd;
+    display: flex;    
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    padding: 2.5rem auto;
+    text-align: center;
+    z-index: 3000;
+        .logo {
+            /*left: 0;
+            margin: 0 auto;
+            position: absolute;
+            right: 0;
+            top: 0;*/
+            margin: 0 auto;
+            img {
+                max-height: 100px;
+            }
+        }
+        .title {
+            font-family: @font-family-header;
+            font-size: 6.5rem;
+            margin: 4rem auto 1rem auto;
+            max-width: 75rem;
+            line-height: 1.3;
+        }
+        .author {
+            font-family: @font-family-body;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            padding-bottom: 3rem;
+        }
+}
+.intro  {
+    p {
+        
+    }
+}
+
+
+streamgraph {
+    height: 100vh;
+    width: 100%;
+
+    & > div.streamgraph {
+        display: block;
+        height: 100vh;
+        width: 100%;
+        svg {
+            path {
+                &:hover {
+                    cursor: pointer;
+                    fill-opacity: .2;
+                    stroke: black;
+                    stroke-width: 2px;
+                }
+            }
+        }
+    }   
+}
