@@ -162,7 +162,11 @@ def display_topics(H, W, feature_names, documents, n_top_words, n_top_documents)
         print(" ".join(str(topic[i]) for i in topic.argsort()[:-n_top_words - 1:-1]))
 
         top_doc_indices = np.argsort(W[:, topic_idx])[::-1][0:n_top_documents]
-        print( " ".join(   str(W[:,topic_idx][i]) for i in np.argsort( W[:,topic_idx] )[::-1][0:n_top_documents]    ) )
+        print(
+            " ".join(
+                str(W[:,topic_idx][i]) for i in np.argsort( W[:,topic_idx] )[::-1][0:n_top_documents]
+            )
+          )
         for doc_index in top_doc_indices:
             print('grant:')
             print(dataset.at[doc_index, 'Identifier'])
@@ -254,7 +258,7 @@ print(nmf_W.shape);
 print('Shape of the matrix H: (topics x samples)')
 print(nmf_H.shape);
 
-display_topics(nmf_H, nmf_W, tfidf_feature_names, data_samples, config['n_top_words'], config['n_top_documents'])
+#display_topics(nmf_H, nmf_W, tfidf_feature_names, data_samples, config['n_top_words'], config['n_top_documents'])
 
 
 
