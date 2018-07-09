@@ -17,7 +17,13 @@ angular.module('360givingApp')
       link: function (scope, element, attrs) {
         var width,
             height,
-            paths;
+            paths,
+            margin = {
+                top: 20, 
+                right: 20, 
+                bottom: 50, 
+                left: 20
+            };
 
             
         scope.createStreamGraph = createStreamGraph;
@@ -49,7 +55,7 @@ angular.module('360givingApp')
                     .style('opacity', '0');
             }
 
-            d3.csv('data/topics_timeseries_per_Identifier.csv', function(csvdata) {
+            d3.csv('data/topics_timeseries_per_DocumentWeight.csv', function(csvdata) {
                 var data = [],
                     o,
                     keys = _.filter(
@@ -61,12 +67,17 @@ angular.module('360givingApp')
                 keys.push('index');
 
                 csvdata.forEach(function(d) {
-                o = _.pick(d, keys);
-                _.forIn(o, function(value, key) {
-                    o[key] = (key == 'index')? timeParse(o[key]) : parseFloat(o[key]);
+                    o = _.pick(d, keys);
+                    _.forIn(o, function(value, key) {
+                        o[key] = (key == 'index')? timeParse(o[key]) : parseFloat(o[key]);
+                    });
+                    data.push(o);
                 });
-                data.push(o);
-                });
+                
+                // filter first years?
+                /*data = _.filter(data, function(d) {
+                    return (new Date(d['index'])).getFullYear() > 2004;
+                })*/
 
                 var stack = d3.stack()
                     .keys(
@@ -83,9 +94,6 @@ angular.module('360givingApp')
 
                 var series = stack(data);
 
-                var width = 1200,
-                    height = 600;
-
                 var x = d3.scaleTime()
                     .domain(d3.extent(data, function(d) { 
                     return d.index; 
@@ -97,8 +105,8 @@ angular.module('360givingApp')
 
                 var y = d3.scaleLinear()
                     .domain([
-                    d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
-                    d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
+                        d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
+                        d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
                     ])
                     .range([height, 0]);
 
@@ -110,9 +118,11 @@ angular.module('360givingApp')
                     .y1(function(d) { return y(d[1]); })
                     .curve(d3.curveBasis);
 
-                var svg = d3.select(element[0]).select("svg");
-                    svg.attr('width', width);
-                    svg.attr('height', height);
+                var svg = d3.select(element[0]).select("svg")
+                    .attr('width', width + margin.left + margin.right)
+                    .attr('height', height + margin.top + margin.bottom)
+                    .append('g')
+                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
                 paths = svg.selectAll("path")
                     .data(series)
@@ -124,95 +134,16 @@ angular.module('360givingApp')
                     .on('click', selectTopic);
 
                 svg.append("g")
-                    .attr("class", "axis axis--x")
-                    .attr("transform", "translate(0," + (height) + ")")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0, " + height + ")")
                     .call(xAxis);  
             });
-            /*
-            var n = 20, // number of layers
-            m = 200, // number of samples per layer
-            k = 10, // number of bumps per layer
-            t = d3.transition()
-                    .duration(750)
-                    .ease(d3.easeLinear);
-
-            var stack = d3.stack().keys(d3.range(n)).offset(d3.stackOffsetWiggle),
-                layers0 = stack(d3.transpose(d3.range(n).map(function() { return bumps(m, k); }))),
-                layers1 = stack(d3.transpose(d3.range(n).map(function() { return bumps(m, k); }))),
-                layers = layers0.concat(layers1);
-
-            var svg = d3.select(element[0]).select("svg");
-            svg.attr('width', width);
-            svg.attr('height', height);
-
-            var x = d3.scaleLinear()
-                .domain([0, m - 1])
-                .range([0, width]);
-
-            var y = d3.scaleLinear()
-                .domain([d3.min(layers, stackMin), d3.max(layers, stackMax)])
-                .range([height, 0]);
-
-            var z = d3.interpolateCool;
-
-            var area = d3.area()
-                .x(function(d, i) { return x(i); })
-                .y0(function(d) { return y(d[0]); })
-                .y1(function(d) { return y(d[1]); });
-
-            paths = svg
-                .selectAll("path")
-                .data(layers0)
-                .enter().append("path")
-                    .attr("d", area)
-                    .attr("fill", function() { return z(Math.random()); })
-                    .on('click', selectTopic);
-
-
-            function stackMax(layer) {
-                return d3.max(layer, function(d) { return d[1]; });
-            }
-
-            function stackMin(layer) {
-                return d3.min(layer, function(d) { return d[0]; });
-            }
-
-            // Inspired by Lee Byron’s test data generator.
-            function bumps(n, m) {
-                var a = [], i;
-                for (i = 0; i < n; ++i) a[i] = 0;
-                for (i = 0; i < m; ++i) bump(a, n);
-                return a;
-            }
-
-            function bump(a, n) {
-                var x = 1 / (0.1 + Math.random()),
-                    y = 2 * Math.random() - 0.5,
-                    z = 10 / (0.1 + Math.random());
-                for (var i = 0; i < n; i++) {
-                    var w = (i / n - y) * z;
-                    a[i] += x * Math.exp(-w * w);
-                }
-            }
-
-            function selectTopic(_d, _i) {
-                d3.select(this)
-                    .transition(t)
-                    .attr('transform', 'translate(0,-50)');
-                paths
-                    .filter(function(d,i) {
-                        return _i != i;
-                    })
-                    .transition(t)
-                    .style('opacity', '0');
-            }
-            */
         };
 
 
         function init() {
-            height = d3.select(element[0]).select('div.streamgraph').node().offsetHeight;
-            width = d3.select(element[0]).select('div.streamgraph').node().offsetWidth;
+            height = d3.select(element[0]).select('div.streamgraph').node().offsetHeight - margin.top - margin.bottom;
+            width = d3.select(element[0]).select('div.streamgraph').node().offsetWidth - margin.left - margin.right;
             scope.createStreamGraph();
         }
       }
