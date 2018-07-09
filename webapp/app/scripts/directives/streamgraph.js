@@ -18,6 +18,7 @@ angular.module('360givingApp')
         var width,
             height,
             paths,
+            vertical,
             margin = {
                 top: 20, 
                 right: 20, 
@@ -26,7 +27,8 @@ angular.module('360givingApp')
             };
 
             
-        scope.createStreamGraph = createStreamGraph;
+        scope.createStreamGraph     = createStreamGraph;
+        scope.addCurrentDateLine    = addCurrentDateLine;
         scope.init = init;
         
         scope.init();
@@ -37,7 +39,8 @@ angular.module('360givingApp')
         //////////////////////////////////////////////////////
         function createStreamGraph() {
             var timeParse = d3.timeParse("%Y-%m-%d"),
-                colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([0,15]),
+                colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([-15,15]), //-15 to avoid lightest colors
+                svg,
                 t = d3.transition()
                     .duration(750)
                     .ease(d3.easeLinear);
@@ -54,10 +57,11 @@ angular.module('360givingApp')
                     .transition(t)
                     .style('opacity', '0');
             }
-
-            d3.csv('data/topics_timeseries_per_DocumentWeight.csv', function(csvdata) {
+    
+            function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
                 var data = [],
                     o,
+                    csvdata = identifier, //take one file as first
                     keys = _.filter(
                     _.keys(_.first(csvdata)),
                     function(key) { 
@@ -75,9 +79,9 @@ angular.module('360givingApp')
                 });
                 
                 // filter first years?
-                /*data = _.filter(data, function(d) {
-                    return (new Date(d['index'])).getFullYear() > 2004;
-                })*/
+                data = _.filter(data, function(d) {
+                    return (new Date(d['index'])).getFullYear() >= 2004;
+                })
 
                 var stack = d3.stack()
                     .keys(
@@ -118,7 +122,7 @@ angular.module('360givingApp')
                     .y1(function(d) { return y(d[1]); })
                     .curve(d3.curveBasis);
 
-                var svg = d3.select(element[0]).select("svg")
+                svg = d3.select(element[0]).select("svg")
                     .attr('width', width + margin.left + margin.right)
                     .attr('height', height + margin.top + margin.bottom)
                     .append('g')
@@ -131,20 +135,55 @@ angular.module('360givingApp')
                     .style("fill", function(d, i) { 
                         return colorScale(i);
                     })
-                    .on('click', selectTopic);
+                    .on('click', selectTopic)
+                    .on('mousemove', function() {
+                    });
 
                 svg.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0, " + height + ")")
                     .call(xAxis);  
-            });
+            };
+
+            // load files
+            queue()
+                .defer(d3.csv, 'data/topics_timeseries_per_Amount_Awarded.csv')
+                .defer(d3.csv, 'data/topics_timeseries_per_DocumentWeight.csv')
+                .defer(d3.csv, 'data/topics_timeseries_per_Identifier.csv')
+                .await(makeStreamGraph);
         };
+
+
+
+        function addCurrentDateLine() {
+            var mousex,
+                moveLine = function() {
+                mousex = d3.mouse(this);
+                mousex = mousex[0];
+                vertical
+                    .style('stroke', 'black')
+                    .attr("x1", mousex)
+                    .attr("x2", mousex)
+                    .attr("y1", 0)
+                    .attr("y2", height);
+            };
+
+            vertical = d3.select(element[0]).select("svg")
+                .append("line")
+                .attr('class', 'current-date');
+        
+            d3.select(element[0]).select('div.streamgraph')
+                .on("mousemove", moveLine)
+                .on("mouseover", moveLine);
+        };
+
 
 
         function init() {
             height = d3.select(element[0]).select('div.streamgraph').node().offsetHeight - margin.top - margin.bottom;
             width = d3.select(element[0]).select('div.streamgraph').node().offsetWidth - margin.left - margin.right;
             scope.createStreamGraph();
+            scope.addCurrentDateLine();
         }
       }
     }
