@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+  </style>
+</head>
+
+<body data-gr-c-s-loaded="true">
+  <script>
+    var timeParse = d3.timeParse("%Y-%m-%d");
+    var colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([0,15])
+
+    d3.csv('topics_timeseries_per_DocumentWeight.csv', function(csvdata) {
+        var data = [],
+            o,
+            keys = _.filter(
+              _.keys(_.first(csvdata)),
+              function(key) { 
+                return key.indexOf("topic") != -1; 
+              });
+        
+        keys.push('index');
+
+        csvdata.forEach(function(d) {
+          o = _.pick(d, keys);
+          _.forIn(o, function(value, key) {
+            o[key] = (key == 'index')? timeParse(o[key]) : parseFloat(o[key]);
+          });
+          data.push(o);
+        });
+
+        var stack = d3.stack()
+            .keys(
+              _.filter(
+                _.keys(_.first(data)), 
+                function(key) { 
+                  return key.indexOf("topic") != -1; 
+                })
+              )            
+            // this combination of order and offset
+            // seems the more legible
+            .order(d3.stackOrderDescending).offset(d3.stackOffsetSilhouette);
+            //.order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle)
+
+        var series = stack(data);
+
+        var width = 1200,
+            height = 600;
+
+        var x = d3.scaleTime()
+            .domain(d3.extent(data, function(d) { 
+              return d.index; 
+              }))
+            .range([0, width]);
+
+        // setup axis
+        var xAxis = d3.axisBottom(x);
+
+        var y = d3.scaleLinear()
+            .domain([
+              d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
+              d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
+              ])
+            .range([height, 0]);
+
+        var area = d3.area()
+            .x(function(d) { 
+              return x(d.data.index); 
+            })
+            .y0(function(d) { return y(d[0]); })
+            .y1(function(d) { return y(d[1]); })
+            .curve(d3.curveBasis);
+
+        var svg = d3.select("body").select("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        svg.selectAll("path")
+            .data(series)
+            .enter().append("path")
+            .attr("d", area)
+            .style("fill", function(d, i) { 
+              return colorScale(i);
+            });
+
+        svg.append("g")
+                    .attr("class", "axis axis--x")
+                    .attr("transform", "translate(0," + (height) + ")")
+                    .call(xAxis);  
+
+
+
+    });
+
+
+
+  </script>
+
+  <svg width="600" height="500"></svg>
+
+</body></html>
