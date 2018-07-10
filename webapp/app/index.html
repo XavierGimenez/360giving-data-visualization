@@ -46,6 +46,24 @@
     </div>
 
 
+    <!-- Generic tooltip -->
+    <div id='node-tooltip' class='node-tooltip'>
+      <div class='node-tooltip-container'>
+
+        <div class='node-tooltip-header'>
+          <div class='node-tooltip-title'></div>
+          <div class='node-tooltip-subtitle'></div>
+        </div>
+
+        <div class='node-tooltip-data-container'>
+        </div>
+        <div id='node-tooltip-viz-container'>
+        </div>
+        <div class='node-tooltip-footer'>
+        </div>
+      </div>
+    </div>
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
@@ -81,6 +99,7 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/directives/streamgraph.js"></script>
+        <script src="scripts/services/tooltip.service.js"></script>
         <!-- endbuild -->
 </body>
 </html>

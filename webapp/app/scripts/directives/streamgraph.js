@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name pslDashboardApp.directive:vizProductionLabs.chart.js
+ * @name 360givingApp.directive:streamgraph.js
  * @description
- * # vizProductionLabs.chart.js
+ * # streamgraph.js
  */
 angular.module('360givingApp')
-  .directive('streamgraph', function () {
+  .directive('streamgraph', function (TooltipService) {
     return {
         template: '<div class="streamgraph">'+
                     '<svg></svg>' +
@@ -199,11 +199,19 @@ angular.module('360givingApp')
                         .text(
                             getQuarter(x.invert(mousex))
                         );
+                    TooltipService.show(
+                        'whatever',
+                        'so',
+                        [
+                            { 'key' : 'Percentatge' , 'value' : 23 }
+                        ]
+                    );
                 },
                 removeLine = function() {
                     var svg = d3.select(element[0]).select("svg")
                     svg.select('line.current-date').style('display', 'none');
                     svg.select('text.current-date').style('display', 'none');
+                    TooltipService.hide();
                 };
 
             vertical = d3.select(element[0]).select("svg")

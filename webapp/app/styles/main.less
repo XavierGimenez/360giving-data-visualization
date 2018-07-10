@@ -1,5 +1,8 @@
 @font-family-header: 'Playfair Display', serif;
 @font-family-body: 'Lato', sans-serif;
+@color-grey : rgba(66, 66, 66, 1);
+
+
 body, a {
     background: #ddd;
     color: #333;
@@ -77,4 +80,112 @@ streamgraph {
             }
         }
     }   
+}
+
+
+
+
+
+/** generic tooltip ********/
+.node-tooltip {
+    display: none;
+    pointer-events: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    color: rgb(68, 68, 68);
+    font-family: @font-family-body;
+    font-weight: 200;
+    font-size: 11px;
+    box-shadow: rgba(0, 0, 0, 0.247059) 0px 1px 3px;
+    max-height: 300px;
+    z-index: 2000;
+    top: 7px;
+    left: 721px;
+    .node-tooltip-container {
+        background-color: rgb(255, 255, 255);
+        opacity: 0.95;
+        padding: 6px;
+        width: 300px;
+
+        .node-tooltip-header {
+            position: relative;
+            z-index: 1;
+
+            .node-tooltip-title, .node-tooltip-subtitle {
+                font-family: @font-family-body;
+                font-weight: bold;
+                color: @color-grey;
+                vertical-align: top;
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-wrap: break-word;
+                z-index: 1;
+                font-size: 12px;
+                line-height: 17px;
+                padding: 3px;
+                width: 100%;
+            }
+            .node-tooltip-subtitle {
+                color: grey;
+                font-size: 12px;
+                font-weight: normal;
+                padding-top: 0px;
+                padding-bottom: 12px;
+            }
+        }
+
+        .node-tooltip-data-container {
+            overflow-y: auto;
+            z-index: -1;
+            max-height: 200px;
+
+            .node-tooltip-data-block {
+                font-size: 11px;
+                padding: 3px 6px;
+                position: relative;
+                color: rgb(0, 0, 0);
+                .node-tooltip-data-name {
+                    display: inline-block;
+                    width: 65%;
+                    min-height: 15px;
+                }
+            
+                .node-tooltip-data-value {
+                    display: inline-block;
+                    text-align: right;
+                    width: 35%;
+                    font-weight: 600;
+                }
+            }
+
+            .node-tooltip-data-separator {
+                background-color: rgb(221, 221, 221);
+                display: block;
+                height: 1px;
+                margin: 0px 3px;
+            }
+        }
+
+        .node-tooltip-footer {
+            font-size: 12px;   
+            margin-top: 5px;         
+            text-align: center;
+        }
+
+        // this override styles from vega.less
+        #node-tooltip-viz-container {
+            width: 100%;
+            g.role-axis {
+                .role-axis-domain line,
+                .role-axis-tick line {
+                    stroke-width: 0 !important;
+                }
+                .role-axis-label text {
+                    fill: @color-grey !important;
+                }
+            }
+        }
+    }
 }
