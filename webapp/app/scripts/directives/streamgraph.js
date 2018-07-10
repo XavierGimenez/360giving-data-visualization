@@ -9,7 +9,8 @@
 angular.module('360givingApp')
   .directive('streamgraph', function (TooltipService) {
     return {
-        template: '<div class="streamgraph">'+
+        template: '<div class="streamgraph">' +
+                    '<div class="topic-words-placeholder"></div>' +
                     '<svg></svg>' +
                   '</div>',
       restrict: 'E',
@@ -53,7 +54,40 @@ angular.module('360givingApp')
             
             
             function selectTopic(_d, _i) {
-                d3.select(this)
+                var topics = [
+                    ['youth', 19],
+                    ['advantatge', 13],
+                    ['sport', 11],
+                    ['garden', 10],
+                    ['work', 7],
+                    ['school', 3],
+                    ['family', 1],
+                    ['disease', 1]
+                ]
+                var sizeFont = d3.scaleLinear()
+                    .domain(
+                        d3.extent(topics, function(d) {
+                            return d[1];
+                        })
+                    )
+                    .range([10, 40]);
+                
+                d3.select('div.streamgraph .topic-words-placeholder')
+                    .selectAll('a')
+                    .remove();
+                    
+                d3.select('div.streamgraph .topic-words-placeholder')
+                    .selectAll('a')
+                    .data(topics)
+                    .enter().append('a')
+                    .attr('class', 'topic-word')
+                    .style('font-size', function(d) {
+                        return sizeFont(d[1]) + 'px';
+                    })
+                    .text(function(d) {
+                        return d[0];
+                    });
+                /*d3.select(this)
                     .transition(t)
                     .attr('transform', 'translate(0,-50)');
                 paths
@@ -61,7 +95,8 @@ angular.module('360givingApp')
                         return _i != i;
                     })
                     .transition(t)
-                    .style('opacity', '0');
+                    .style('opacity', '0');*/
+                
             }
     
             function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {

@@ -60,7 +60,27 @@ streamgraph {
     & > div.streamgraph {
         display: block;
         height: 100vh;
+        position: relative;
         width: 100%;
+        
+        .topic-words-placeholder {
+            position: absolute; // relative to parent
+            width: 300px;
+            >  .topic-word {
+                background-color: rgb(255, 255, 255);
+                border: 1px solid rgb(255, 255, 255);
+                box-shadow: 0 0 2px 0 rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.12);
+                color: rgb(58, 58, 58);
+                font-family: @font-family-header;
+                float: left;
+                margin: 3px;
+                opacity: 1;
+                padding: 4px 10px;
+                text-align: center;
+                text-decoration: none;
+            }
+        }
+
         svg {
             path {
                 &:hover {
