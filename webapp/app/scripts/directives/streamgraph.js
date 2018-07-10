@@ -61,7 +61,7 @@ angular.module('360givingApp')
             function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
                 var data = [],
                     o,
-                    csvdata = identifier, //take one file as first
+                    csvdata = documentWeight, //take one file as first
                     keys = _.filter(
                     _.keys(_.first(csvdata)),
                     function(key) { 
@@ -82,6 +82,7 @@ angular.module('360givingApp')
                 data = _.filter(data, function(d) {
                     return (new Date(d['index'])).getFullYear() >= 2004;
                 })
+            
 
                 var stack = d3.stack()
                     .keys(
@@ -95,6 +96,7 @@ angular.module('360givingApp')
                     // seems the more legible
                     .order(d3.stackOrderDescending).offset(d3.stackOffsetSilhouette);
                     //.order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle)
+                    //.offset(d3.stackOffsetSilhouette);
 
                 var series = stack(data);
 

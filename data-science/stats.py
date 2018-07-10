@@ -15,6 +15,8 @@ with open('config.json') as json_config_file:
 # loop through topics
 dfs = []
 aggs = []
+aggs_quarterly = []
+
 for i in range(0, config['n_components']):
     df_topic = pd.read_csv('./data-output/topic' + str(i) + '_documents.csv')
 
@@ -61,34 +63,44 @@ for i in range(0, config['n_components']):
     # re-index
     agg.index = pd.DatetimeIndex(agg.index)
     agg = agg.reindex(idx, fill_value=0)
+    agg_quarterly = agg.resample('Q').sum()
 
-    # add our topic
     agg['Topic'] = 'topic' + str(i)
+    agg_quarterly['Topic'] = 'topic' + str(i)
 
     aggs.append(agg)
+    aggs_quarterly.append(agg_quarterly)
 
     print('aggregating topic ' + str(i))
+
+    # resampled version, downsampling to quarters
+    # to avoid too much noise in the viz.
+    agg_quarterly.to_csv(
+        folder_data_output + 'agg_quarters_topic' + str(i) + '.csv',
+        sep=',',
+        index=False
+    )
     agg.reset_index().to_csv(
         folder_data_output + 'agg_topic' + str(i) + '.csv',
         sep=',',
         index=False
     )
 
-pd.concat(aggs).pivot(
+pd.concat(aggs_quarterly).pivot(
     columns='Topic',
     values='DocumentWeight'
 ).reset_index().to_csv(
     folder_data_output + 'topics_timeseries_per_DocumentWeight.csv',
     sep=','
 )
-pd.concat(aggs).pivot(
+pd.concat(aggs_quarterly).pivot(
     columns='Topic',
     values='Identifier'
 ).reset_index().to_csv(
     folder_data_output + 'topics_timeseries_per_Identifier.csv',
     sep=','
 )
-pd.concat(aggs).pivot(
+pd.concat(aggs_quarterly).pivot(
     columns='Topic',
     values='Amount Awarded'
 ).reset_index().to_csv(
