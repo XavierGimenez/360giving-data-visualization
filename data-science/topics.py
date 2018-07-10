@@ -188,13 +188,22 @@ dataset = pd.read_csv('./data-source/grantnav-20180613122257.csv')
 # get sure we have valid data
 dataset = dataset[dataset['Title'].notnull()]
 dataset = dataset[dataset['Description'].notnull()]
-
 #dataset = dataset[:config['n_samples']]
+
+# there are 'massive-granting-days': a lot of grants with the same Award date
+# coming from the same Funding Organization, all sharing the same title and
+# description, but with different awarded amounts: this can distort the topic
+# analysis and later aggregations and vizs, so group them and manage them
+# as single grants: we loose the grant id and the amount are sumed up
+dataset = dataset.groupby(
+    ['Title', 'Description', 'Award Date', 'Funding Org:Identifier', 'Funding Org:Name']).agg({
+        'Amount Awarded': sum,
+        'Identifier': 'first'   # consider if counting this is correct...
+     }).reset_index()
 
 # new column with the 'documents' to use
 # for keyword extraction
 dataset['Document'] = dataset['Title'] + ' ' + dataset['Description']
-
 
 
 # convert 'user-led' to a special word, in order
@@ -207,14 +216,13 @@ dataset['Document'] = dataset['Document'].str.replace('Second World War', 'Secon
 # fix some pluralizations...
 dataset['Document'] = dataset['Document'].str.replace('schools', 'school')
 
+# TODO: add more pluralization
+
 # TODO: pending to remove numbers!
 # maybe replace all number by a reserved word that can be a stop-word
 # https://stackoverflow.com/questions/45547568/how-can-i-prevent-tfidfvectorizer-to-get-numbers-as-vocabulary
 
 data_samples = dataset['Document'].tolist()
-
-
-
 
 # ------------------------------------------------------------------------
 # Get matrix of TF-IDF features and get topics
@@ -306,10 +314,10 @@ for topic_idx, topic in enumerate(nmf_H):
 
     # save only docs that have some weight
     # related to the topic which is significant:
-    # slice by docs with eright > 0 and get a
+    # slice by docs with weight > 0 and get a
     # threshold by calculating a percentile to
     # discard lower values
-    percentile = 5
+    percentile = 50
     weight_lower_threshold = np.percentile(
         df_topic[df_topic['DocumentWeight'] > 0]['DocumentWeight'],
         percentile
@@ -321,11 +329,5 @@ for topic_idx, topic in enumerate(nmf_H):
     df_topic.to_csv(
         folder_data_output + 'topic' + str(topic_idx) + '_documents.csv',
         sep=',',
-        index = False
+        index=False
     )
-
-
-
-
-# RELATED:
-# https://stackoverflow.com/questions/12065885/filter-dataframe-rows-if-value-in-column-is-in-a-set-list-of-values
