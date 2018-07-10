@@ -62,14 +62,18 @@ streamgraph {
             path {
                 &:hover {
                     cursor: pointer;
-                    fill-opacity: .2;
-                    stroke: black;
-                    stroke-width: 2px;
+                    stroke: teal;
+                    stroke-width: 1px;
                 }
             }
             line.current-date {
                 stroke-dasharray: 2,2;
                 opacity: 0.3;
+            }
+            text.current-date {
+                font-family: sans-serif;
+                font-size: 10px;
+                text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px -1px 0 #fff;
             }
         }
     }   

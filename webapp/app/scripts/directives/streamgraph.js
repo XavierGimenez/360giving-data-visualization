@@ -19,11 +19,20 @@ angular.module('360givingApp')
             height,
             paths,
             vertical,
+            currentQuarterText,
+            x,
+            y,
             margin = {
                 top: 20, 
                 right: 20, 
                 bottom: 50, 
                 left: 20
+            },
+            t = d3.transition()
+                .duration(750)
+                .ease(d3.easeLinear),
+            getQuarter = function(d) {
+                return d.getFullYear() + ' Q' + (Math.floor(d.getMonth() / 3) + 1);
             };
 
             
@@ -40,10 +49,7 @@ angular.module('360givingApp')
         function createStreamGraph() {
             var timeParse = d3.timeParse("%Y-%m-%d"),
                 colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([-15,15]), //-15 to avoid lightest colors
-                svg,
-                t = d3.transition()
-                    .duration(750)
-                    .ease(d3.easeLinear);
+                svg;
             
             
             function selectTopic(_d, _i) {
@@ -79,9 +85,9 @@ angular.module('360givingApp')
                 });
                 
                 // filter first years?
-                data = _.filter(data, function(d) {
+                /*data = _.filter(data, function(d) {
                     return (new Date(d['index'])).getFullYear() >= 2004;
-                })
+                })*/
             
 
                 var stack = d3.stack()
@@ -100,7 +106,7 @@ angular.module('360givingApp')
 
                 var series = stack(data);
 
-                var x = d3.scaleTime()
+                x = d3.scaleTime()
                     .domain(d3.extent(data, function(d) { 
                     return d.index; 
                     }))
@@ -109,7 +115,7 @@ angular.module('360givingApp')
                 // setup axis
                 var xAxis = d3.axisBottom(x);
 
-                var y = d3.scaleLinear()
+                y = d3.scaleLinear()
                     .domain([
                         d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
                         d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
@@ -132,12 +138,23 @@ angular.module('360givingApp')
 
                 paths = svg.selectAll("path")
                     .data(series)
-                    .enter().append("path")
+                    .enter().append("path")                    
                     .attr("d", area)
+                    .attr('class', 'topic')
                     .style("fill", function(d, i) { 
                         return colorScale(i);
                     })
                     .on('click', selectTopic)
+                    .on('mouseover', function(d, i) {
+                        d3.selectAll('path.topic')
+                            .filter(function(_d, _i) {
+                                return _i != i;
+                            })
+                            .style('opacity', .2);
+                    })
+                    .on('mouseout', function() {
+                        d3.selectAll('path.topic').style('opacity', 1);
+                    })
                     .on('mousemove', function() {
                     });
 
@@ -157,26 +174,50 @@ angular.module('360givingApp')
 
 
 
+
+
         function addCurrentDateLine() {
             var mousex,
                 moveLine = function() {
-                mousex = d3.mouse(this);
-                mousex = mousex[0];
-                vertical
-                    .style('stroke', 'black')
-                    .attr("x1", mousex)
-                    .attr("x2", mousex)
-                    .attr("y1", 0)
-                    .attr("y2", height);
-            };
+                    mousex = d3.mouse(this);
+                    mousex = mousex[0];
+                    vertical
+                        .style('stroke', 'black')
+                        .style('display', 'block')
+                        .attr("x1", mousex)
+                        .attr("x2", mousex)
+                        .attr("y1", 0)
+                        .attr("y2", height);
+                    var placingText = [
+                        mousex < (width - 100)?  'start' : 'end',
+                        mousex < (width - 100)?  mousex + 5 : mousex -5
+                    ];
+                    currentQuarterText
+                        .style('display', 'block')                        
+                        .attr('text-anchor', placingText[0])
+                        .attr('transform', 'translate(' + placingText[1] + ',' + height + ')')
+                        .text(
+                            getQuarter(x.invert(mousex))
+                        );
+                },
+                removeLine = function() {
+                    var svg = d3.select(element[0]).select("svg")
+                    svg.select('line.current-date').style('display', 'none');
+                    svg.select('text.current-date').style('display', 'none');
+                };
 
             vertical = d3.select(element[0]).select("svg")
                 .append("line")
                 .attr('class', 'current-date');
-        
+            
+            currentQuarterText = d3.select(element[0]).select('svg')
+                .append('text')
+                .attr('class', 'current-date');;
+            
             d3.select(element[0]).select('div.streamgraph')
                 .on("mousemove", moveLine)
-                .on("mouseover", moveLine);
+                .on("mouseover", moveLine)
+                .on('mouseout', removeLine);
         };
 
 
@@ -184,8 +225,8 @@ angular.module('360givingApp')
         function init() {
             height = d3.select(element[0]).select('div.streamgraph').node().offsetHeight - margin.top - margin.bottom;
             width = d3.select(element[0]).select('div.streamgraph').node().offsetWidth - margin.left - margin.right;
-            scope.createStreamGraph();
             scope.addCurrentDateLine();
+            scope.createStreamGraph();
         }
       }
     }
