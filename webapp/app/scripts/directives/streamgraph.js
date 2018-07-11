@@ -7,7 +7,7 @@
  * # streamgraph.js
  */
 angular.module('360givingApp')
-  .directive('streamgraph', function (TooltipService) {
+  .directive('streamgraph', function (TooltipService, MasterData) {
     return {
         template: '<div class="streamgraph">' +
                     '<div class="topic-words-placeholder"></div>' +
@@ -54,16 +54,7 @@ angular.module('360givingApp')
             
             
             function selectTopic(_d, _i) {
-                var topics = [
-                    ['youth', 19],
-                    ['advantatge', 13],
-                    ['sport', 11],
-                    ['garden', 10],
-                    ['work', 7],
-                    ['school', 3],
-                    ['family', 1],
-                    ['disease', 1]
-                ]
+                var topics = MasterData.topics['topic' + _i];
                 var sizeFont = d3.scaleLinear()
                     .domain(
                         d3.extent(topics, function(d) {
@@ -75,7 +66,7 @@ angular.module('360givingApp')
                 d3.select('div.streamgraph .topic-words-placeholder')
                     .selectAll('a')
                     .remove();
-                    
+
                 d3.select('div.streamgraph .topic-words-placeholder')
                     .selectAll('a')
                     .data(topics)
@@ -179,8 +170,9 @@ angular.module('360givingApp')
                     .style("fill", function(d, i) { 
                         return colorScale(i);
                     })
-                    .on('click', selectTopic)
+                    //.on('click', selectTopic)
                     .on('mouseover', function(d, i) {
+                        selectTopic(d, i);
                         d3.selectAll('path.topic')
                             .filter(function(_d, _i) {
                                 return _i != i;

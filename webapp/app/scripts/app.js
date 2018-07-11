@@ -17,6 +17,7 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
+  .constant('MasterData', {})
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
