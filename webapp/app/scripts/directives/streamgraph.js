@@ -34,8 +34,11 @@ angular.module('360givingApp')
                 .ease(d3.easeLinear),
             getQuarter = function(d) {
                 return d.getFullYear() + ' Q' + (Math.floor(d.getMonth() / 3) + 1);
-            };
-
+            },
+            texture = textures.lines()
+                .orientation("3/8")
+                .stroke("darkorange");
+                
             
         scope.createStreamGraph     = createStreamGraph;
         scope.addCurrentDateLine    = addCurrentDateLine;
@@ -161,6 +164,8 @@ angular.module('360givingApp')
                     .attr('height', height + margin.top + margin.bottom)
                     .append('g')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+                
+                d3.select(element[0]).select("svg").call(texture);
 
                 paths = svg.selectAll("path")
                     .data(series)
@@ -170,14 +175,17 @@ angular.module('360givingApp')
                     .style("fill", function(d, i) { 
                         return colorScale(i);
                     })
-                    //.on('click', selectTopic)
+                    .on('click', function() {
+                        d3.select(this)
+                            .style('fill', texture.url());
+                    })
                     .on('mouseover', function(d, i) {
                         selectTopic(d, i);
                         d3.selectAll('path.topic')
                             .filter(function(_d, _i) {
                                 return _i != i;
                             })
-                            .style('opacity', .2);
+                            .style('opacity', .2);                        
                     })
                     .on('mouseout', function() {
                         d3.selectAll('path.topic').style('opacity', 1);

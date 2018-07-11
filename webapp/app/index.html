@@ -34,9 +34,17 @@
           By <a href="http://www.xavigimenez.net/">Xavi Gimenez</a>
         </p>
     </header>
+    <div class="intro">
+      <p class='narrative'>
+        We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use.1
+      </p>
+      <p class='narrative'>
+        <keywords></keywords>
+      </p>
+    </div>
 
-    <div class="container">
-    <div ng-view=""></div>
+    <div>
+      <div ng-view=""></div>
     </div>
 
     <div class="footer">
@@ -80,7 +88,9 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
-
+    <script src="libs/vega.min.js"></script>
+    <script src="libs/textures.min.js"></script>
+    
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -92,6 +102,7 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/datalib/datalib.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -99,7 +110,10 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/directives/streamgraph.js"></script>
+        <script src="scripts/directives/keywords.js"></script>
         <script src="scripts/services/tooltip.service.js"></script>
+        <script src="scripts/services/vega.service.js"></script>
+        <script src="scripts/services/events.service.js"></script>
         <!-- endbuild -->
 </body>
 </html>

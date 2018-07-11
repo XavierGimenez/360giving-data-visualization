@@ -1,0 +1,65 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v4.json",
+    "width": null,
+    "height": null,
+    "padding": 0,
+  
+    "data": [
+      {
+        "name": "table",
+        "values": null,
+        "transform": [
+          {
+            "type": "formula", "as": "angle",
+            "expr": "[0, 0, 0][~~(random() * 3)]"
+          },
+          {
+            "type": "formula", "as": "weight",
+            "expr": "300"
+          }
+        ]
+      }
+    ],
+  
+    "scales": [
+      {
+        "name": "color",
+        "type": "ordinal",
+        "range": ["#333333", "#555555"]
+      }
+    ],
+  
+    "marks": [
+      {
+        "type": "text",
+        "from": {"data": "table"},
+        "encode": {
+          "enter": {
+            "text": {"field": "k"},
+            "align": {"value": "center"},
+            "baseline": {"value": "alphabetic"},
+            "fill": {"scale": "color", "field": "w"}
+          },
+          "update": {
+            "fillOpacity": {"value": 1}
+          },
+          "hover": {
+            "fillOpacity": {"value": 0.5}
+          }
+        },
+        "transform": [
+          {
+            "type": "wordcloud",
+            "size": [{"signal": "width"}, {"signal": "height"}],
+            "text": {"field": "k"},
+            "rotate": {"field": "datum.angle"},
+            "fontSize": {"field": "datum.w"},
+            "fontWeight": {"field": "datum.weight"},
+            "fontSizeRange": [12, 56],
+            "padding": 2
+          }
+        ]
+      }
+    ]
+  }
+  

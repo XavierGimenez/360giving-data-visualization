@@ -8,11 +8,11 @@
  * Controller of the 360givingApp
  */
 angular.module('360givingApp')
-  .controller('MainCtrl', function ($http, $q, MasterData) {
-    var deferred = $q.defer(),
-        promises = [];
+  .controller('MainCtrl', function ($http, $q, $rootScope, MasterData, Events) {
+    
     
     // load all the data stuff
+    var promises = []
     $http.get('data/config.json')
       .then(function(response) {
 
@@ -38,6 +38,9 @@ angular.module('360givingApp')
               topic_keywords.data.topic_weights
             )
           });
+
+          // notify data is available
+          $rootScope.$broadcast(Events.DATA_LOADED);
         });
       });
     

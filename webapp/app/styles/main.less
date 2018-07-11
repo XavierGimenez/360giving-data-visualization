@@ -35,6 +35,7 @@ header {
         .title {
             font-family: @font-family-header;
             font-size: 6.5rem;
+            font-weight: bold;
             margin: 4rem auto 1rem auto;
             max-width: 75rem;
             line-height: 1.3;
@@ -47,8 +48,13 @@ header {
         }
 }
 .intro  {
-    p {
-        
+    p.narrative {
+        color: #000;
+        font-size: 1.5rem;
+        max-width: 60rem;
+        margin: 0 auto;
+        margin-bottom: 1.3em;
+        line-height: 1.7;
     }
 }
 
@@ -102,6 +108,20 @@ streamgraph {
     }   
 }
 
+
+keywords {
+    display: block;
+    height: 60rem;
+    width: 100%;
+    > div {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+    g.mark-text text {
+        font-family: @font-family-header !important;
+    }
+}
 
 
 
