@@ -18,8 +18,8 @@ except NameError:
 with open('config.json') as json_config_file:
     config = json.load(json_config_file)
 
-ngram_join_string = 'xyz'   # instead of use ngrams > 1 to mantain some multiword tokens as key word,
-                            # just join them with a special string and later split again
+ngram_join_string = config['ngram_join_string']   # instead of use ngrams > 1 to mantain some multiword tokens as key word,
+                                                  # just join them with a special string and later split again
 folder_data_source = './data-source/'
 folder_data_output = './data-output/'
 

@@ -3,5 +3,6 @@
 	"n_features" : 1000,
 	"n_components" : 15,
 	"n_top_words" : 20 ,
-	"n_top_documents" : 1000
+	"n_top_documents" : 1000,
+	"ngram_join_string" : "xyz"
 }
