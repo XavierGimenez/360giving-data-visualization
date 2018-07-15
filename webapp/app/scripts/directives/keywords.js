@@ -12,10 +12,12 @@ angular.module('360givingApp')
     return {
         restrict: 'E',
         template:   '<div id="{{DOM_ID}}"></div>',
-        scope : {},
+        scope : {
+            topic: '@'
+        },
         link: function postLink($scope, element) {
 
-            $scope.DOM_ID = 'keywords'
+            $scope.DOM_ID = _.uniqueId('keywords');
 
             $scope.$on(Events.DATA_LOADED, function() {
                 vega.loader()
@@ -27,13 +29,13 @@ angular.module('360givingApp')
             function render(response) {
                 var vega_spec = JSON.parse(response);
                 vega_spec.width = element.innerWidth();
-                vega_spec.height = 400;
+                vega_spec.height = window.innerHeight / 3;
                 vega_spec.marks[0].transform[0].size = [vega_spec.width, vega_spec.height];
                 _.find(
                     vega_spec.data, 
                     ['name', 'table']
                 ).values = _.map(
-                    MasterData.topics.topic0,
+                    MasterData.topics['topic' + $scope.topic],
                     function(arr) {
                         return {
                             text : arr[0],
