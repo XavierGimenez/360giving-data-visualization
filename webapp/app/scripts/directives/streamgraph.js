@@ -18,7 +18,12 @@ angular.module('360givingApp')
       link: function (scope, element, attrs) {
         var width,
             height,
+            data = [],
             paths,
+            stack,
+            series,
+            area,
+            xAxis,
             vertical,
             currentQuarterText,
             x,
@@ -40,21 +45,24 @@ angular.module('360givingApp')
             
         scope.createStreamGraph     = createStreamGraph;
         scope.addCurrentDateLine    = addCurrentDateLine;
+        scope.selectTopic           = selectTopic;
         scope.init = init;
         
         scope.init();
 
 
 
-
         //////////////////////////////////////////////////////
+
+
+
         function createStreamGraph() {
             var timeParse = d3.timeParse("%Y-%m-%d"),
                 colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([-15,15]), //-15 to avoid lightest colors
                 svg;
             
             
-            function selectTopic(_d, _i) {
+            function showTopicKeywords(_d, _i) {
                 var topics = MasterData.topics['topic' + _i];
                 var sizeFont = d3.scaleLinear()
                     .domain(
@@ -79,21 +87,13 @@ angular.module('360givingApp')
                     .text(function(d) {
                         return d[0];
                     });
-                /*d3.select(this)
-                    .transition(t)
-                    .attr('transform', 'translate(0,-50)');
-                paths
-                    .filter(function(d,i) {
-                        return _i != i;
-                    })
-                    .transition(t)
-                    .style('opacity', '0');*/
-                
             }
     
+
+
+
             function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
-                var data = [],
-                    o,
+                var o,
                     csvdata = documentWeight, //take one file as first
                     keys = _.filter(
                     _.keys(_.first(csvdata)),
@@ -116,8 +116,7 @@ angular.module('360givingApp')
                     return (new Date(d['index'])).getFullYear() >= 2004;
                 })*/
             
-
-                var stack = d3.stack()
+                stack = d3.stack()
                     .keys(
                     _.filter(
                         _.keys(_.first(data)), 
@@ -131,7 +130,7 @@ angular.module('360givingApp')
                     //.order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle)
                     //.offset(d3.stackOffsetSilhouette);
 
-                var series = stack(data);
+                series = stack(data);
 
                 x = d3.scaleTime()
                     .domain(d3.extent(data, function(d) { 
@@ -140,7 +139,7 @@ angular.module('360givingApp')
                     .range([0, width]);
 
                 // setup axis
-                var xAxis = d3.axisBottom(x);
+                xAxis = d3.axisBottom(x);
 
                 y = d3.scaleLinear()
                     .domain([
@@ -149,9 +148,9 @@ angular.module('360givingApp')
                     ])
                     .range([height, 0]);
 
-                var area = d3.area()
+                area = d3.area()
                     .x(function(d) { 
-                    return x(d.data.index); 
+                        return x(d.data.index); 
                     })
                     .y0(function(d) { return y(d[0]); })
                     .y1(function(d) { return y(d[1]); })
@@ -171,9 +170,7 @@ angular.module('360givingApp')
                     .style("fill", function(d, i) { 
                         return colorScale(i);
                     })
-                    .on('click', function() {
-                        
-                    })
+                    .on('click', selectTopic)
                     .on('mouseover', function(d, i) {
                         d3.select(this)
                             .attr('_fill', d3.select(this).style('fill'));
@@ -185,7 +182,7 @@ angular.module('360givingApp')
                         d3.select(element[0]).select("svg").call(texture);
                         
                         d3.select(this).style('fill', texture.url());
-                        selectTopic(d, i);
+                        showTopicKeywords(d, i);
                     })
                     .on('mouseout', function() {
                         d3.select(this)
@@ -266,9 +263,47 @@ angular.module('360givingApp')
 
 
 
+
+        function selectTopic(d, i) {
+            
+            paths.filter(function(_d, _i) {
+                return _i != i;
+            })
+            .transition()
+            .duration(1000)
+            .style('opacity', '0');
+
+            stack.offset(d3.stackOffsetNone);
+
+            // create series but only with the 
+            // selected topic
+            series = stack(
+                _.map(data, function(o) {
+                    return _.pick(o, ['index', 'topic' + i]);
+                })
+            );
+            
+            y.domain([
+                d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
+                d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
+            ])
+            .range([height, height/3]);
+        
+
+            d3.select(element[0]).select("svg")
+                .selectAll("path")
+                .data(series)
+                    .transition(t)
+                    .attr('d', area);
+        }
+
+
+
         function init() {
             height = d3.select(element[0]).select('div.streamgraph').node().offsetHeight - margin.top - margin.bottom;
             width = d3.select(element[0]).select('div.streamgraph').node().offsetWidth - margin.left - margin.right;
+            d3.select('div.streamgraph .topic-words-placeholder')
+                .style('margin-left', margin.left + 'px');
             scope.addCurrentDateLine();
             scope.createStreamGraph();
         }
