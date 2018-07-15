@@ -32,6 +32,15 @@ angular.module('360givingApp')
             var topicId = topic_keywords.config.url.substring(
               url.indexOf('topic'), url.indexOf('_keywords')
             )
+            // replace some predefined string n-grams
+            for(var i=0; i<topic_keywords.data.topic_words.length; i++) {
+              topic_keywords.data.topic_words[i] = _.replace(
+                topic_keywords.data.topic_words[i], 
+                new RegExp(response.data.ngram_join_string, 'g'),
+                '-'
+              );
+            }
+
             // zip topic terms and its weights
             MasterData.topics[topicId] = _.zip(
               topic_keywords.data.topic_words,

@@ -35,28 +35,22 @@
         "from": {"data": "table"},
         "encode": {
           "enter": {
-            "text": {"field": "k"},
+            "text": {"field": "text"},
             "align": {"value": "center"},
             "baseline": {"value": "alphabetic"},
-            "fill": {"scale": "color", "field": "w"}
-          },
-          "update": {
+            "fill": {"scale": "color", "field": "count"},
             "fillOpacity": {"value": 1}
-          },
-          "hover": {
-            "fillOpacity": {"value": 0.5}
           }
         },
         "transform": [
           {
             "type": "wordcloud",
-            "size": [{"signal": "width"}, {"signal": "height"}],
-            "text": {"field": "k"},
-            "rotate": {"field": "datum.angle"},
-            "fontSize": {"field": "datum.w"},
+            "size": null,
+            "text": {"field": "text"},
+            "fontSize": {"field": "datum.count"},
             "fontWeight": {"field": "datum.weight"},
             "fontSizeRange": [12, 56],
-            "padding": 2
+            "padding": 5
           }
         ]
       }
