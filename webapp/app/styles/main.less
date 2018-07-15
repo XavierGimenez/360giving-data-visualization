@@ -1,7 +1,7 @@
 @font-family-header: 'Playfair Display', serif;
 @font-family-body: 'Lato', sans-serif;
 @color-grey : rgba(66, 66, 66, 1);
-
+@text-shadow-keyword: #ccc;
 
 body, a {
     background: #ddd;
@@ -88,6 +88,16 @@ streamgraph {
         }
 
         svg {
+            .x.axis {
+                path {
+                    stroke: none;
+                }
+                .tick {
+                    line {
+                        stroke-width: 3px;
+                    }
+                }
+            }
             path {
                 &:hover {
                     cursor: pointer;
@@ -111,7 +121,6 @@ streamgraph {
 
 keywords {
     display: block;
-    height: 60rem;
     width: 100%;
     > div {
         display: block;
@@ -120,6 +129,7 @@ keywords {
     }
     g.mark-text text {
         font-family: @font-family-header !important;
+        text-shadow: 1px 1px 0 @text-shadow-keyword, 1px -1px 0 @text-shadow-keyword, -1px 1px 0 @text-shadow-keyword, -1px -1px 0 @text-shadow-keyword;
     }
 }
 

@@ -35,9 +35,7 @@ angular.module('360givingApp')
             getQuarter = function(d) {
                 return d.getFullYear() + ' Q' + (Math.floor(d.getMonth() / 3) + 1);
             },
-            texture = textures.lines()
-                .orientation("3/8")
-                .stroke("darkorange");
+            texture;
                 
             
         scope.createStreamGraph     = createStreamGraph;
@@ -165,8 +163,6 @@ angular.module('360givingApp')
                     .append('g')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
                 
-                d3.select(element[0]).select("svg").call(texture);
-
                 paths = svg.selectAll("path")
                     .data(series)
                     .enter().append("path")                    
@@ -176,19 +172,24 @@ angular.module('360givingApp')
                         return colorScale(i);
                     })
                     .on('click', function() {
-                        d3.select(this)
-                            .style('fill', texture.url());
+                        
                     })
                     .on('mouseover', function(d, i) {
+                        d3.select(this)
+                            .attr('_fill', d3.select(this).style('fill'));
+
+                        texture = textures.lines()
+                            .stroke(d3.select(this).style('fill'))
+                            .size(4)
+                            .strokeWidth(1);
+                        d3.select(element[0]).select("svg").call(texture);
+                        
+                        d3.select(this).style('fill', texture.url());
                         selectTopic(d, i);
-                        d3.selectAll('path.topic')
-                            .filter(function(_d, _i) {
-                                return _i != i;
-                            })
-                            .style('opacity', .2);                        
                     })
                     .on('mouseout', function() {
-                        d3.selectAll('path.topic').style('opacity', 1);
+                        d3.select(this)
+                            .style('fill', d3.select(this).attr('_fill'));
                     })
                     .on('mousemove', function() {
                     });
