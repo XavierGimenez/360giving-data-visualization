@@ -7,7 +7,7 @@
  * # streamgraph.js
  */
 angular.module('360givingApp')
-  .directive('streamgraph', function (TooltipService, MasterData) {
+  .directive('streamgraph', function ($timeout, TooltipService, MasterData) {
     return {
         template: '<div class="streamgraph">' +
                     '<div class="topic-words-placeholder"></div>' +
@@ -36,11 +36,13 @@ angular.module('360givingApp')
             },
             t = d3.transition()
                 .duration(750)
+                .delay(500)
                 .ease(d3.easeLinear),
             getQuarter = function(d) {
                 return d.getFullYear() + ' Q' + (Math.floor(d.getMonth() / 3) + 1);
             },
-            texture;
+            texture,
+            topicKeys;
                 
             
         scope.createStreamGraph     = createStreamGraph;
@@ -56,42 +58,41 @@ angular.module('360givingApp')
 
 
 
+        function showTopicKeywords(_d, _i) {
+            var topics = MasterData.topics['topic' + _i];
+            var sizeFont = d3.scaleLinear()
+                .domain(
+                    d3.extent(topics, function(d) {
+                        return d[1];
+                    })
+                )
+                .range([10, 40]);
+            
+            d3.select('div.streamgraph .topic-words-placeholder')
+                .selectAll('a')
+                .remove();
+
+            d3.select('div.streamgraph .topic-words-placeholder')
+                .selectAll('a')
+                .data(topics)
+                .enter().append('a')
+                .attr('class', 'topic-word')
+                .style('font-size', function(d) {
+                    return sizeFont(d[1]) + 'px';
+                })
+                .text(function(d) {
+                    return d[0];
+                });
+        }
+
+
+
+
         function createStreamGraph() {
             var timeParse = d3.timeParse("%Y-%m-%d"),
                 colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([-15,15]), //-15 to avoid lightest colors
                 svg;
             
-            
-            function showTopicKeywords(_d, _i) {
-                var topics = MasterData.topics['topic' + _i];
-                var sizeFont = d3.scaleLinear()
-                    .domain(
-                        d3.extent(topics, function(d) {
-                            return d[1];
-                        })
-                    )
-                    .range([10, 40]);
-                
-                d3.select('div.streamgraph .topic-words-placeholder')
-                    .selectAll('a')
-                    .remove();
-
-                d3.select('div.streamgraph .topic-words-placeholder')
-                    .selectAll('a')
-                    .data(topics)
-                    .enter().append('a')
-                    .attr('class', 'topic-word')
-                    .style('font-size', function(d) {
-                        return sizeFont(d[1]) + 'px';
-                    })
-                    .text(function(d) {
-                        return d[0];
-                    });
-            }
-    
-
-
-
             function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
                 var o,
                     csvdata = documentWeight, //take one file as first
@@ -102,7 +103,7 @@ angular.module('360givingApp')
                     });
                 
                 keys.push('index');
-
+                
                 csvdata.forEach(function(d) {
                     o = _.pick(d, keys);
                     _.forIn(o, function(value, key) {
@@ -115,15 +116,20 @@ angular.module('360givingApp')
                 /*data = _.filter(data, function(d) {
                     return (new Date(d['index'])).getFullYear() >= 2004;
                 })*/
-            
-                stack = d3.stack()
-                    .keys(
-                    _.filter(
-                        _.keys(_.first(data)), 
-                        function(key) { 
+                
+                // get keys of the data: the keys for the series
+                // we will use it to reorder them by placing the
+                // selected serie as the first one, so that serie
+                // is aligned to the baseline 0 when changing the
+                // order of the stack to 'stackOrderNone'
+                topicKeys = _.filter(
+                    _.keys(_.first(data)), 
+                    function(key) { 
                         return key.indexOf("topic") != -1; 
-                        })
-                    )            
+                    });
+
+                stack = d3.stack()
+                    .keys(topicKeys)
                     // this combination of order and offset
                     // seems the more legible
                     .order(d3.stackOrderDescending).offset(d3.stackOffsetSilhouette);
@@ -163,7 +169,9 @@ angular.module('360givingApp')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
                 
                 paths = svg.selectAll("path")
-                    .data(series)
+                    .data(series, function(serie) {
+                        return serie.key;
+                    })
                     .enter().append("path")                    
                     .attr("d", area)
                     .attr('class', 'topic')
@@ -265,23 +273,24 @@ angular.module('360givingApp')
 
 
         function selectTopic(d, i) {
-            
-            paths.filter(function(_d, _i) {
-                return _i != i;
-            })
-            .transition()
-            .duration(1000)
-            .style('opacity', '0');
-
-            stack.offset(d3.stackOffsetNone);
-
-            // create series but only with the 
-            // selected topic
-            series = stack(
-                _.map(data, function(o) {
-                    return _.pick(o, ['index', 'topic' + i]);
-                })
+            // move the clicked serie to the first
+            // position and redo stack
+            var newTopicKeys = _.clone(topicKeys);
+            newTopicKeys.unshift(
+                _.first(
+                    newTopicKeys.splice(newTopicKeys.indexOf(d.key), 1)
+                )
             );
+            stack = d3.stack()
+                .keys(newTopicKeys)
+                .offset(d3.stackOrderInsideOut);
+
+            // recreate series with the new offset
+            // and the clicked serie moved as the 
+            // first one (so it will align to the 
+            // zero baseline)
+            series = stack(data);
+            series = [_.first(series)];
             
             y.domain([
                 d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
@@ -289,12 +298,24 @@ angular.module('360givingApp')
             ])
             .range([height, height/3]);
         
-
-            d3.select(element[0]).select("svg")
+            var path = d3.select(element[0]).select("svg")
                 .selectAll("path")
-                .data(series)
-                    .transition(t)
-                    .attr('d', area);
+                .data(series, function(serie) {
+                    return serie?   serie.key : null;
+                });            
+            
+            // mantain the rollover efect on the 
+            // clicked serie and align to zero
+            path
+                .attr('class', 'selected')
+                .on('mouseover', null)
+                .on('mouseout', null)
+                .transition(t)
+                .attr('d', area);
+            
+            // this breaks the pattern fill
+            // of path update selection ¿?
+            path.exit().remove();
         }
 
 
