@@ -24,8 +24,12 @@
     "scales": [
       {
         "name": "color",
-        "type": "ordinal",
-        "range": ["#333333", "#555555"]
+        "type": "linear",
+        "domain": {
+          "data" : "table",
+          "field" : "count"
+        },
+        "range": ["rgb(123, 203, 196)", "rgb(8, 75, 140)"]
       }
     ],
   
@@ -49,7 +53,7 @@
             "text": {"field": "text"},
             "fontSize": {"field": "datum.count"},
             "fontWeight": {"field": "datum.weight"},
-            "fontSizeRange": [12, 56],
+            "fontSizeRange": [12, 80],
             "padding": 5
           }
         ]
