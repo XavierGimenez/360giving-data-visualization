@@ -10,7 +10,7 @@ angular.module('360givingApp')
   .directive('streamgraph', function (TooltipService, MasterData) {
     return {
         template: '<div class="streamgraph">' +
-                    '<div class="btn-group">' +
+                    '<div class="property-selector btn-group">' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'amountAwarded\'">Amount Awarded</label>' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'documentWeight\'">Weight</label>' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'identifier\'">Nº of grants</label>' +
@@ -393,7 +393,7 @@ angular.module('360givingApp')
                 .transition()
                 .duration(750)
                 .style('top', function() {
-                    return (window.innerHeight - d3.select(this).node().offsetHeight) + 'px';
+                    return (window.innerHeight - d3.select(this).node().offsetHeight - margin.bottom) + 'px';
                 });
         }
 
