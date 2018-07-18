@@ -1,11 +1,12 @@
 @font-family-header: 'Playfair Display', serif;
 @font-family-body: 'Lato', sans-serif;
 @color-grey : rgba(66, 66, 66, 1);
-@text-shadow-keyword: #ccc;
+@color-section-title: #333;
 
 body, a {
     background: #ddd;
     color: #333;
+    font-family: @font-family-body;
 }
 a {
     font-weight: bold;
@@ -47,9 +48,12 @@ header {
             padding-bottom: 3rem;
         }
 }
+
+
 .intro  {
+    background-color: #ccc;
+    padding: 4em .75em 0 .75em;
     p.narrative {
-        color: #000;
         font-size: 1.5rem;
         max-width: 60rem;
         margin: 0 auto;
@@ -58,6 +62,18 @@ header {
     }
 }
 
+section {
+    font-family: @font-family-header;
+    padding: 4em .75em 6em .75em;
+    text-align: center;
+    color: @color-section-title;
+    p.headline {
+        border-bottom: 1px solid @color-section-title;
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+}
 
 streamgraph {
     height: 100vh;
@@ -68,8 +84,21 @@ streamgraph {
         height: 100vh;
         position: relative;
         width: 100%;
-        
+        .description {
+            line-height: 2em;
+            position: absolute;
+            width: 300px;
+            span {
+                background-color: rgb(123, 203, 196);
+                border-radius: 2px;
+                cursor: pointer;
+                font-weight: 500;
+                padding: 0.2em;
+                transition: background-color .3s;
+            }
+        }
         .topic-words-placeholder {
+            top: 175px;
             position: absolute; // relative to parent
             width: 300px;
             >  .topic-word {
@@ -94,7 +123,7 @@ streamgraph {
                 }
                 .tick {
                     line {
-                        stroke-width: 3px;
+                        stroke-width: 0;
                     }
                 }
             }
@@ -109,6 +138,10 @@ streamgraph {
             line.current-date {
                 stroke-dasharray: 2,2;
                 opacity: 0.3;
+            }
+            line.grid-line {
+                stroke: #a0a0a0;
+                stroke-dasharray: 1,7;
             }
             text.current-date {
                 font-family: sans-serif;
@@ -130,7 +163,6 @@ keywords {
     }
     g.mark-text text {
         font-family: @font-family-header !important;
-        text-shadow: 1px 1px 0 @text-shadow-keyword, 1px -1px 0 @text-shadow-keyword, -1px 1px 0 @text-shadow-keyword, -1px -1px 0 @text-shadow-keyword;
     }
 }
 

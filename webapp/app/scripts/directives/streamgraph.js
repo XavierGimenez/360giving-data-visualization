@@ -7,9 +7,21 @@
  * # streamgraph.js
  */
 angular.module('360givingApp')
-  .directive('streamgraph', function ($timeout, TooltipService, MasterData) {
+  .directive('streamgraph', function (TooltipService, MasterData) {
     return {
         template: '<div class="streamgraph">' +
+                    '<div class="btn-group">' +
+                        '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'amountAwarded\'">Amount Awarded</label>' +
+                        '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'documentWeight\'">Weight</label>' +
+                        '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'identifier\'">Nº of grants</label>' +
+                    '</div>' + 
+                    '<div class="description">' + 
+                        '<p>' + 
+                            'Themes emerged from the topic analysis and its change over time. Each colored band is a theme. ' + 
+                            '<span>Mouseover</span> a theme to display the terms that describe it, and ' +
+                            '<span>click it</span> to see the top contributors to that theme' + 
+                        '</p>' + 
+                    '</div>' + 
                     '<div class="topic-words-placeholder"></div>' +
                     '<svg></svg>' +
                   '</div>',
@@ -34,17 +46,19 @@ angular.module('360givingApp')
                 bottom: 50, 
                 left: 20
             },
-            t = d3.transition()
-                .duration(750)
-                .delay(500)
-                .ease(d3.easeLinear),
             getQuarter = function(d) {
                 return d.getFullYear() + ' Q' + (Math.floor(d.getMonth() / 3) + 1);
             },
             texture,
-            topicKeys;
+            topicKeys,
+            gridLines;
                 
+        
+        scope.radioModel            = 'documentWeight';
+        scope.$watch('radioModel', function() {
             
+        });
+        scope.datasets              = {};
         scope.createStreamGraph     = createStreamGraph;
         scope.addCurrentDateLine    = addCurrentDateLine;
         scope.selectTopic           = selectTopic;
@@ -94,8 +108,12 @@ angular.module('360givingApp')
                 svg;
             
             function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
+                scope.datasets['amountAwarded']  = amountAwarded;
+                scope.datasets['documentWeight'] = documentWeight;
+                scope.datasets['identifier']     = identifier;
+
                 var o,
-                    csvdata = documentWeight, //take one file as first
+                    csvdata = scope.datasets[scope.radioModel], //take one file as first
                     keys = _.filter(
                     _.keys(_.first(csvdata)),
                     function(key) { 
@@ -147,6 +165,7 @@ angular.module('360givingApp')
                 // setup axis
                 xAxis = d3.axisBottom(x);
 
+                
                 y = d3.scaleLinear()
                     .domain([
                         d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
@@ -168,6 +187,30 @@ angular.module('360givingApp')
                     .append('g')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
                 
+                gridLines = svg
+                    .selectAll('.grid-line')
+                    .data(_.map(
+                            _.range(
+                                x.domain()[0].getFullYear()-1,
+                                x.domain()[1].getFullYear() + 1,
+                                2
+                            ),
+                            function(year) {
+                                return new Date(year, 0, 1);
+                            }
+                        )
+                    )
+                    .enter().append('line')
+                    .attr('class', 'grid-line')
+                    .attr('x1', function(d) {
+                        return x(d);
+                    })
+                    .attr('x2', function(d) {
+                        return x(d);
+                    })
+                    .attr('y1', height)
+                    .attr('y2', 0);
+
                 paths = svg.selectAll("path")
                     .data(series, function(serie) {
                         return serie.key;
@@ -296,26 +339,43 @@ angular.module('360givingApp')
                 d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
                 d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
             ])
-            .range([height, height/3]);
+            .range([height, height-200]);
         
             var path = d3.select(element[0]).select("svg")
                 .selectAll("path")
                 .data(series, function(serie) {
                     return serie?   serie.key : null;
-                });            
-            
+                })
+                .attr('class', 'topic');
+
             // mantain the rollover efect on the 
             // clicked serie and align to zero
             path
                 .attr('class', 'selected')
                 .on('mouseover', null)
                 .on('mouseout', null)
-                .transition(t)
+                .transition()
+                .duration(750)
+                .delay(200)
                 .attr('d', area);
             
-            // this breaks the pattern fill
-            // of path update selection ¿?
-            path.exit().remove();
+            // removing or modifying the path.exit()
+            // update the pattern within the <def>, 
+            // setting it as an empty <pattern> tag ¿?
+            //path.exit().style('display', 'none');
+            d3.select(element[0])
+                .select("svg")
+                .selectAll("path.topic:not(.selected)")
+                .style('display', 'none');
+            
+            // move keywords
+            d3.select(element[0])
+                .select('.topic-words-placeholder')
+                .transition()
+                .duration(750)
+                .style('top', function() {
+                    return (window.innerHeight - d3.select(this).node().offsetHeight) + 'px';
+                });
         }
 
 
@@ -324,6 +384,8 @@ angular.module('360givingApp')
             height = d3.select(element[0]).select('div.streamgraph').node().offsetHeight - margin.top - margin.bottom;
             width = d3.select(element[0]).select('div.streamgraph').node().offsetWidth - margin.left - margin.right;
             d3.select('div.streamgraph .topic-words-placeholder')
+                .style('margin-left', margin.left + 'px');
+            d3.select('div.streamgraph .description')
                 .style('margin-left', margin.left + 'px');
             scope.addCurrentDateLine();
             scope.createStreamGraph();
