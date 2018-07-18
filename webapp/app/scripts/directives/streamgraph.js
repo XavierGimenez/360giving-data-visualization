@@ -51,15 +51,21 @@ angular.module('360givingApp')
             },
             texture,
             topicKeys,
-            gridLines;
+            gridLines,
+            timeParse = d3.timeParse("%Y-%m-%d"),
+            colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([-15,15]), //-15 to avoid lightest colors
+            svg;
                 
         
         scope.radioModel            = 'documentWeight';
-        scope.$watch('radioModel', function() {
-            
+        scope.$watch('radioModel', function(newValue, oldValue) {
+            console.log(newValue, oldValue);
+            if(newValue != oldValue && newValue)
+                scope.updateStreamGraph();
         });
         scope.datasets              = {};
-        scope.createStreamGraph     = createStreamGraph;
+        scope.makeStreamGraph       = makeStreamGraph;
+        scope.updateStreamGraph     = updateStreamGraph;
         scope.addCurrentDateLine    = addCurrentDateLine;
         scope.selectTopic           = selectTopic;
         scope.init = init;
@@ -102,158 +108,171 @@ angular.module('360givingApp')
 
 
 
-        function createStreamGraph() {
-            var timeParse = d3.timeParse("%Y-%m-%d"),
-                colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([-15,15]), //-15 to avoid lightest colors
-                svg;
+
+        function updateStreamGraph() {
+            data    = scope.datasets[scope.radioModel];
+            series  = stack(data);
             
-            function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
-                scope.datasets['amountAwarded']  = amountAwarded;
-                scope.datasets['documentWeight'] = documentWeight;
-                scope.datasets['identifier']     = identifier;
-
-                var o,
-                    csvdata = scope.datasets[scope.radioModel], //take one file as first
-                    keys = _.filter(
-                    _.keys(_.first(csvdata)),
-                    function(key) { 
-                        return key.indexOf("topic") != -1; 
-                    });
+            setScales();
                 
-                keys.push('index');
-                
-                csvdata.forEach(function(d) {
-                    o = _.pick(d, keys);
-                    _.forIn(o, function(value, key) {
-                        o[key] = (key == 'index')? timeParse(o[key]) : parseFloat(o[key]);
-                    });
-                    data.push(o);
-                });
-                
-                // filter first years?
-                /*data = _.filter(data, function(d) {
-                    return (new Date(d['index'])).getFullYear() >= 2004;
-                })*/
-                
-                // get keys of the data: the keys for the series
-                // we will use it to reorder them by placing the
-                // selected serie as the first one, so that serie
-                // is aligned to the baseline 0 when changing the
-                // order of the stack to 'stackOrderNone'
-                topicKeys = _.filter(
-                    _.keys(_.first(data)), 
-                    function(key) { 
-                        return key.indexOf("topic") != -1; 
-                    });
+            paths = svg.selectAll("path")
+                .data(series, function(serie) {
+                    return serie?   serie.key : null;
+                })
+                .transition()
+                .duration(750)
+                .attr("d", area)
+        }
 
-                stack = d3.stack()
-                    .keys(topicKeys)
-                    // this combination of order and offset
-                    // seems the more legible
-                    .order(d3.stackOrderDescending).offset(d3.stackOffsetSilhouette);
-                    //.order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle)
-                    //.offset(d3.stackOffsetSilhouette);
 
-                series = stack(data);
 
-                x = d3.scaleTime()
-                    .domain(d3.extent(data, function(d) { 
+
+
+        function setScales() {
+            x = d3.scaleTime()
+                .domain(d3.extent(data, function(d) { 
                     return d.index; 
-                    }))
-                    .range([0, width]);
+                }))
+                .range([0, width]);
 
-                // setup axis
-                xAxis = d3.axisBottom(x);
+            y = d3.scaleLinear()
+                .domain([
+                    d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
+                    d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
+                ])
+                .range([height, 0]);
+        }
 
-                
-                y = d3.scaleLinear()
-                    .domain([
-                        d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
-                        d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
-                    ])
-                    .range([height, 0]);
 
-                area = d3.area()
-                    .x(function(d) { 
-                        return x(d.data.index); 
-                    })
-                    .y0(function(d) { return y(d[0]); })
-                    .y1(function(d) { return y(d[1]); })
-                    .curve(d3.curveBasis);
 
-                svg = d3.select(element[0]).select("svg")
-                    .attr('width', width + margin.left + margin.right)
-                    .attr('height', height + margin.top + margin.bottom)
-                    .append('g')
-                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-                
-                gridLines = svg
-                    .selectAll('.grid-line')
-                    .data(_.map(
-                            _.range(
-                                x.domain()[0].getFullYear()-1,
-                                x.domain()[1].getFullYear() + 1,
-                                2
-                            ),
-                            function(year) {
-                                return new Date(year, 0, 1);
-                            }
-                        )
-                    )
-                    .enter().append('line')
-                    .attr('class', 'grid-line')
-                    .attr('x1', function(d) {
-                        return x(d);
-                    })
-                    .attr('x2', function(d) {
-                        return x(d);
-                    })
-                    .attr('y1', height)
-                    .attr('y2', 0);
 
-                paths = svg.selectAll("path")
-                    .data(series, function(serie) {
-                        return serie.key;
-                    })
-                    .enter().append("path")                    
-                    .attr("d", area)
-                    .attr('class', 'topic')
-                    .style("fill", function(d, i) { 
-                        return colorScale(i);
-                    })
-                    .on('click', selectTopic)
-                    .on('mouseover', function(d, i) {
-                        d3.select(this)
-                            .attr('_fill', d3.select(this).style('fill'));
-
-                        texture = textures.lines()
-                            .stroke(d3.select(this).style('fill'))
-                            .size(4)
-                            .strokeWidth(1);
-                        d3.select(element[0]).select("svg").call(texture);
-                        
-                        d3.select(this).style('fill', texture.url());
-                        showTopicKeywords(d, i);
-                    })
-                    .on('mouseout', function() {
-                        d3.select(this)
-                            .style('fill', d3.select(this).attr('_fill'));
-                    })
-                    .on('mousemove', function() {
+        function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
+            var o,
+                keys = _.filter(
+                    _.keys(_.first(amountAwarded)),
+                    function(key) { 
+                        return key.indexOf("topic") != -1; 
                     });
+                keys.push('index');
 
-                svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0, " + height + ")")
-                    .call(xAxis);  
-            };
+            // keep and parse data from all datasets
+            scope.datasets['amountAwarded']  = amountAwarded;
+            scope.datasets['documentWeight'] = documentWeight;
+            scope.datasets['identifier']     = identifier;
 
-            // load files
-            queue()
-                .defer(d3.csv, 'data/topics_timeseries_per_Amount_Awarded.csv')
-                .defer(d3.csv, 'data/topics_timeseries_per_DocumentWeight.csv')
-                .defer(d3.csv, 'data/topics_timeseries_per_Identifier.csv')
-                .await(makeStreamGraph);
+            _.keys(scope.datasets)
+                .forEach(function(datasetKey) {
+                    scope.datasets[datasetKey] = _.map(
+                        scope.datasets[datasetKey],
+                        function(d) {
+                            o = _.pick(d, keys);
+                            _.forIn(o, function(value, key) {
+                                o[key] = (key == 'index')? timeParse(o[key]) : parseFloat(o[key]);    
+                            });
+                            return o;
+                        });
+            });
+
+            data = scope.datasets[scope.radioModel];
+
+            // get keys of the data: the keys for the series
+            // we will use it to reorder them by placing the
+            // selected serie as the first one, so that serie
+            // is aligned to the baseline 0 when changing the
+            // order of the stack to 'stackOrderNone'
+            topicKeys = _.filter(
+                _.keys(_.first(data)), 
+                function(key) { 
+                    return key.indexOf("topic") != -1; 
+                });
+
+            stack = d3.stack()
+                .keys(topicKeys)
+                // this combination of order and offset
+                // seems the more legible
+                .order(d3.stackOrderDescending).offset(d3.stackOffsetSilhouette);
+                //.order(d3.stackOrderInsideOut).offset(d3.stackOffsetWiggle)
+                //.offset(d3.stackOffsetSilhouette);
+
+            series = stack(data);
+
+            // setup scales and axis
+            setScales();
+            xAxis = d3.axisBottom(x);
+
+            area = d3.area()
+                .x(function(d) { 
+                    return x(d.data.index); 
+                })
+                .y0(function(d) { return y(d[0]); })
+                .y1(function(d) { return y(d[1]); })
+                .curve(d3.curveBasis);
+
+            svg = d3.select(element[0]).select("svg")
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            
+            gridLines = svg
+                .selectAll('.grid-line')
+                .data(_.map(
+                        _.range(
+                            x.domain()[0].getFullYear()-1,
+                            x.domain()[1].getFullYear() + 1,
+                            2
+                        ),
+                        function(year) {
+                            return new Date(year, 0, 1);
+                        }
+                    )
+                )
+                .enter().append('line')
+                .attr('class', 'grid-line')
+                .attr('x1', function(d) {
+                    return x(d);
+                })
+                .attr('x2', function(d) {
+                    return x(d);
+                })
+                .attr('y1', height)
+                .attr('y2', 0);
+
+            paths = svg.selectAll("path")
+                .data(series, function(serie) {
+                    return serie.key;
+                })
+                .enter().append("path")                    
+                .attr("d", area)
+                .attr('class', 'topic')
+                .style("fill", function(d, i) { 
+                    return colorScale(i);
+                })
+                .on('click', selectTopic)
+                .on('mouseover', function(d, i) {
+                    d3.select(this)
+                        .attr('_fill', d3.select(this).style('fill'));
+
+                    texture = textures.lines()
+                        .stroke(d3.select(this).style('fill'))
+                        .size(4)
+                        .strokeWidth(1);
+                    d3.select(element[0]).select("svg").call(texture);
+                    
+                    d3.select(this).style('fill', texture.url());
+                    showTopicKeywords(d, i);
+                })
+                .on('mouseout', function() {
+                    d3.select(this)
+                        .style('fill', d3.select(this).attr('_fill'));
+                })
+                .on('mousemove', function() {
+                });
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0, " + height + ")")
+                .call(xAxis);  
         };
 
 
@@ -381,14 +400,23 @@ angular.module('360givingApp')
 
 
         function init() {
+
+            // size the layout
             height = d3.select(element[0]).select('div.streamgraph').node().offsetHeight - margin.top - margin.bottom;
             width = d3.select(element[0]).select('div.streamgraph').node().offsetWidth - margin.left - margin.right;
             d3.select('div.streamgraph .topic-words-placeholder')
                 .style('margin-left', margin.left + 'px');
             d3.select('div.streamgraph .description')
                 .style('margin-left', margin.left + 'px');
-            scope.addCurrentDateLine();
-            scope.createStreamGraph();
+
+                scope.addCurrentDateLine();
+
+            // load files
+            queue()
+                .defer(d3.csv, 'data/topics_timeseries_per_Amount_Awarded.csv')
+                .defer(d3.csv, 'data/topics_timeseries_per_DocumentWeight.csv')
+                .defer(d3.csv, 'data/topics_timeseries_per_Identifier.csv')
+                .await(makeStreamGraph);
         }
       }
     }
