@@ -54,7 +54,10 @@ angular.module('360givingApp')
             gridLines,
             timeParse = d3.timeParse("%Y-%m-%d"),
             colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([-15,15]), //-15 to avoid lightest colors
-            svg;
+            svg,
+            bisectDate = d3.bisector(function(d) { 
+                return d.index; 
+            }).left;
                 
         
         scope.radioModel            = 'documentWeight';
@@ -79,7 +82,7 @@ angular.module('360givingApp')
 
 
         function showTopicKeywords(_d, _i) {
-            var topics = MasterData.topics['topic' + _i];
+            var topics = MasterData.topics[_d.key];
             var sizeFont = d3.scaleLinear()
                 .domain(
                     d3.extent(topics, function(d) {
@@ -148,6 +151,7 @@ angular.module('360givingApp')
 
         function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
             var o,
+                mousex,
                 keys = _.filter(
                     _.keys(_.first(amountAwarded)),
                     function(key) { 
@@ -248,7 +252,10 @@ angular.module('360givingApp')
                 .style("fill", function(d, i) { 
                     return colorScale(i);
                 })
-                .on('click', selectTopic)
+                .on('click', function(d, i) {
+                    TooltipService.hide();
+                    selectTopic(d, i)
+                })
                 .on('mouseover', function(d, i) {
                     d3.select(this)
                         .attr('_fill', d3.select(this).style('fill'));
@@ -263,16 +270,42 @@ angular.module('360givingApp')
                     showTopicKeywords(d, i);
                 })
                 .on('mouseout', function() {
+                    TooltipService.hide();
                     d3.select(this)
                         .style('fill', d3.select(this).attr('_fill'));
                 })
-                .on('mousemove', function() {
+                .on('mousemove', function(d, i) {
+                    mousex = d3.mouse(this)[0];
+                            // get value for selected property
+                    // and current date time
+                    var value = _.get(
+                        _.nth(
+                            scope.datasets[scope.radioModel],
+                            bisectDate(scope.datasets[scope.radioModel], x.invert(mousex))
+                        ),
+                        d.key
+                    );
+
+                    TooltipService.show(
+                        getQuarter(x.invert(mousex)),
+                        '',
+                        [
+                            { 
+                                'key' : scope.radioModel == 'amountAwarded' ? 'Amount awarded' : 
+                                        scope.radioModel == 'documentWeight' ? 'Accumulated Relatedness' : 'Nº of grants', 
+                                'value' : scope.radioModel == 'amountAwarded' ? '£' + d3.format(",.0f")(value) : 
+                                          scope.radioModel == 'documentWeight' ? d3.format(",.2f")(value) : value, 
+                            }
+                        ]
+                    );
                 });
 
             svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0, " + height + ")")
                 .call(xAxis);  
+            
+                scope.addCurrentDateLine();
         };
 
 
@@ -302,19 +335,11 @@ angular.module('360givingApp')
                         .text(
                             getQuarter(x.invert(mousex))
                         );
-                    TooltipService.show(
-                        'whatever',
-                        'so',
-                        [
-                            { 'key' : 'Percentatge' , 'value' : 23 }
-                        ]
-                    );
                 },
                 removeLine = function() {
                     var svg = d3.select(element[0]).select("svg")
                     svg.select('line.current-date').style('display', 'none');
                     svg.select('text.current-date').style('display', 'none');
-                    TooltipService.hide();
                 };
 
             vertical = d3.select(element[0]).select("svg")
@@ -323,12 +348,7 @@ angular.module('360givingApp')
             
             currentQuarterText = d3.select(element[0]).select('svg')
                 .append('text')
-                .attr('class', 'current-date');;
-            
-            d3.select(element[0]).select('div.streamgraph')
-                .on("mousemove", moveLine)
-                .on("mouseover", moveLine)
-                .on('mouseout', removeLine);
+                .attr('class', 'current-date');
         };
 
 
@@ -372,7 +392,7 @@ angular.module('360givingApp')
             path
                 .attr('class', 'selected')
                 .on('mouseover', null)
-                .on('mouseout', null)
+                .on('mouseout', TooltipService.hide)
                 .transition()
                 .duration(750)
                 .delay(200)
@@ -408,8 +428,6 @@ angular.module('360givingApp')
                 .style('margin-left', margin.left + 'px');
             d3.select('div.streamgraph .description')
                 .style('margin-left', margin.left + 'px');
-
-                scope.addCurrentDateLine();
 
             // load files
             queue()
