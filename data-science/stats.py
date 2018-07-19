@@ -17,6 +17,8 @@ dfs = []
 aggs = []
 aggs_quarterly = []
 
+aggs_fundingOrg = []
+
 for i in range(0, config['n_components']):
     df_topic = pd.read_csv('./data-output/topic' + str(i) + '_documents.csv')
 
@@ -49,6 +51,7 @@ idx = pd.date_range(
     freq='MS'
 )
 
+
 for i in range(0, config['n_components']):
 
     df_topic = dfs[i]
@@ -60,16 +63,28 @@ for i in range(0, config['n_components']):
          'DocumentWeight': sum
          })
 
+    # agg by funding Organization
+    df_topic['Date'] = pd.to_datetime(df_topic['Date'], format='%Y-%m-%d')
+    agg_fundingOrg = df_topic.groupby(
+        ['Funding Org:Name', df_topic.Date.dt.year]).agg(
+        {'Amount Awarded': sum,
+         'Identifier': 'count',
+         'DocumentWeight': sum
+        })
+
     # re-index
     agg.index = pd.DatetimeIndex(agg.index)
     agg = agg.reindex(idx, fill_value=0)
     agg_quarterly = agg.resample('Q').sum()
 
+
     agg['Topic'] = 'topic' + str(i)
     agg_quarterly['Topic'] = 'topic' + str(i)
-
     aggs.append(agg)
     aggs_quarterly.append(agg_quarterly)
+
+    agg_fundingOrg['Topic'] = 'topic' + str(i)
+    aggs_fundingOrg.append(agg_fundingOrg)
 
     print('aggregating topic ' + str(i))
 
@@ -82,6 +97,13 @@ for i in range(0, config['n_components']):
     )
     agg.reset_index().to_csv(
         folder_data_output + 'agg_topic' + str(i) + '.csv',
+        sep=',',
+        index=False
+    )
+
+    #
+    agg_fundingOrg.reset_index().to_csv(
+        folder_data_output + 'agg_topic' + str(i) + '_fundingOrgYearly.csv',
         sep=',',
         index=False
     )
