@@ -7,7 +7,7 @@
  * # streamgraph.js
  */
 angular.module('360givingApp')
-  .directive('streamgraph', function (TooltipService, MasterData) {
+  .directive('streamgraph', function ($rootScope, TooltipService, MasterData, Events) {
     return {
         template: '<div class="streamgraph">' +
                     '<div class="property-selector btn-group">' +
@@ -414,6 +414,13 @@ angular.module('360givingApp')
                 .duration(750)
                 .style('top', function() {
                     return (window.innerHeight - d3.select(this).node().offsetHeight - margin.bottom) + 'px';
+                });
+            
+                $rootScope.$broadcast(Events.TOPIC_SELECTED, {
+                    'height'    : height,
+                    'topicId'   : d.key,
+                    'svg'       : d3.select(element[0]).select("svg"),
+                    'width'     : width
                 });
         }
 
