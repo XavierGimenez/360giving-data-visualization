@@ -57,7 +57,8 @@ angular.module('360givingApp')
             svg,
             bisectDate = d3.bisector(function(d) { 
                 return d.index; 
-            }).left;
+            }).left,
+            selectedHeightDomain = 200;
                 
         
         scope.radioModel            = 'documentWeight';
@@ -378,7 +379,7 @@ angular.module('360givingApp')
                 d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
                 d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
             ])
-            .range([height, height-200]);
+            .range([height, height-selectedHeightDomain]);
         
             var path = d3.select(element[0]).select("svg")
                 .selectAll("path")
@@ -417,10 +418,12 @@ angular.module('360givingApp')
                 });
             
                 $rootScope.$broadcast(Events.TOPIC_SELECTED, {
-                    'height'    : height,
-                    'topicId'   : d.key,
-                    'svg'       : d3.select(element[0]).select("svg"),
-                    'width'     : width
+                    'height'        : height,
+                    'topicId'       : d.key,
+                    'svg'           : d3.select(element[0]).select("svg"),
+                    'width'         : width,
+                    'margin'        : margin,
+                    'heightDomain'  : selectedHeightDomain
                 });
         }
 
