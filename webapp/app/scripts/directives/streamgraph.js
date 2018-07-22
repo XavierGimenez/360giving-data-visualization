@@ -36,13 +36,14 @@ angular.module('360givingApp')
             series,
             area,
             xAxis,
+            yAxis,
             vertical,
             currentQuarterText,
             x,
             y,
             margin = {
                 top: 20, 
-                right: 20, 
+                right: 100, 
                 bottom: 50, 
                 left: 20
             },
@@ -58,14 +59,16 @@ angular.module('360givingApp')
             bisectDate = d3.bisector(function(d) { 
                 return d.index; 
             }).left,
-            selectedHeightDomain = 200;
+            selectedHeightDomain = 200,
+            selectedTopic;
                 
         
         scope.radioModel            = 'documentWeight';
         scope.$watch('radioModel', function(newValue, oldValue) {
-            console.log(newValue, oldValue);
-            if(newValue != oldValue && newValue)
+            
+            if(newValue != oldValue && newValue) {
                 scope.updateStreamGraph();
+            }
         });
         scope.datasets              = {};
         scope.makeStreamGraph       = makeStreamGraph;
@@ -82,7 +85,15 @@ angular.module('360givingApp')
 
 
 
-        function showTopicKeywords(_d, _i) {
+        function showTopicKeywords(event, _d, _i) {
+
+            d3.select('div.streamgraph .topic-words-placeholder')
+                .selectAll('a')
+                .remove();
+
+            if(event.type == 'mouseout')
+                return;
+
             var topics = MasterData.topics[_d.key];
             var sizeFont = d3.scaleLinear()
                 .domain(
@@ -91,10 +102,6 @@ angular.module('360givingApp')
                     })
                 )
                 .range([10, 40]);
-            
-            d3.select('div.streamgraph .topic-words-placeholder')
-                .selectAll('a')
-                .remove();
 
             d3.select('div.streamgraph .topic-words-placeholder')
                 .selectAll('a')
@@ -115,8 +122,12 @@ angular.module('360givingApp')
 
         function updateStreamGraph() {
             data    = scope.datasets[scope.radioModel];
-            series  = stack(data);
             
+            if(selectedTopic)
+               setSerieAsBaseline();
+            else
+                series  = stack(data);
+
             setScales();
                 
             paths = svg.selectAll("path")
@@ -126,6 +137,14 @@ angular.module('360givingApp')
                 .transition()
                 .duration(750)
                 .attr("d", area)
+            
+            var t = d3.transition()
+                .duration(500)
+            
+            d3.select(element[0]).select("svg")
+                .select(".y")
+                .transition(t)
+                .call(yAxis)
         }
 
 
@@ -144,7 +163,20 @@ angular.module('360givingApp')
                     d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
                     d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
                 ])
-                .range([height, 0]);
+                .range(
+                    (selectedTopic)?    [height, height-selectedHeightDomain] : [height, 0]
+                );
+            
+            area = d3.area()
+                .x(function(d) { 
+                    return x(d.data.index); 
+                })
+                .y0(function(d) { return y(d[0]); })
+                .y1(function(d) { return y(d[1]); })
+                .curve(d3.curveBasis);
+
+            if(yAxis)
+                yAxis.scale(y);
         }
 
 
@@ -268,12 +300,13 @@ angular.module('360givingApp')
                     d3.select(element[0]).select("svg").call(texture);
                     
                     d3.select(this).style('fill', texture.url());
-                    showTopicKeywords(d, i);
+                    showTopicKeywords(d3.event, d, i);
                 })
                 .on('mouseout', function() {
                     TooltipService.hide();
                     d3.select(this)
                         .style('fill', d3.select(this).attr('_fill'));
+                    showTopicKeywords(d3.event);
                 })
                 .on('mousemove', function(d, i) {
                     mousex = d3.mouse(this)[0];
@@ -306,7 +339,7 @@ angular.module('360givingApp')
                 .attr("transform", "translate(0, " + height + ")")
                 .call(xAxis);  
             
-                scope.addCurrentDateLine();
+            scope.addCurrentDateLine();
         };
 
 
@@ -355,13 +388,14 @@ angular.module('360givingApp')
 
 
 
-        function selectTopic(d, i) {
+
+        function setSerieAsBaseline() {
             // move the clicked serie to the first
             // position and redo stack
             var newTopicKeys = _.clone(topicKeys);
             newTopicKeys.unshift(
                 _.first(
-                    newTopicKeys.splice(newTopicKeys.indexOf(d.key), 1)
+                    newTopicKeys.splice(newTopicKeys.indexOf(selectedTopic), 1)
                 )
             );
             stack = d3.stack()
@@ -374,6 +408,15 @@ angular.module('360givingApp')
             // zero baseline)
             series = stack(data);
             series = [_.first(series)];
+        }
+
+
+
+
+        function selectTopic(d, i) {
+            selectedTopic = d.key;
+
+            setSerieAsBaseline();
             
             y.domain([
                 d3.min(series, function(serie) { return d3.min(serie, function(d) { return d[0]; }); }),
@@ -381,6 +424,15 @@ angular.module('360givingApp')
             ])
             .range([height, height-selectedHeightDomain]);
         
+            if(yAxis == undefined) {
+                yAxis = d3.axisRight(y);
+                d3.select(element[0]).select("svg")
+                    .append('g')
+                    .attr('class', 'y axis')
+                    .attr('transform', 'translate(' + (width + margin.left) + ', ' + margin.top + ')')
+                    .call(yAxis);
+            }
+
             var path = d3.select(element[0]).select("svg")
                 .selectAll("path")
                 .data(series, function(serie) {
@@ -417,14 +469,14 @@ angular.module('360givingApp')
                     return (window.innerHeight - d3.select(this).node().offsetHeight - margin.bottom) + 'px';
                 });
             
-                $rootScope.$broadcast(Events.TOPIC_SELECTED, {
-                    'height'        : height,
-                    'topicId'       : d.key,
-                    'svg'           : d3.select(element[0]).select("svg"),
-                    'width'         : width,
-                    'margin'        : margin,
-                    'heightDomain'  : selectedHeightDomain
-                });
+            $rootScope.$broadcast(Events.TOPIC_SELECTED, {
+                'height'        : height,
+                'topicId'       : d.key,
+                'svg'           : d3.select(element[0]).select("svg"),
+                'width'         : width,
+                'margin'        : margin,
+                'heightDomain'  : selectedHeightDomain
+            });
         }
 
 

@@ -85,7 +85,7 @@ angular.module('360givingApp')
                         d3.forceSimulation(groupedData[fundingOrgName])
                             .force('x', d3.forceX(function(d) {
                                 return x(d.Date);
-                            }).strength(2))
+                            }).strength(1))
                             .force('y', d3.forceY(y(fundingOrgName)))
                             .force('collide', d3.forceCollide(4))
                             .stop()
