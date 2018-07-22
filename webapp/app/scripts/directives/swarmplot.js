@@ -20,7 +20,8 @@ angular.module('360givingApp')
                 r,
                 simulation,
                 simulations = [],
-                svg;
+                svg,
+                sizeFont;
 
             $scope.render = render;
 
@@ -44,7 +45,7 @@ angular.module('360givingApp')
                     }))
                     .range([0, eventData.width]);
                 y = d3.scaleBand()
-                    .range([eventData.height - eventData.heightDomain, 0]);
+                    .range([eventData.height - (eventData.heightDomain * 1.2), 0]);
 
                 r = d3.scaleLinear()
                     .domain(d3.extent(data, function(d) {
@@ -69,6 +70,10 @@ angular.module('360givingApp')
                 totalAmounts.sort(function(a, b) { return b - a;});
                 var thresholdAmount = _.nth(totalAmounts, 9);
 
+                sizeFont = d3.scaleLinear()
+                    .domain([0, _.first(totalAmounts)])
+                    .range([10, 40]);
+
                 // set final obj
                 var rankedData = {};
                 _.keys(groupedData)
@@ -76,13 +81,33 @@ angular.module('360givingApp')
                         if(groupedData[fundingOrgName].totalAmount >= thresholdAmount)
                             rankedData[fundingOrgName] = groupedData[fundingOrgName];
                     });
-                groupedData = rankedData;
-                y.domain(_.keys(groupedData));
+                groupedData = _.reverse(
+                    _.sortBy(
+                        _.toPairs(rankedData),
+                        function(d) {
+                            return d[1].totalAmount;
+                        }
+                    )
+                );
+                
+                y.domain(
+                    _.map(
+                        groupedData, 
+                        function(d) {
+                            return d[0];
+                        })
+                );
 
-                _.keys(groupedData)
+                y.domain()
                 .forEach(function(fundingOrgName, i) {
+                    var fundingOrg = _.find(
+                        groupedData,
+                        function(arr) {
+                            return fundingOrgName == arr[0];
+                        }
+                    );
                     simulations.push(
-                        d3.forceSimulation(groupedData[fundingOrgName])
+                        d3.forceSimulation(fundingOrg[1])
                             .force('x', d3.forceX(function(d) {
                                 return x(d.Date);
                             }).strength(1))
@@ -106,6 +131,9 @@ angular.module('360givingApp')
                         .append('text')
                         .attr('class', 'fundingOrg')
                         .attr('transform', 'translate(0,' + y(fundingOrgName)+ ')')
+                        .style('font-size', function(d) {
+                            return sizeFont(fundingOrg[1].totalAmount) + 'px';
+                        })
                         .text(fundingOrgName);
 
                     var cell = svg.append('g')
@@ -119,7 +147,7 @@ angular.module('360givingApp')
                             ])
                             .x(function(d) { return d.x;})
                             .y(function(d) { return d.y;})
-                            .polygons(groupedData[fundingOrgName])
+                            .polygons(fundingOrg[1])
                         )
                         .enter()
                         .append('g');
