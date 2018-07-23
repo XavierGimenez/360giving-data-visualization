@@ -53,7 +53,7 @@
             "text": {"field": "text"},
             "fontSize": {"field": "datum.count"},
             "fontWeight": {"field": "datum.weight"},
-            "fontSizeRange": [12, 80],
+            "fontSizeRange": [8, 80],
             "padding": 5
           }
         ]
