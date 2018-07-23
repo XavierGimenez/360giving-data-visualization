@@ -21,7 +21,8 @@ angular.module('360givingApp')
                 simulation,
                 simulations = [],
                 svg,
-                sizeFont;
+                sizeFont,
+                parseTime = d3.timeParse("%B %Y");
 
             $scope.render = render;
 
@@ -47,11 +48,11 @@ angular.module('360givingApp')
                 y = d3.scaleBand()
                     .range([eventData.height - (eventData.heightDomain * 1.2), 0]);
 
-                r = d3.scaleLinear()
+                r = d3.scaleSqrt()
                     .domain(d3.extent(data, function(d) {
                         return d['Amount Awarded'];
                     }))
-                    .range([1, 20]);    
+                    .range([2, 20]);    
                 
                 svg = eventData.svg
                     .append('g')
@@ -89,7 +90,7 @@ angular.module('360givingApp')
                         }
                     )
                 );
-                
+
                 y.domain(
                     _.map(
                         groupedData, 
@@ -112,7 +113,9 @@ angular.module('360givingApp')
                                 return x(d.Date);
                             }).strength(1))
                             .force('y', d3.forceY(y(fundingOrgName)))
-                            .force('collide', d3.forceCollide(4))
+                            .force('collide', d3.forceCollide().radius(function(d) {
+                                return r(d['Amount Awarded']) * 0.8;
+                            }))
                             .stop()
                         );
 
@@ -131,9 +134,6 @@ angular.module('360givingApp')
                         .append('text')
                         .attr('class', 'fundingOrg')
                         .attr('transform', 'translate(0,' + y(fundingOrgName)+ ')')
-                        .style('font-size', function(d) {
-                            return sizeFont(fundingOrg[1].totalAmount) + 'px';
-                        })
                         .text(fundingOrgName);
 
                     var cell = svg.append('g')
@@ -173,6 +173,10 @@ angular.module('360givingApp')
                                 [
                                     {   'key'   : 'Amount Awarded',
                                         'value' : '£' + d3.format(",.0f")(d.data['Amount Awarded'])
+                                    },
+                                    {
+                                        'key'   : 'Award Data',
+                                        'value' : d3.timeFormat("%b %Y")(d.data['Date'])
                                     }
                                 ]
                             );
