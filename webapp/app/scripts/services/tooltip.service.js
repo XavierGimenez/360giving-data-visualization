@@ -18,8 +18,8 @@ angular.module('360givingApp')
 
       // in case there is no d3.event, set the position to 0. Assume
       // that method moveTo(x,y) will be called to place the tooltip
-      var posx = (d3.event)?  d3.event.x : 0,
-          posy = (d3.event)?  d3.event.y : 0;
+      var posx = (d3.event)?  Math.round(d3.event.x) : 0,
+          posy = (d3.event)?  Math.round(d3.event.y) : 0;
 
       //positionate tooltip
       var tooltip = d3.select('#node-tooltip')

@@ -7,15 +7,16 @@
  * # streamgraph.js
  */
 angular.module('360givingApp')
-  .directive('streamgraph', function ($rootScope, TooltipService, MasterData, Events) {
+  .directive('streamgraph', function ($rootScope, TooltipService, MasterData, Events, $timeout) {
     return {
         template: '<div class="streamgraph">' +
                     '<div class="property-selector btn-group">' +
+                        '<p>Select measure to display:</p>' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'amountAwarded\'">Amount Awarded</label>' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'documentWeight\'">Weight</label>' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'identifier\'">Nº of grants</label>' +
                     '</div>' + 
-                    '<div class="description">' + 
+                    '<div class="description" ng-show="!selectedTopic">' + 
                         '<p>' + 
                             'Themes emerged from the topic analysis and its change over time. Each colored band is a theme. ' + 
                             '<span>Mouseover</span> a theme to display the terms that describe it, and ' +
@@ -36,14 +37,15 @@ angular.module('360givingApp')
             series,
             area,
             xAxis,
+            xAxisTop,
             yAxis,
             vertical,
             currentQuarterText,
             x,
             y,
             margin = {
-                top: 20, 
-                right: 100, 
+                top: 75, 
+                right: 50, 
                 bottom: 50, 
                 left: 20
             },
@@ -59,10 +61,9 @@ angular.module('360givingApp')
             bisectDate = d3.bisector(function(d) { 
                 return d.index; 
             }).left,
-            selectedHeightDomain = 200,
-            selectedTopic;
-                
-        
+            selectedHeightDomain = 200;
+
+        scope.selectedTopic         = undefined;
         scope.radioModel            = 'documentWeight';
         scope.$watch('radioModel', function(newValue, oldValue) {
             
@@ -123,7 +124,7 @@ angular.module('360givingApp')
         function updateStreamGraph() {
             data    = scope.datasets[scope.radioModel];
             
-            if(selectedTopic)
+            if(scope.selectedTopic)
                setSerieAsBaseline();
             else
                 series  = stack(data);
@@ -164,7 +165,7 @@ angular.module('360givingApp')
                     d3.max(series, function(serie) { return d3.max(serie, function(d) { return d[1]; }); })
                 ])
                 .range(
-                    (selectedTopic)?    [height, height-selectedHeightDomain] : [height, 0]
+                    (scope.selectedTopic)?    [height, height-selectedHeightDomain] : [height - (height*0.1), (height*0.1)]
                 );
             
             area = d3.area()
@@ -175,8 +176,14 @@ angular.module('360givingApp')
                 .y1(function(d) { return y(d[1]); })
                 .curve(d3.curveBasis);
 
-            if(yAxis)
-                yAxis.scale(y);
+            if(yAxis) {
+                yAxis
+                    .scale(y)
+                    .ticks(4)
+                    .tickFormat(
+                        (scope.radioModel == 'amountAwarded')? d3.formatPrefix(".1", 1e6) : d3.format(".2")
+                    )
+            }
         }
 
 
@@ -235,7 +242,8 @@ angular.module('360givingApp')
 
             // setup scales and axis
             setScales();
-            xAxis = d3.axisBottom(x);
+            xAxis    = d3.axisBottom(x);
+            xAxisTop = d3.axisTop(x);
 
             area = d3.area()
                 .x(function(d) { 
@@ -337,7 +345,10 @@ angular.module('360givingApp')
             svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0, " + height + ")")
-                .call(xAxis);  
+                .call(xAxis);
+            svg.append("g")
+                .attr("class", "x axis")
+                .call(xAxisTop);
             
             scope.addCurrentDateLine();
         };
@@ -395,7 +406,7 @@ angular.module('360givingApp')
             var newTopicKeys = _.clone(topicKeys);
             newTopicKeys.unshift(
                 _.first(
-                    newTopicKeys.splice(newTopicKeys.indexOf(selectedTopic), 1)
+                    newTopicKeys.splice(newTopicKeys.indexOf(scope.selectedTopic), 1)
                 )
             );
             stack = d3.stack()
@@ -414,7 +425,7 @@ angular.module('360givingApp')
 
 
         function selectTopic(d, i) {
-            selectedTopic = d.key;
+            scope.selectedTopic = d.key;
 
             setSerieAsBaseline();
             
@@ -425,7 +436,7 @@ angular.module('360givingApp')
             .range([height, height-selectedHeightDomain]);
         
             if(yAxis == undefined) {
-                yAxis = d3.axisRight(y);
+                yAxis = d3.axisRight(y).ticks(4);
                 d3.select(element[0]).select("svg")
                     .append('g')
                     .attr('class', 'y axis')
@@ -464,19 +475,22 @@ angular.module('360givingApp')
             d3.select(element[0])
                 .select('.topic-words-placeholder')
                 .transition()
+                .on('end', function() {
+                    $rootScope.$broadcast(Events.TOPIC_SELECTED, {
+                        'height'        : height,
+                        'topicId'       : d.key,
+                        'svg'           : d3.select(element[0]).select("svg"),
+                        'width'         : width,
+                        'margin'        : margin,
+                        'heightDomain'  : selectedHeightDomain
+                    });
+                })
                 .duration(750)
                 .style('top', function() {
                     return (window.innerHeight - d3.select(this).node().offsetHeight - margin.bottom) + 'px';
                 });
             
-            $rootScope.$broadcast(Events.TOPIC_SELECTED, {
-                'height'        : height,
-                'topicId'       : d.key,
-                'svg'           : d3.select(element[0]).select("svg"),
-                'width'         : width,
-                'margin'        : margin,
-                'heightDomain'  : selectedHeightDomain
-            });
+            $timeout(function() { scope.$apply(); });
         }
 
 
@@ -486,10 +500,14 @@ angular.module('360givingApp')
             // size the layout
             height = d3.select(element[0]).select('div.streamgraph').node().offsetHeight - margin.top - margin.bottom;
             width = d3.select(element[0]).select('div.streamgraph').node().offsetWidth - margin.left - margin.right;
+            
+            
             d3.select('div.streamgraph .topic-words-placeholder')
-                .style('margin-left', margin.left + 'px');
+                .style('margin-left', margin.left + 'px')
+                .style('top', (margin.top * 3) + 'px');
             d3.select('div.streamgraph .description')
-                .style('margin-left', margin.left + 'px');
+                .style('margin-left', margin.left + 'px')
+                .style('margin-top', (margin.top * 1.3) + 'px');
 
             // load files
             queue()

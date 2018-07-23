@@ -18,11 +18,13 @@ angular.module('360givingApp')
             var x,
                 y,
                 r,
+                opacity,
                 simulation,
                 simulations = [],
                 svg,
                 sizeFont,
-                parseTime = d3.timeParse("%B %Y");
+                parseTime = d3.timeParse("%B %Y"),
+                colorScale;
 
             $scope.render = render;
 
@@ -52,8 +54,24 @@ angular.module('360givingApp')
                     .domain(d3.extent(data, function(d) {
                         return d['Amount Awarded'];
                     }))
-                    .range([2, 20]);    
+                    .range([2, 20]);
+                opacity = d3.scaleLinear()
+                    .domain(d3.extent(data, function(d) {
+                        return d['DocumentWeight'];
+                    }))
+                    .range([.2, .7]);
                 
+                colorScale = d3.scaleSequential(d3.interpolatePuRd)
+                    .domain(d3.extent(data, function(d) {
+                        return d['DocumentWeight'];
+                    }));
+                // modify to domain so we don't encode lightest colors
+                var half = colorScale.domain()[0] - ( (colorScale.domain()[1] - colorScale.domain()[0] ) / 2 );
+                colorScale.domain([
+                    colorScale.domain()[0] - half,
+                    colorScale.domain()[1]
+                ]);
+
                 svg = eventData.svg
                     .append('g')
                     .attr('class', 'swarmplot')
@@ -99,6 +117,33 @@ angular.module('360givingApp')
                         })
                 );
 
+                // left axis label
+                svg.append("text")
+                    .attr('class', 'axis-label-left')
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - eventData.margin.left)
+                    .attr("x",0 - (y.range()[0] / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Top 10 Funding Organizations"); 
+                
+                // right axis label
+                svg.append("text")
+                    .attr('class', 'axis-label-right')
+                    .attr("transform", "rotate(90)")
+                    .attr("y", -(eventData.width + (eventData.margin.right / 2)) )
+                    .attr("x", (y.range()[0] / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("More contribution"); 
+                svg.append("text")
+                    .attr('class', 'axis-label-right-arrow')
+                    .attr("x", eventData.width)
+                    .attr("y", (y.range()[0] / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("↓"); 
+
                 y.domain()
                 .forEach(function(fundingOrgName, i) {
                     var fundingOrg = _.find(
@@ -114,7 +159,7 @@ angular.module('360givingApp')
                             }).strength(1))
                             .force('y', d3.forceY(y(fundingOrgName)))
                             .force('collide', d3.forceCollide().radius(function(d) {
-                                return r(d['Amount Awarded']) * 0.8;
+                                return r(d['Amount Awarded']) * 1.1;
                             }))
                             .stop()
                         );
@@ -129,12 +174,6 @@ angular.module('360givingApp')
                         .attr('x2', eventData.width)
                         .attr('y1', y(fundingOrgName))
                         .attr('y2', y(fundingOrgName));
-                    
-                    svg
-                        .append('text')
-                        .attr('class', 'fundingOrg')
-                        .attr('transform', 'translate(0,' + y(fundingOrgName)+ ')')
-                        .text(fundingOrgName);
 
                     var cell = svg.append('g')
                         .attr('class', 'cells-' + fundingOrgName)
@@ -166,6 +205,15 @@ angular.module('360givingApp')
                             if(d)
                                 return r(d.data['Amount Awarded']);
                         })
+                        .attr('fill', function(d) {
+                            return colorScale(d.data['DocumentWeight']);
+                        })
+                        /*.style('opacity', function(d) {
+                            if(d) {
+                                console.log( d.data['DocumentWeight'], opacity(d.data['DocumentWeight']) )
+                                return opacity(d.data['DocumentWeight']);
+                            }
+                        })*/
                         .on('mouseover', function(d) {
                             TooltipService.show(
                                 d.data['Title'],
@@ -177,6 +225,10 @@ angular.module('360givingApp')
                                     {
                                         'key'   : 'Award Data',
                                         'value' : d3.timeFormat("%b %Y")(d.data['Date'])
+                                    },
+                                    {
+                                        'key'   : 'Relatedness',
+                                        'value' : d3.format(",.2f")(d.data['DocumentWeight'])
                                     }
                                 ]
                             );
@@ -188,6 +240,12 @@ angular.module('360givingApp')
                             if(d)
                                 return "M" + d.join("L") + "Z"; 
                         });
+                    
+                    svg
+                        .append('text')
+                        .attr('class', 'fundingOrg')
+                        .attr('transform', 'translate(' +  eventData.margin.left + ',' + y(fundingOrgName)+ ')')
+                        .text('£' + d3.format(".2s")(fundingOrg[1].totalAmount) + ' - ' + fundingOrgName);    
                 });
 
             }

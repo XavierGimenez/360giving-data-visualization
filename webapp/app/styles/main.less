@@ -51,7 +51,7 @@ header {
 
 
 .intro  {
-    background-color: #ccc;
+    background-color: white;
     padding: 4em .75em 0 .75em;
     p.narrative {
         font-size: 1.5rem;
@@ -61,10 +61,14 @@ header {
         line-height: 1.7;
     }
 }
+div.narrative-viz {
+    max-width: 90%;
+    margin: 2% auto;
+}
 
 section {
     font-family: @font-family-header;
-    padding: 4em .75em 6em .75em;
+    padding: 4em .75em 2em .75em;
     text-align: center;
     color: @color-section-title;
     p.headline {
@@ -85,6 +89,7 @@ streamgraph {
         position: relative;
         width: 100%;
         .description {
+            font-size: 0.8em;
             line-height: 2em;
             position: absolute;
             width: 300px;
@@ -101,10 +106,16 @@ streamgraph {
         .property-selector {
             right: 20px;
             position: absolute;
+            p {
+                font-family: sans-serif;
+                font-size: 10px;
+                margin:0;
+                text-align: center;
+            }
         }
 
         .topic-words-placeholder {
-            top: 175px;
+            //top: 175px; // defined from streamgraph.js
             position: absolute; // relative to parent
             width: 300px;
             >  .topic-word {
@@ -114,9 +125,9 @@ streamgraph {
                 color: rgb(58, 58, 58);
                 font-family: @font-family-header;
                 float: left;
-                margin: 3px;
+                margin: 2px;
                 opacity: 1;
-                padding: 4px 10px;
+                padding: 3px 5px;
                 text-align: center;
                 text-decoration: none;
             }
@@ -149,7 +160,7 @@ streamgraph {
             }
             line.grid-line {
                 shape-rendering: crispEdges;
-                stroke: #d0d0d0;
+                stroke: #bbb;
                 stroke-dasharray: 2,2;
             }
             text.current-date {
@@ -174,22 +185,39 @@ streamgraph {
                     }
                 }
                 circle {
-                    fill: #8C2131;
-                    fill-opacity: 0.25;
+                    //fill: #3B0030;
+                    fill-opacity: 0.6;
+                    cursor: pointer;
                     &:hover {
                         stroke: #333;
-                        stroke-width: 1px;
+                        stroke-width: 2px;
                     }
                 }
                 line.fundingOrg {
                     shape-rendering: crispEdges;
-                    stroke: #d0d0d0;
+                    stroke: #bbb;
                     stroke-dasharray: 2,2;
                 }
                 text.fundingOrg {
-                    font-weight: bold;
+                    alignment-baseline: middle;
+                    //font-weight: bold;
                     font-size: 13px;
                     fill: #333;
+                    text-shadow: 1px 1px 0 #eee, 1px -1px 0 #eee, -1px 1px 0 #eee, -1px -1px 0 #eee;
+                    pointer-events: none;
+                }
+                text.axis-label-left {
+                    font-size:13px;
+                    font-weight: bold;
+                }
+                text.axis-label-right {
+                    font-family: sans-serif;
+                    font-size: 10px;
+                    font-style: italic;
+                }
+                text.axis-label-right-arrow {
+                    font-size: 16px;
+                    font-weight: bold;
                 }
             }
         }
