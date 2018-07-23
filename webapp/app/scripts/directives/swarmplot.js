@@ -47,11 +47,7 @@ angular.module('360givingApp')
 
 
             function render(data, eventData) {
-                x = d3.scaleTime()
-                    .domain(d3.extent(data, function(d) { 
-                        return d.Date; 
-                    }))
-                    .range([0, eventData.width]);
+                x = eventData.x;
                 y = d3.scaleBand()
                     .range([eventData.height - (eventData.heightDomain * 1.2), 20]);
 

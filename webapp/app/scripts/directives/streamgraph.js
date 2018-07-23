@@ -408,6 +408,7 @@ angular.module('360givingApp')
 
 
         function deselectTopic() {
+            yAxis = undefined;
             scope.selectedTopic = undefined;
             $rootScope.$broadcast(Events.TOPIC_DESELECTED, {
                 'svg' : d3.select(element[0]).select("svg")
@@ -496,7 +497,8 @@ angular.module('360givingApp')
                             'svg'           : d3.select(element[0]).select("svg"),
                             'width'         : width,
                             'margin'        : margin,
-                            'heightDomain'  : selectedHeightDomain
+                            'heightDomain'  : selectedHeightDomain,
+                            'x'             : x
                         });
                     }, 250)                    
                 })
