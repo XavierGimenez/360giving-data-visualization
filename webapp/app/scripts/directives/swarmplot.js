@@ -62,7 +62,7 @@ angular.module('360givingApp')
                     }))
                     .range([.2, .7]);
                 
-                colorScale = d3.scaleSequential(d3.interpolatePuRd)
+                colorScale = d3.scaleSequential(d3.interpolatePuBu)
                     .domain(d3.extent(data, function(d) {
                         return d['DocumentWeight'];
                     }));

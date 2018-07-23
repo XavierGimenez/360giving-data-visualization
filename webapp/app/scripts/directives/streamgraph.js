@@ -11,7 +11,7 @@ angular.module('360givingApp')
     return {
         template: '<div class="streamgraph">' +
                     '<div class="clear-topic">' + 
-                        '<button ng-click="deselectTopic()" type="button" class="btn btn-primary btn-xs">Back to all themes</button>' + 
+                        '<button ng-click="deselectTopic()" type="button" class="btn btn-warning btn-xs">Back to all themes</button>' + 
                     '</div>' +
                     '<div class="property-selector btn-group">' +
                         '<p>Select measure to display:</p>' +
