@@ -87,19 +87,26 @@ angular.module('360givingApp')
                 });
                 totalAmounts = _.reject(totalAmounts, _.isUndefined);
                 totalAmounts.sort(function(a, b) { return b - a;});
-                var thresholdAmount = _.nth(totalAmounts, 9);
 
                 sizeFont = d3.scaleLinear()
                     .domain([0, _.first(totalAmounts)])
                     .range([10, 40]);
 
+                
                 // set final obj
-                var rankedData = {};
-                _.keys(groupedData)
+                var rankedData;
+                if(totalAmounts.length > 10) {
+                    rankedData = {};
+                    var thresholdAmount = _.nth(totalAmounts, 9);
+                    _.keys(groupedData)
                     .forEach(function(fundingOrgName, i) {
                         if(groupedData[fundingOrgName].totalAmount >= thresholdAmount)
                             rankedData[fundingOrgName] = groupedData[fundingOrgName];
                     });
+                }
+                else
+                    rankedData = groupedData;
+                
                 groupedData = _.reverse(
                     _.sortBy(
                         _.toPairs(rankedData),
@@ -206,7 +213,8 @@ angular.module('360givingApp')
                                 return r(d.data['Amount Awarded']);
                         })
                         .attr('fill', function(d) {
-                            return colorScale(d.data['DocumentWeight']);
+                            if(d)
+                                return colorScale(d.data['DocumentWeight']);
                         })
                         /*.style('opacity', function(d) {
                             if(d) {
