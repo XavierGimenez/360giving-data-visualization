@@ -10,6 +10,9 @@ angular.module('360givingApp')
   .directive('streamgraph', function ($rootScope, TooltipService, MasterData, Events, $timeout) {
     return {
         template: '<div class="streamgraph">' +
+                    '<div class="clear-topic">' + 
+                        '<button ng-click="deselectTopic()" type="button" class="btn btn-primary btn-xs">Back to all themes</button>' + 
+                    '</div>' +
                     '<div class="property-selector btn-group">' +
                         '<p>Select measure to display:</p>' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'amountAwarded\'">Amount Awarded</label>' +
@@ -76,6 +79,7 @@ angular.module('360givingApp')
         scope.updateStreamGraph     = updateStreamGraph;
         scope.addCurrentDateLine    = addCurrentDateLine;
         scope.selectTopic           = selectTopic;
+        scope.deselectTopic         = deselectTopic;
         scope.init = init;
         
         scope.init();
@@ -102,7 +106,7 @@ angular.module('360givingApp')
                         return d[1];
                     })
                 )
-                .range([10, 40]);
+                .range([10, 30]);
 
             d3.select('div.streamgraph .topic-words-placeholder')
                 .selectAll('a')
@@ -189,34 +193,8 @@ angular.module('360givingApp')
 
 
 
-        function makeStreamGraph(error, amountAwarded, documentWeight, identifier) {
-            var o,
-                mousex,
-                keys = _.filter(
-                    _.keys(_.first(amountAwarded)),
-                    function(key) { 
-                        return key.indexOf("topic") != -1; 
-                    });
-                keys.push('index');
-
-            // keep and parse data from all datasets
-            scope.datasets['amountAwarded']  = amountAwarded;
-            scope.datasets['documentWeight'] = documentWeight;
-            scope.datasets['identifier']     = identifier;
-
-            _.keys(scope.datasets)
-                .forEach(function(datasetKey) {
-                    scope.datasets[datasetKey] = _.map(
-                        scope.datasets[datasetKey],
-                        function(d) {
-                            o = _.pick(d, keys);
-                            _.forIn(o, function(value, key) {
-                                o[key] = (key == 'index')? timeParse(o[key]) : parseFloat(o[key]);    
-                            });
-                            return o;
-                        });
-            });
-
+        function makeStreamGraph() {
+            var mousex;                
             data = scope.datasets[scope.radioModel];
 
             // get keys of the data: the keys for the series
@@ -290,6 +268,7 @@ angular.module('360givingApp')
                 .enter().append("path")                    
                 .attr("d", area)
                 .attr('class', 'topic')
+                .style('opacity', 0)
                 .style("fill", function(d, i) { 
                     return colorScale(i);
                 })
@@ -341,6 +320,10 @@ angular.module('360givingApp')
                         ]
                     );
                 });
+
+            svg.selectAll("path")
+                .transition()
+                .style('opacity', 1);
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -424,6 +407,29 @@ angular.module('360givingApp')
 
 
 
+        function deselectTopic() {
+            scope.selectedTopic = undefined;
+            $rootScope.$broadcast(Events.TOPIC_DESELECTED, {
+                'svg' : d3.select(element[0]).select("svg")
+            });
+            d3.select('.clear-topic')
+                .style('opacity', 0);
+            d3.select('div.streamgraph .topic-words-placeholder')
+                .selectAll('a')
+                .remove();
+            d3.select('div.streamgraph .topic-words-placeholder')
+                .style('margin-left', margin.left + 'px')
+                .style('top', (margin.top * 3) + 'px');
+            d3.select(element[0]).select("svg")
+                .selectAll('*')
+                .remove();
+            
+            scope.makeStreamGraph();
+        }
+
+
+
+
         function selectTopic(d, i) {
             scope.selectedTopic = d.key;
 
@@ -476,18 +482,27 @@ angular.module('360givingApp')
                 .select('.topic-words-placeholder')
                 .transition()
                 .on('end', function() {
-                    $rootScope.$broadcast(Events.TOPIC_SELECTED, {
-                        'height'        : height,
-                        'topicId'       : d.key,
-                        'svg'           : d3.select(element[0]).select("svg"),
-                        'width'         : width,
-                        'margin'        : margin,
-                        'heightDomain'  : selectedHeightDomain
-                    });
+                    var top = d3.select(this).style('top');
+                    top = top.substr(0, top.indexOf('px')) - 30;
+
+                    d3.select('.clear-topic')
+                        .style('opacity', 1)
+                        .style('top', top + 'px');
+
+                    $timeout(function() {
+                        $rootScope.$broadcast(Events.TOPIC_SELECTED, {
+                            'height'        : height,
+                            'topicId'       : d.key,
+                            'svg'           : d3.select(element[0]).select("svg"),
+                            'width'         : width,
+                            'margin'        : margin,
+                            'heightDomain'  : selectedHeightDomain
+                        });
+                    }, 250)                    
                 })
                 .duration(750)
                 .style('top', function() {
-                    return (window.innerHeight - d3.select(this).node().offsetHeight - margin.bottom) + 'px';
+                    return (window.innerHeight - d3.select(this).node().offsetHeight - margin.top) + 'px';
                 });
             
             $timeout(function() { scope.$apply(); });
@@ -514,7 +529,34 @@ angular.module('360givingApp')
                 .defer(d3.csv, 'data/topics_timeseries_per_Amount_Awarded.csv')
                 .defer(d3.csv, 'data/topics_timeseries_per_DocumentWeight.csv')
                 .defer(d3.csv, 'data/topics_timeseries_per_Identifier.csv')
-                .await(makeStreamGraph);
+                .await(function(error, amountAwarded, documentWeight, identifier) {
+                    // keep and parse data from all datasets
+                    scope.datasets['amountAwarded']  = amountAwarded;
+                    scope.datasets['documentWeight'] = documentWeight;
+                    scope.datasets['identifier']     = identifier;
+                    
+                    // parse dates and floats
+                    var o,
+                        keys = _.filter(
+                            _.keys(_.first(scope.datasets[scope.radioModel])),
+                            function(key) {
+                                return key.indexOf("topic") != -1; 
+                            });
+                    keys.push('index');
+                    _.keys(scope.datasets)
+                        .forEach(function(datasetKey) {
+                            scope.datasets[datasetKey] = _.map(
+                                scope.datasets[datasetKey],
+                                function(d) {
+                                    o = _.pick(d, keys);
+                                    _.forIn(o, function(value, key) {
+                                        o[key] = (key == 'index')? timeParse(o[key]) : parseFloat(o[key]);    
+                                    });
+                                    return o;
+                                });
+                        });
+                    makeStreamGraph();
+                });
         }
       }
     }

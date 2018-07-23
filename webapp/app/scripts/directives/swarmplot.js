@@ -39,6 +39,11 @@ angular.module('360givingApp')
                 });
             });
 
+            $rootScope.$on(Events.TOPIC_DESELECTED, function(event, eventData) {
+                eventData.svg.select('g.swarmplot')
+                    .remove();
+            });
+
 
 
             function render(data, eventData) {
@@ -48,7 +53,7 @@ angular.module('360givingApp')
                     }))
                     .range([0, eventData.width]);
                 y = d3.scaleBand()
-                    .range([eventData.height - (eventData.heightDomain * 1.2), 0]);
+                    .range([eventData.height - (eventData.heightDomain * 1.2), 20]);
 
                 r = d3.scaleSqrt()
                     .domain(d3.extent(data, function(d) {
@@ -75,7 +80,13 @@ angular.module('360givingApp')
                 svg = eventData.svg
                     .append('g')
                     .attr('class', 'swarmplot')
+                    .style('opacity', 0)
                     .attr('transform', 'translate(' + eventData.margin.left + ',' + eventData.margin.top + ')');
+                
+                   svg 
+                    .transition()
+                    .duration(100)
+                    .style('opacity', 1);
                 
                 var groupedData = _.groupBy(data, 'Funding Org:Name')
 
@@ -209,8 +220,7 @@ angular.module('360givingApp')
                                 return d.data.y;
                         })
                         .attr('r', function(d) {
-                            if(d)
-                                return r(d.data['Amount Awarded']);
+                            return 0;
                         })
                         .attr('fill', function(d) {
                             if(d)
@@ -242,6 +252,18 @@ angular.module('360givingApp')
                             );
                         })
                         .on('mouseout', TooltipService.hide);
+                    
+                    cell.selectAll('circle')
+                        .transition()
+                        .delay(200)
+                        .duration(function() {
+                            return _.random(200, 2000)
+                        })
+                        .attr('r', function(d) {
+                            if(d)
+                                return r(d.data['Amount Awarded']);
+                        })
+                    
                     cell.append('path')
                         .attr('class', 'swarmplot')
                         .attr('d', function(d) {
