@@ -53,8 +53,15 @@ angular.module('360givingApp')
                 bottom: 50, 
                 left: 20
             },
+            getYear = function(d) {
+                return d.getFullYear()
+            },
             getQuarter = function(d) {
-                return d.getFullYear() + ' Q' + (Math.floor(d.getMonth() / 3) + 1);
+                var q = (Math.floor(d.getMonth() / 3) + 1),
+                    qs =  (q == 1)?   'First' : 
+                          (q == 2)?   'Second' : 
+                          (q == 3)?   'Third' : 'Fourth';
+                return qs + ' quarter';
             },
             texture,
             topicKeys,
@@ -309,8 +316,8 @@ angular.module('360givingApp')
                     );
 
                     TooltipService.show(
+                        getYear(x.invert(mousex)),
                         getQuarter(x.invert(mousex)),
-                        '',
                         [
                             { 
                                 'key' : scope.radioModel == 'amountAwarded' ? 'Amount awarded' : 
