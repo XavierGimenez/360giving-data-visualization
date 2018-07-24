@@ -36,18 +36,46 @@
     </header>
     <div class="intro">
       <p class='narrative'>
-        We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use.1
+        <a href="http://www.threesixtygiving.org/" target="_blank">360Giving</a> has launched a visualization challenge to answer questions to help funders to maximize their impact on the charitable causes they support. Such questions intend to give a better understanding of the grantmaking sector. Here we look at one specific question, which tackles thematic trends:
       </p>
       <p class='narrative'>
+        <span class='question'>Thematic trends:<br>Who has funded what over the years?<span>
+      </p>
+      <p class='narrative'>
+        That question is open in the sense of what a theme is, since there aren't in advance defined descriptions of what a theme could be. Despite the richness provided by the <a href="http://www.threesixtygiving.org/support/standard/" target="_blank">360giving dataset</a> regarding to grantmaking sector, there is not a direct categorization of to what theme a grant belongs.
+      </p>
+      
+      <p class='narrative'>
+          <span class='title'>Discovering theme from the data itself</span>
+      </p>
+      
+      <p class='narrative'>
+        The 360giving dataset gives a fairly detailed information of a grant throught a title, a description, its funding organization and so on. This gives a large corpus of text documents regarding the grants, where some Natural Language Processing techniques can be applied in order to automatically discover the hidden thematic structure in our corpus of text documents.
+      </p>
+      <p class='narrative'>
+        More specifically, <a href="https://en.wikipedia.org/wiki/Topic_model" target="_blank">Topic Modelling</a> has been applied in order discover our themes from the collection of grants. With this text mining approach, given a corpus of unstructured text documents (e.g. news articles, tweets, etc) and without a prior annotation, Topic Modelling outputs a set of topics, each of which is represented by a set of top-ranked terms for the topic and associations for documents relative to the topic. For our case, here the text documents are the text fields that describe each grant (title and description). From that textual information, themes will emerge as well as the relativeness of the grants to each theme.
+      </p>
+      <p class='narrative'>
+         Considering that with Topic Modelling a grant can potentially be associated with multiple themes, for each theme only a subset of its grants is taken into account. More specifically, for each theme only the grants with a level of relativeness statistically significant are considered.
+      </p>
+      
+      <hr>
+      
+      <p class='narrative'>
+          Let's show examples of some themes and the terms that describe them:
+      </p>
+      <p class='narrative keywords'>
         <keywords topic='0'></keywords>
       </p>
       <p class='narrative'>
-        We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use. We want to you define the theme or themes you want to focus on and justify your choice in accordance with the data you decide to use.1
-      </p>
-      <p class='narrative'>
-        <keywords topic='9'></keywords>
-      </p>
+          Above is a very specific theme of a series of grants from a period comprised between 2004 and 2006, all belonging to the 'Heroes Return programme' and funded by the Big Lottery Fund.<br>
+          This first theme granting World War II veterans is quite specific and also is its period. But other discovered themes have a wider meaning and as you will see, have associated grants through all the available time span of the dataset:
+       </p>
 
+      <p class='narrative keywords'>
+        <keywords topic='10'></keywords>
+      </p>                                   
+                                                                                   
       <section>
         <p class='headline'>
           Funding of discovered themes, throughout the years
@@ -61,6 +89,13 @@
     <div class="narrative-viz">
       <div ng-view=""></div>
     </div>
+
+    <div class="intro">
+      <p class='narrative'>
+        More content here
+      </p>
+    </div>
+
 
     <div class="footer">
       <div class="container">

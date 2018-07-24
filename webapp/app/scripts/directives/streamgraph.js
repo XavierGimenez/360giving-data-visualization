@@ -26,7 +26,8 @@ angular.module('360givingApp')
                             '<span>click it</span> to see the top contributors to that theme' + 
                         '</p>' + 
                     '</div>' + 
-                    '<div class="topic-words-placeholder"></div>' +
+                    '<div class="topic-words-placeholder">'+
+                    '</div>' +
                     '<svg></svg>' +
                   '</div>',
       restrict: 'E',

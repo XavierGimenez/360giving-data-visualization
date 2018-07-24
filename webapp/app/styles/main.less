@@ -9,8 +9,16 @@ body, a {
     font-family: @font-family-body;
 }
 a {
+    background: none;
     font-weight: bold;
     text-decoration: underline;
+}
+
+.headline() {
+    border-bottom: 1px solid @color-section-title;
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 header {
@@ -49,16 +57,39 @@ header {
         }
 }
 
-
+hr {
+    margin: 3em 50rem 2em;
+    border-top: 1px solid #ddd;
+}
 .intro  {
     background-color: white;
     padding: 4em .75em 0 .75em;
+    
     p.narrative {
-        font-size: 1.5rem;
+        span.title {
+            border-bottom: 1px solid #333;
+            font-family: @font-family-header;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        font-size: 1.4rem;
         max-width: 60rem;
         margin: 0 auto;
         margin-bottom: 1.3em;
         line-height: 1.7;
+        span.question {
+            display: block;
+            font-size: 1.5em;
+            font-style: italic;
+            font-weight: bold;            
+            line-height: 1.2;
+            margin: 3rem 0;
+            text-align: center;
+            width: 100%;
+        }
+        &.keywords {
+            max-width: 75rem;
+        }
     }
 }
 div.narrative-viz {
@@ -72,10 +103,7 @@ section {
     text-align: center;
     color: @color-section-title;
     p.headline {
-        border-bottom: 1px solid @color-section-title;
-        display: inline-block;
-        font-size: 2rem;
-        font-weight: bold;
+        .headline;        
     }
 }
 
@@ -108,7 +136,7 @@ streamgraph {
             position: absolute;
             p {
                 font-family: sans-serif;
-                font-size: 10px;
+                font-size: 0.8em;
                 margin:0;
                 text-align: center;
             }
