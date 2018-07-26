@@ -11,7 +11,7 @@ angular.module('360givingApp')
     
 
     // if we want some offset to apply given the current position of the tooltip
-    var offsetY = 0,
+    var offsetY = -150,
         offsetX = 0;
 
     this.show = function(title, subtitle, datablocks, vizspecs, footer) {

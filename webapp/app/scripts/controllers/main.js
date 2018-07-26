@@ -47,9 +47,12 @@ angular.module('360givingApp')
               topic_keywords.data.topic_weights
             )
           });
-
-          // notify data is available
-          $rootScope.$broadcast(Events.DATA_LOADED);
+          d3.csv('data/fundingOrgs.csv', function(error, data) {
+            MasterData.fundingOrgs = data;
+            // notify data is available
+            $rootScope.$broadcast(Events.DATA_LOADED);  
+          })
+          
         });
       });
     
