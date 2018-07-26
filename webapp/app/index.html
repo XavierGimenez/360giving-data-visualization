@@ -103,10 +103,27 @@
     </div>
 
 
-    <div class="footer">
-      <div class="container">
-        <p>footer</p>
-      </div>
+    <div class="intro footer">
+      <p class='narrative methodology'>
+          <span class='title'>Methodology</span>
+      </p>
+      
+      <p class='narrative methodology'>
+        The code used in the analysis is available on <a href='#' target='_blank'>Github</a>, with a <a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>Creative Commons 4.0 license</a>. The dataset for this analysis is a data dump with all the grants published in the <a href='http://standard.threesixtygiving.org/en/latest/' target='_blank'>360Giving standard</a>
+      </p>
+      <p class='narrative methodology'>
+        The analysis performs <a href="https://en.wikipedia.org/wiki/Topic_model" target="_blank">Topic Modelling</a> by using an unsupervised text mining approach. Some fields of the dataset are used as 'text documents' in order to extract a set of <i>k</i> topics, each of which is represented by a set of most representative (top ranked) terms for the topic and associations (weights) for documents relative to the topic.  
+      </p>
+      <p class='narrative methodology'>
+          The data is preprocessed by removing <a href='https://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop words</a> plus a set of custom words present in the data but not relevant for describing topics.
+      </p>
+
+      <p class='narrative methodology'>
+          The number of topics and number of terms for the topics is not fixed. For the analysis, 15 topics and 20 terms per topic have been set. For Topic Modelling, <a href='https://en.wikipedia.org/wiki/Non-negative_matrix_factorization'>the Non-negative Matrix Factorization (NMF)</a> algorithm has been used. The output of this approach results in terms with representative weights to all topics and grants with weights to all topics. <strong>For each topic, only a subset of its grants has been considering, removing those with weights with small relatedness</strong> (those with weights below the 50th percentile over the total). 
+      </p>
+      <p class='narrative methodology'>
+        For all topics and its grants, time-based aggregations are performed by counting nº of grants, its awarded amounts and its relatedness to each topic. <strong>As such, the awarded amount of a grant to a topic is 'relative' since the grant has a specific weight/relativeness to that topic</strong>. For the sake of implicity, aggregations sum the amounts without weighting them, but refactoring the funding amount could lead to a possible better representation of grant's contribution to the topics. 
+      </p>
     </div>
 
 
