@@ -295,6 +295,69 @@ keywords {
 }
 
 
+typeahead {
+    
+    .dropdown-menu {
+        font-size: 1.2rem;
+        > li > a {
+            text-decoration: none;
+        }
+    }
+    > div {
+        margin: 0 auto;
+        max-width: 50rem;
+        input.form-control {
+            font-family: @font-family-body;
+            font-size: 1.4rem;
+        }
+        ul {
+            font-family: @font-family-body;
+            font-size: 1.4rem;
+        }
+    }
+}
+
+orgtopics {
+    div.topics {
+        margin: 0 auto;
+        max-width: 90em;
+        div[class*="topic"] {
+            float: left;
+            font-size: 1.2rem;
+            margin: .1rem 0;
+            max-width: 20%;
+            padding-right: 15px;
+            padding-bottom: 20px;
+        }
+        &:after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+          svg {
+              .bar {
+                cursor: pointer;
+                fill: #173A54;
+                &.hovered {
+                    fill: #EC9770;
+                }
+              }
+              path {
+                  stroke: none;
+              }
+              .tick {
+                  text {
+                      fill: #aaa;
+                  }
+                  line {
+                    stroke: none;
+                }
+            }
+          }
+    }
+}
+
 
 /** generic tooltip ********/
 .node-tooltip {

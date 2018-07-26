@@ -46,7 +46,7 @@
       </p>
       
       <p class='narrative'>
-          <span class='title'>Discovering theme from the data itself</span>
+          <span class='title'>Discovering themes from the data itself</span>
       </p>
       
       <p class='narrative'>
@@ -73,8 +73,8 @@
        </p>
 
       <p class='keywords'>
-        <keywords class='grouped' topic='9'></keywords>
         <keywords class='grouped' topic='12'></keywords>
+        <keywords class='grouped' topic='9'></keywords>
         <keywords class='grouped' topic='1'></keywords>
       </p>                                   
 
@@ -97,13 +97,30 @@
     <div class="narrative-viz">
       <div ng-view=""></div>
     </div>
-
+    
     <div class="intro">
-      <p class='narrative'>
-        Apart from.... Apart from.... Apart from.... Apart from....
-      </p>
-    </div>
+        <p class='narrative'>
+            It's also interesting to have a view from a different point of view:<br>Instead of looking at tehems overall contributions and inspect main contributors for an specific theme, it is worth to start from a funding organization and display those grants that have a relatedness to the themes.
+        </p>
 
+        <section>
+            <p class='headline'>
+              Funding organization: contributions to themes
+            </p>
+            <p class='headline-intro'>
+              Search for a funding organization and get which
+              of its grants are related to the discovered topics
+            </p>
+          </section>
+
+          <typeahead>
+          </typeahead>
+
+    </div>
+    <div class='intro'>
+        <orgtopics></orgtopics>
+    </div>
+    
 
     <div class="intro footer">
       <p class='narrative methodology'>
@@ -189,6 +206,8 @@
         <script src="scripts/directives/bubbletimeline.js"></script>
         <script src="scripts/directives/swarmplot.js"></script>
         <script src="scripts/directives/keywords.js"></script>
+        <script src="scripts/directives/typeahead.js"></script>
+        <script src="scripts/directives/orgtopics.js"></script>
         <script src="scripts/services/tooltip.service.js"></script>
         <script src="scripts/services/vega.service.js"></script>
         <script src="scripts/services/events.service.js"></script>

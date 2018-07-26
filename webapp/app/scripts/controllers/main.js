@@ -15,7 +15,7 @@ angular.module('360givingApp')
     var promises = []
     $http.get('data/config.json')
       .then(function(response) {
-
+        MasterData.numberofTopics = response.data.n_components;
         for(var i = 0; i< response.data.n_components; i++) {
           promises.push(
             $http.get('data/topic' + i + '_keywords.json')

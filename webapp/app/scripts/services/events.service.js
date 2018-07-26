@@ -12,7 +12,8 @@ angular.module('360givingApp')
     var events = [
       'DATA_LOADED',
       'TOPIC_SELECTED',
-      'TOPIC_DESELECTED'
+      'TOPIC_DESELECTED',
+      'FUNDING_ORG_SELECTED'
     ];
     return _.merge(
       _.zipObject(
