@@ -381,7 +381,9 @@ module.exports = function (grunt) {
             '*.html',
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*',
-            'data/*.*'
+            'data/*.*',
+            'libs/*.*',
+            'vega-specs/*.*'
           ]
         }, {
           expand: true,
