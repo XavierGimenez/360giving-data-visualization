@@ -9,6 +9,8 @@ import pandas as pd
 import numpy as np
 import json
 import io
+import codecs
+
 try:
     to_unicode = unicode
 except NameError:
@@ -22,6 +24,7 @@ ngram_join_string = config['ngram_join_string']   # instead of use ngrams > 1 to
                                                   # just join them with a special string and later split again
 folder_data_source = './data-source/'
 folder_data_output = './data-output/'
+folder_data_output_fundingorgs = './data-output/topics_fundingorgs'
 
 
 # get englishh stop words from:
@@ -179,7 +182,7 @@ def display_topics(H, W, feature_names, documents, n_top_words, n_top_documents)
 # load data
 
 print("Loading dataset...")
-dataset = pd.read_csv('./data-source/grantnav-20180613122257.csv')
+dataset = pd.read_csv('./data-source/grantnav-20180613122257.csv', encoding='utf-8')
 
 
 # ------------------------------------------------------------------------
@@ -262,9 +265,9 @@ nmf_W = nmf.transform(tfidf)
 nmf_H = nmf.components_
 
 print('Shape of the matrix W (documents x topics)')
-print(nmf_W.shape);
+print(nmf_W.shape)
 print('Shape of the matrix H: (topics x samples)')
-print(nmf_H.shape);
+print(nmf_H.shape)
 
 #display_topics(nmf_H, nmf_W, tfidf_feature_names, data_samples, config['n_top_words'], config['n_top_documents'])
 
@@ -312,22 +315,37 @@ for topic_idx, topic in enumerate(nmf_H):
     # add columm with the documents weights
     df_topic['DocumentWeight'] = ordered_weights
 
-    # save only docs that have some weight
-    # related to the topic which is significant:
-    # slice by docs with weight > 0 and get a
-    # threshold by calculating a percentile to
-    # discard lower values
-    percentile = 50
-    weight_lower_threshold = np.percentile(
-        df_topic[df_topic['DocumentWeight'] > 0]['DocumentWeight'],
-        percentile
-    )
+    if config['group_funding_org'] == 1 :
+        print('saving contribution to the topic by funding org')
+        # save contribution to the topic at funding org level
+        for fundingOrgIdentifier in dataset['Funding Org:Identifier'].unique():
+            print(fundingOrgIdentifier)
+            df_topicOrg = df_topic[df_topic['DocumentWeight'] > 0]
+            df_topicOrg = df_topicOrg[df_topicOrg['Funding Org:Identifier'] == fundingOrgIdentifier]
+            df_topicOrg.to_csv(
+                folder_data_output_fundingorgs + 'fundingOrg_' + fundingOrgIdentifier + '_topic' + str(topic_idx) + '_documents.csv',
+                encoding='utf-8',
+                sep=',',
+                index=False
+            )
+    else :
+        # save only docs that have some weight
+        # related to the topic which is significant:
+        # slice by docs with weight > 0 and get a
+        # threshold by calculating a percentile to
+        # discard lower values
+        percentile = 50
+        weight_lower_threshold = np.percentile(
+            df_topic[df_topic['DocumentWeight'] > 0]['DocumentWeight'],
+            percentile
+        )
 
-    #save only weight above the 20th percentile
-    df_topic = df_topic[df_topic['DocumentWeight'] >= weight_lower_threshold]
+        #save only weight above the 20th percentile
+        df_topic = df_topic[df_topic['DocumentWeight'] >= weight_lower_threshold]
 
-    df_topic.to_csv(
-        folder_data_output + 'topic' + str(topic_idx) + '_documents.csv',
-        sep=',',
-        index=False
-    )
+        df_topic.to_csv(
+            folder_data_output + 'topic' + str(topic_idx) + '_documents.csv',
+            encoding='utf-8',
+            sep=',',
+            index=False
+        )
