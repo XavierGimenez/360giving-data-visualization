@@ -16,7 +16,7 @@ angular.module('360givingApp')
                     '<div class="property-selector btn-group">' +
                         '<p>Select measure to display:</p>' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'amountAwarded\'">Amount Awarded</label>' +
-                        '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'documentWeight\'">Weight</label>' +
+                        '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'documentWeight\'">Relatedness</label>' +
                         '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'identifier\'">Nº of grants</label>' +
                     '</div>' + 
                     '<div class="description" ng-show="!selectedTopic">' + 
