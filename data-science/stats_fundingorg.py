@@ -19,16 +19,32 @@ for fundingOrg in fundingOrgs:
 
     for i in range(0, config['n_components']):
         df_topic = pd.read_csv('./data-output/topics_fundingorgs/fundingOrg_' + fundingOrg + '_topic' + str(i) + '_documents.csv')
-
+        print('aggs for')
+        print(fundingOrg)
         # remove rows with  null values
         df_topic = df_topic.dropna()
 
-        agg = {}
-        agg['Topic'] = i
-        agg['DocumentWeight'] = df_topic['DocumentWeight'].sum()
-        agg['Amount Awarded'] = df_topic['Amount Awarded'].sum()
-        agg['Identifier'] = df_topic['DocumentWeight'].shape[0]
+        # get range of dates, monthly. This will be the new index of the dataframes
+        # TODO harcoded time range, change it
+        idx = range(1998, 2018 + 1)
+
+        df_topic['Date'] = pd.to_datetime(df_topic['Award Date'], format='%Y-%m-%d')
+
+        agg = df_topic.groupby(df_topic.Date.dt.year).agg({
+            'Amount Awarded': sum,
+            'Identifier': 'count',
+            'DocumentWeight': sum
+        })
+        agg = agg.reindex(idx, fill_value=0)
+        agg['Topic'] = 'topic' + str(i)
+        agg.reset_index()
         aggs.append(agg)
 
-    with open(folder_data_output + fundingOrg + '_topic_agg.json', 'w') as outfile:
-        json.dump(aggs, outfile)
+
+    pd.concat(aggs).to_csv(
+        folder_data_output + fundingOrg + '_topic_agg.csv',
+        sep=','
+    )
+
+#with open(folder_data_output + fundingOrg + '_topic_agg.json', 'w') as outfile:
+#    json.dump(aggs, outfile)
