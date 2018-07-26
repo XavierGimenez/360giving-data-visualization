@@ -204,6 +204,15 @@ dataset = dataset.groupby(
         'Identifier': 'first'   # consider if counting this is correct...
      }).reset_index()
 
+#save list of funding orgs
+orgs = dataset.groupby(['Funding Org:Identifier', 'Funding Org:Name']).agg({'Identifier': 'first'}).reset_index()
+orgs[['Funding Org:Identifier', 'Funding Org:Name']].to_csv(
+    folder_data_output + 'fundingOrgs.csv',
+    encoding='utf-8',
+    sep=',',
+    index=False
+)
+
 # new column with the 'documents' to use
 # for keyword extraction
 dataset['Document'] = dataset['Title'] + ' ' + dataset['Description']
