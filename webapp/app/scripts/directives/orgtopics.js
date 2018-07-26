@@ -8,11 +8,17 @@
  * Controller of the 360givingApp
  */
 angular.module('360givingApp')
-  .directive('orgtopics', function ($rootScope, Events, MasterData, TooltipService) {
+  .directive('orgtopics', function ($rootScope, Events, MasterData, TooltipService, $timeout) {
     return {
         restrict: 'E',
         template:   '<div>' +
-                        '<div class="property-selector btn-group">' +
+                        '<div ng-if="showNoData" class="description">' + 
+                            '<p>Sorry, there are not grants with significant relatedness to the discovered themes...</p>' + 
+                        '</div>' +
+                        '<div ng-if="showDescription" class="description">' + 
+                            '<p>Themes containing grants from <span>{{orgName}}</span> and its yearly contribution, either by its relatedness, amount awareded or nº of grants</p>' + 
+                        '</div>' +
+                        '<div ng-if="showDescription" class="property-selector btn-group">' +
                             '<p>Select measure to display:</p>' +
                             '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'amountAwarded\'">Amount Awarded</label>' +
                             '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'documentWeight\'">Relatedness</label>' +
@@ -26,15 +32,24 @@ angular.module('360givingApp')
         link: function postLink($scope, element) {
             var org,
                 topics = [],
+                colorScaleBar,
                 colorScale = d3.scaleLinear()
                     .range(["rgb(123, 203, 196)", "rgb(8, 75, 140)"]);
+
+            $scope.showDescription = false;
+            $scope.showNoData = false;
+            $scope.orgName = '';
+
+
             $scope.$on(Events.FUNDING_ORG_SELECTED, function(event, eventData) {
-                
+                $scope.showDescription = false;    
+                $scope.showNoData = false;
                 d3.select(element[0]).select(".topics").selectAll('*').remove();
                 topics = [];
                 $scope.topicsWithData = [];
 
                 org = _.find(MasterData.fundingOrgs, ['Funding Org:Name', eventData]);
+                $scope.orgName = org['Funding Org:Name'];
 
                 d3.csv('data/aggs/' + org['Funding Org:Identifier'] + '_topic_agg.csv', function(error, data) {
                     data.forEach(function(d) {
@@ -60,6 +75,15 @@ angular.module('360givingApp')
                         }
                     }
 
+                    if($scope.topicsWithData.length > 0)
+                        $scope.showDescription = true;
+                    else
+                        $scope.showNoData = true;
+
+                    $timeout(function() {
+                        $scope.$apply();
+                    });
+                    
                     var maxDocumentWeight = d3.max($scope.topicsWithData, function(t) {
                         return d3.max(t, function(o) {
                             return o['DocumentWeight'];
@@ -136,6 +160,12 @@ angular.module('360givingApp')
                 );
 
                 // append the rectangles for the bar chart
+                svg.append('line')
+                    .attr('x1', x.range()[0])
+                    .attr('x2', x.range()[1])
+                    .attr('y1', height)
+                    .attr('y2', height);
+
                 svg.selectAll(".bar")
                     .data(data)
                     .enter().append("rect")

@@ -66,7 +66,9 @@ hr {
     padding: 4em .75em 0 .75em;
     
     &.footer {
-        padding-bottom: 4em;
+        background-color: #ddd;
+        border-top: 1px solid #bbb;
+        padding-bottom: 50px;
     }
     p.narrative {
         span.title {
@@ -318,8 +320,25 @@ typeahead {
 }
 
 orgtopics {
+    min-height: 400px;
+    > div {
+        text-align: center;
+        .description {
+            margin: 0 auto;
+            max-width: 60rem;
+            span {
+                background-color: #7bcbc4;
+                border-radius: 2px;
+                cursor: pointer;
+                font-weight: 500;
+                padding: 0.2em;
+                transition: background-color 0.3s;
+            }
+        }
+    }
+
     div.topics {
-        margin: 0 auto;
+        margin: 40px auto 0;
         max-width: 90em;
         div[class*="topic"] {
             float: left;
@@ -336,6 +355,10 @@ orgtopics {
           }
 
           svg {
+              line {
+                  opacity: 0.8;
+                  stroke: #173A54;
+              }
               .bar {
                 cursor: pointer;
                 fill: #173A54;

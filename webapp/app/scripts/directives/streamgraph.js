@@ -48,10 +48,10 @@ angular.module('360givingApp')
             x,
             y,
             margin = {
-                top: 75, 
-                right: 50, 
-                bottom: 50, 
-                left: 20
+                top: 35, 
+                right: 25, 
+                bottom: 25, 
+                left: 10
             },
             getYear = function(d) {
                 return d.getFullYear()
