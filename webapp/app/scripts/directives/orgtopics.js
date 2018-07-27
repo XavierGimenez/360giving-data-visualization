@@ -20,9 +20,9 @@ angular.module('360givingApp')
                         '</div>' +
                         '<div ng-if="showDescription" class="property-selector btn-group">' +
                             '<p>Select measure to display:</p>' +
-                            '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'amountAwarded\'">Amount Awarded</label>' +
-                            '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'documentWeight\'">Relatedness</label>' +
-                            '<label class="btn btn-default btn-xs" ng-model="radioModel" uib-btn-radio="\'identifier\'">Nº of grants</label>' +
+                            '<label class="btn btn-default btn-xs" ng-model="$parent.radioModel" uib-btn-radio="\'Amount Awarded\'">Amount Awarded</label>' +
+                            '<label class="btn btn-default btn-xs" ng-model="$parent.radioModel" uib-btn-radio="\'DocumentWeight\'">Relatedness</label>' +
+                            '<label class="btn btn-default btn-xs" ng-model="$parent.radioModel" uib-btn-radio="\'Identifier\'">Nº of grants</label>' +
                         '</div>' + 
                         '<div class="topics">' + 
                         '</div>' + 
@@ -31,14 +31,27 @@ angular.module('360givingApp')
         },
         link: function postLink($scope, element) {
             var org,
+                x,
+                y,
+                svg,
+                margin,
+                width,
+                height,
                 topics = [],
                 colorScaleBar,
                 colorScale = d3.scaleLinear()
                     .range(["rgb(123, 203, 196)", "rgb(8, 75, 140)"]);
 
-            $scope.showDescription = false;
-            $scope.showNoData = false;
-            $scope.orgName = '';
+            $scope.showDescription  = false;
+            $scope.showNoData       = false;
+            $scope.orgName          = '';
+            $scope.radioModel        = 'Amount Awarded';
+            $scope.$watch('radioModel', function(newValue, oldValue) {
+            
+                if(newValue != oldValue && newValue) {
+                    $scope.update();
+                }
+            });
 
 
             $scope.$on(Events.FUNDING_ORG_SELECTED, function(event, eventData) {
@@ -84,13 +97,6 @@ angular.module('360givingApp')
                         $scope.$apply();
                     });
                     
-                    var maxDocumentWeight = d3.max($scope.topicsWithData, function(t) {
-                        return d3.max(t, function(o) {
-                            return o['DocumentWeight'];
-                        })
-                    });
-                    colorScaleBar = d3.scaleSequential(d3.interpolatePuBu)
-                        .domain([0, maxDocumentWeight]);
 
                     var divTopics = d3.select(element[0])
                         .select('.topics')
@@ -131,18 +137,45 @@ angular.module('360givingApp')
                 });
             });
 
+            $scope.update = function() {
+                for(var i=0; i<$scope.topicsWithData.length; i++) {
+                    var topicId = _.first($scope.topicsWithData[i])['Topic'];
+                    var data = $scope.topicsWithData[i];
+
+                    y.domain([
+                        0, 
+                         d3.max(data, function(d) { return d[$scope.radioModel]; })
+                    ]);
+                    d3.select(element[0]).select('div.' + topicId)
+                        .selectAll('.bar')
+                        .data(data)
+                        .transition()
+                        .attr("y", function(d) {
+                            return y(d[$scope.radioModel]);
+                        })
+                        .attr("height", function(d) {
+                            return height - y(d[$scope.radioModel]); 
+                        })
+                }
+            };
 
             function addChart(divPlaceHolder, data) {
-                var svg     = divPlaceHolder.append('svg'),
-                    margin  = {top: 0, right: 25, bottom: 0, left: 25},
-                    width   = divPlaceHolder.node().offsetWidth - margin.left - margin.right,
-                    height  = 50 - margin.top - margin.bottom,
-                    x       = d3.scaleBand()
-                                .range([0, width])
-                                .padding(0.1),
-                    y       = d3.scaleLinear()
-                                .range([height, 0]);
+                svg     = divPlaceHolder.append('svg');
+                margin  = {top: 0, right: 25, bottom: 0, left: 25};
+                width   = divPlaceHolder.node().offsetWidth - margin.left - margin.right;
+                height  = 50 - margin.top - margin.bottom;
+                x       = d3.scaleBand()
+                            .range([0, width])
+                            .padding(0.1),
+                y       = d3.scaleLinear()
+                            .range([height, 0]);
                 
+                var maxHeight = d3.max($scope.topicsWithData, function(t) {
+                    return d3.max(t, function(o) {
+                        return o[$scope.radioModel];
+                    })
+                });
+
                 svg.attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
                     .append("g")
@@ -153,11 +186,10 @@ angular.module('360givingApp')
                         return d['Date']; 
                     }
                 ));
-                y.domain(
-                    [0, 
-                     d3.max(data, function(d) { return d['Amount Awarded']; })
-                    ]
-                );
+                y.domain([
+                    0, 
+                     d3.max(data, function(d) { return d[$scope.radioModel]; })
+                ]);
 
                 // append the rectangles for the bar chart
                 svg.append('line')
@@ -175,10 +207,10 @@ angular.module('360givingApp')
                     })
                     .attr("width", x.bandwidth())
                     .attr("y", function(d) {
-                        return y(d['Amount Awarded']);
+                        return y(d[$scope.radioModel]);
                     })
                     .attr("height", function(d) {
-                        return height - y(d['Amount Awarded']); 
+                        return height - y(d[$scope.radioModel]); 
                     })
                     .on('mouseover', function(d) {
                         //d3.select(this).classed('hovered', true);
