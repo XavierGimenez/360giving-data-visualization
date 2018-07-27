@@ -156,6 +156,10 @@ angular.module('360givingApp')
                         .attr("height", function(d) {
                             return height - y(d[$scope.radioModel]); 
                         })
+                    putHighestLabel(
+                        d3.select(element[0]).select('div.' + topicId).select('svg'),
+                        data
+                    );
                 }
             };
 
@@ -168,13 +172,7 @@ angular.module('360givingApp')
                             .range([0, width])
                             .padding(0.1),
                 y       = d3.scaleLinear()
-                            .range([height, 0]);
-                
-                var maxHeight = d3.max($scope.topicsWithData, function(t) {
-                    return d3.max(t, function(o) {
-                        return o[$scope.radioModel];
-                    })
-                });
+                            .range([height, 20]);
 
                 svg.attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
@@ -241,11 +239,30 @@ angular.module('360givingApp')
                         d3.select(element[0]).selectAll('.bar').classed('hovered', false);
                         TooltipService.hide();
                     });
+                    putHighestLabel(svg, data);
+
                 // add the x Axis
                 /*svg.append("g")
                     .attr("transform", "translate(0," + height + ")")
                     .call(d3.axisBottom(x).tickValues([2002, 2008, 2014]));*/
             };
+
+            function putHighestLabel(svg, data) {
+                // get bar with max value
+                var indexBar = _.findIndex(data,[ $scope.radioModel, y.domain()[1] ]);
+                var year = data[indexBar]['Date'];     
+                svg.selectAll('text.top-label').remove();
+                svg.append('text')
+                    .attr('class', 'top-label')
+                    .attr('x', x(year) + (x.bandwidth()/2))
+                    .attr('y', y( y.domain()[1] ) - 3)
+                    .text(
+                        ($scope.radioModel == 'Amount Awarded')?
+                        '£' + d3.format(".2s")(data[indexBar][$scope.radioModel]) : 
+                        ($scope.radioModel == 'DocumentWeight')?
+                            d3.format(",.2f")(data[indexBar][$scope.radioModel]) : data[indexBar][$scope.radioModel]
+                    );
+            }
         }
     }
   });

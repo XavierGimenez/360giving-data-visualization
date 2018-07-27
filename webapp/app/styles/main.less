@@ -357,28 +357,35 @@ orgtopics {
           }
 
           svg {
-              line {
-                  opacity: 0.8;
-                  stroke: #173A54;
-              }
-              .bar {
-                cursor: pointer;
-                fill: #173A54;
-                &.hovered {
-                    fill: #EC9770;
+                line {
+                    opacity: 0.8;
+                    stroke: #173A54;
                 }
-              }
-              path {
-                  stroke: none;
-              }
-              .tick {
-                  text {
-                      fill: #aaa;
-                  }
-                  line {
+                .bar {
+                    cursor: pointer;
+                    fill: #173A54;
+                    &.hovered {
+                        fill: #EC9770;
+                    }
+                }
+                path {
                     stroke: none;
                 }
-            }
+                .tick {
+                    text {
+                        fill: #aaa;
+                    }
+                    line {
+                        stroke: none;
+                    }
+                }
+                text.top-label {
+                    fill: #173A54;
+                    font-family: sans-serif;
+                    font-size: 10px;
+                    text-anchor: middle;
+                    text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px -1px 0 #fff;
+                }
           }
     }
 }
