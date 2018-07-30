@@ -5,7 +5,7 @@
 
 Topic modelling and Data Visualization for the 360giving Data Visualization Challenge
 
-The code used in the analysis is available on Github, with a Creative Commons 4.0 license. The dataset for this analysis is a data dump with all the grants published in the 360Giving standard
+The code used in the analysis is available on [Github](https://github.com/XavierGimenez/360giving-data-visualization), with a Creative Commons 4.0 license. The dataset for this analysis is a data dump with all the grants published in the 360Giving standard
 
 The analysis performs Topic Modelling by using an unsupervised text mining approach. Some fields of the dataset are used as 'text documents' in order to extract a set of k topics, each of which is represented by a set of most representative (top ranked) terms for the topic and associations (weights) for documents relative to the topic. 
 The data is preprocessed by removing stop words plus a set of custom words present in the data but not relevant for describing topics.
