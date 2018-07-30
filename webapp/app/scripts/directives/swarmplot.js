@@ -131,6 +131,13 @@ angular.module('360givingApp')
                         })
                 );
 
+                if(groupedData.length == 1) {
+                    //center the only org
+                    y.range([
+                        y.range()[0],
+                        y.range()[1] + ((y.range()[0] - y.range()[1])/2)
+                    ]);
+                }
                 // left axis label
                 svg.append("text")
                     .attr('class', 'axis-label-left')
