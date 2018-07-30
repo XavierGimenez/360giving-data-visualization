@@ -5,5 +5,5 @@
 	"n_top_words" : 20 ,
 	"n_top_documents" : 1000,
 	"ngram_join_string" : "xyz",
-	"group_funding_org" : 1
+	"group_funding_org" : 0
 }

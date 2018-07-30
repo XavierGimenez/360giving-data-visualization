@@ -11,6 +11,7 @@ angular.module('360givingApp')
     return {
         template: '<div class="streamgraph">' +
                     '<div class="clear-topic">' + 
+                        '<p>↑ For top funding organizations, bubble\'s sizes relates to amount <br>awarded, while darker colors means more relation to the topic.</p>' +
                         '<button ng-click="deselectTopic()" type="button" class="btn btn-warning btn-xs">Back to all themes</button>' + 
                     '</div>' +
                     '<div class="property-selector btn-group">' +
@@ -75,7 +76,7 @@ angular.module('360givingApp')
             selectedHeightDomain = 200;
 
         scope.selectedTopic         = undefined;
-        scope.radioModel            = 'documentWeight';
+        scope.radioModel            = 'identifier';
         scope.$watch('radioModel', function(newValue, oldValue) {
             
             if(newValue != oldValue && newValue) {
@@ -492,7 +493,7 @@ angular.module('360givingApp')
                 .transition()
                 .on('end', function() {
                     var top = d3.select(this).style('top');
-                    top = top.substr(0, top.indexOf('px')) - 30;
+                    top = top.substr(0, top.indexOf('px')) - 80;
 
                     d3.select('.clear-topic')
                         .style('opacity', 1)

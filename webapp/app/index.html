@@ -42,7 +42,7 @@
         <span class='question'>Thematic trends:<br>Who has funded what over the years?<span>
       </p>
       <p class='narrative'>
-        That question is open in the sense of what a theme is, since there aren't in advance defined descriptions of what a theme could be. Despite the richness provided by the <a href="http://www.threesixtygiving.org/support/standard/" target="_blank">360giving dataset</a> regarding to grantmaking sector, there is not a direct categorization of to what theme a grant belongs.
+        That question is open in the sense of what a theme is, since there isn't a standard categorization  in the grantmaking sector. Despite the richness provided by the <a href="http://www.threesixtygiving.org/support/standard/" target="_blank">360giving dataset</a> regarding to grantmaking sector, there is not a direct categorization of to what theme a grant belongs.
       </p>
       
       <p class='narrative'>
@@ -50,26 +50,26 @@
       </p>
       
       <p class='narrative'>
-        The 360giving dataset gives a fairly detailed information of a grant throught a title, a description, its funding organization and so on. This gives a large corpus of text documents regarding the grants, where some Natural Language Processing techniques can be applied in order to automatically discover the hidden thematic structure in our corpus of text documents.
+        The 360giving dataset gives a fairly detailed information of a grant through several fields within the datset, offering information about the grant, the funding organization, the recipient, dates, amount awarded, etc... The fields describing each grant provides a large corpus of text documents regarding endowments, therefore some <strong>Natural Language Processing techniques can be applied in order to automatically discover </strong>the hidden thematic structure in our corpus of grant document.
       </p>
       <p class='narrative'>
-        More specifically, <a href="https://en.wikipedia.org/wiki/Topic_model" target="_blank">Topic Modelling</a> has been applied in order discover our themes from the collection of grants. With this text mining approach, given a corpus of unstructured text documents (e.g. news articles, tweets, etc) and without a prior annotation, Topic Modelling outputs a set of topics, each of which is represented by a set of top-ranked terms for the topic and associations for documents relative to the topic. For our case, here the text documents are the text fields that describe each grant (title and description). From that textual information, themes will emerge as well as the relativeness of the grants to each theme.
+        More specifically, <a href="https://en.wikipedia.org/wiki/Topic_model" target="_blank">Topic Modelling</a> has been applied in order <strong>discover our themes from the collection of grants.</strong> With this text mining approach, given a corpus of unstructured text documents (e.g. news articles, tweets, etc) and without a prior annotation, Topic Modelling outputs a set of topics, each of which is represented by a set of top-ranked terms for the topic and associations for documents relative to the topic. For our case, here the text documents are the text fields that describe each grant (title and description). From that textual information, themes will emerge as well as the relativeness of the grants to each theme.
       </p>
       <p class='narrative'>
-         Considering that with Topic Modelling a grant can potentially be associated with multiple themes, for each theme only a subset of its grants is taken into account. More specifically, for each theme only the grants with a level of relativeness statistically significant are considered.
+         Considering that with Topic Modelling a grant can potentially be associated with multiple themes, for each theme only a subset of its grants is taken into account. More specifically, <strong>for each theme only the grants with a level of relativeness statistically significant are considered.</strong> This means that not all the grants are computed and visualized, but a subset of those more representative for each theme.
       </p>
       
       <hr>
       
       <p class='narrative'>
-          Let's show examples of some themes and the terms that describe them:
+          Let's show examples of some themes emerged from Topic Modelling and the terms that describe them:
       </p>
       <p class='narrative keywords'>
         <keywords topic='0'></keywords>
       </p>
       <p class='narrative'>
           Above is a very specific theme of a series of grants from a period comprised between 2004 and 2006, all belonging to the 'Heroes Return programme' and funded by the Big Lottery Fund.<br>
-          This first theme granting World War II veterans is quite specific and also is its period. But other discovered themes have a wider coverage regarding its meaning and its time span:
+          This theme granting World War II veterans is quite specific and also is its period. But other discovered themes have a wider coverage regarding its meaning and its time span. Below three following examples:
        </p>
 
       <p class='keywords'>
@@ -100,7 +100,7 @@
     
     <div class="intro">
         <p class='narrative'>
-            It's also interesting to have a view from a different point of view:<br>Instead of looking at overall contributions to the themes and explore main contributors for an specific theme, it is worth to start from a funding organization and display those grants that have a relatedness to the themes.
+            The timeline above shows most related grant's contributions to the differents themes, but it's also interesting to have a view from a different point of view:<br>Instead of looking at overall contributions to the themes and explore main contributors for an specific theme, it is worth to start from a funding organization and display those grants with strongest relation to themes, so its grantmaking activity can be grasped in an overview.
         </p>
 
         <section>
@@ -139,7 +139,7 @@
           The number of topics and number of terms for the topics is not fixed. For the analysis, 15 topics and 20 terms per topic have been set. For Topic Modelling, <a href='https://en.wikipedia.org/wiki/Non-negative_matrix_factorization'>the Non-negative Matrix Factorization (NMF)</a> algorithm has been used. The output of this approach results in terms with representative weights to all topics and grants with weights to all topics. <strong>For each topic, only a subset of its grants has been considering, removing those with weights with small relatedness</strong> (those with weights below the 50th percentile over the total). 
       </p>
       <p class='narrative methodology'>
-        For all topics and its grants, time-based aggregations are performed by counting nº of grants, its awarded amounts and its relatedness to each topic. <strong>As such, the awarded amount of a grant to a topic is 'relative' since the grant has a specific weight/relativeness to that topic</strong>. For the sake of implicity, aggregations sum the amounts without weighting them, but refactoring the funding amount could lead to a possible better representation of grant's contribution to the topics. 
+        For all topics and its grants, time-based aggregations are performed by counting nº of grants, its awarded amounts and its relatedness to each topic. <strong>As such, the awarded amount of a grant to a topic is 'relative' since the grant has a specific weight/relativeness to that topic</strong>. For the sake of implicity, aggregations sum the amounts without weighting them, but refactoring the funding amount by applying this 'weight' factors could lead to a possible better aproximation of grant's contribution to themes. 
       </p>
     </div>
 

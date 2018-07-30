@@ -13,7 +13,9 @@ angular.module('360givingApp')
         restrict: 'E',
         template:   '<div>' +
                         '<div ng-if="showNoData" class="description">' + 
-                            '<p>Sorry, there are not grants with significant relatedness to the discovered themes...</p>' + 
+                            '<p>Sorry, there are not grants with significant relatedness to the discovered themes...</p>' 
+                            +
+                            '<p><small>Have in mind that only those funding organizations with grants strongly related to the themes will be found.</small></p>'  + 
                         '</div>' +
                         '<div ng-if="showDescription" class="description">' + 
                             '<p>Themes containing grants from <span>{{orgName}}</span> and its yearly contribution, either by its relatedness, amount awareded or nº of grants</p>' + 
@@ -123,7 +125,7 @@ angular.module('360givingApp')
 
                         // add terms of the topic
                         d3.select(element[0]).select('div.' + topicId)
-                            .selectAll('text')
+                            .selectAll('span')
                             .data(MasterData.topics[topicId])
                             .enter()
                             .append('span')
